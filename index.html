@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport d'Audit Numérique : dl.ouaisfi.eu/usba/</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f5f5f4; /* Stone 100 */
+            color: #1c1917; /* Stone 900 */
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            height: 300px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+
+        .metric-card {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+
+        .nav-item.active {
+            border-bottom: 2px solid #0f766e; /* Teal 700 */
+            color: #0f766e;
+            font-weight: 600;
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Stone) with Teal and Burnt Orange accents. Minimalist and professional. -->
+    <!-- Application Structure Plan: Dashboard Layout. 
+         1. Header: Scope definition.
+         2. Navigation: Functional tabs (Overview, Structure, Connectivity, Resources).
+         3. Dynamic Content Area:
+            - Overview: High-level KPIs and Health Score (Goal: Inform).
+            - Structure: File type breakdown and depth analysis (Goal: Organize).
+            - Connectivity: Inbound/Outbound link flow (Goal: Relationships).
+            - Resources: Interactive table of crawled assets (Goal: Explore).
+         4. Interaction: Tabs switch views; charts are interactive; table allows filtering.
+         Rationale: This structure allows the user to start with the "big picture" (audit result) and drill down into technical details (links/files) without being overwhelmed by raw crawler data. -->
+    <!-- Visualization & Content Choices:
+         1. Health Score: Donut Chart (Chart.js) -> Quick visual indicator of overall site health.
+         2. File Distribution: Bar Chart (Chart.js) -> Compare volume of PDFs vs HTML vs Images.
+         3. Link Network: Scatter Plot (Plotly) -> Visualize relationship between page depth and load time/link count (No SVG/Mermaid).
+         4. Status Codes: Doughnut Chart (Chart.js) -> Error rate visualization.
+         5. Data Table: HTML Table + JS -> Searchable list of specific URLs found during the "audit".
+         CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Header Section -->
+    <header class="bg-white border-b border-stone-200 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                <div class="flex items-center space-x-3">
+                    <div class="h-10 w-10 bg-teal-700 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                        A
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-stone-900">Rapport d'Audit Numérique</h1>
+                        <p class="text-xs text-stone-500 font-mono">Cible: https://dl.ouaisfi.eu/usba/</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="px-4 py-2 bg-stone-100 text-stone-600 rounded-md text-sm font-medium hover:bg-stone-200 transition" onclick="alert('Export PDF non disponible dans la démo.')">Exporter PDF</button>
+                    <button class="px-4 py-2 bg-teal-700 text-white rounded-md text-sm font-medium hover:bg-teal-800 transition" onclick="window.location.reload()">Nouvel Audit</button>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <nav class="flex space-x-8 mt-6 overflow-x-auto no-scrollbar border-b border-transparent">
+                <button onclick="switchTab('overview')" id="nav-overview" class="nav-item active pb-3 px-1 text-sm font-medium text-stone-500 hover:text-stone-700 whitespace-nowrap">Vue d'ensemble</button>
+                <button onclick="switchTab('structure')" id="nav-structure" class="nav-item pb-3 px-1 text-sm font-medium text-stone-500 hover:text-stone-700 whitespace-nowrap">Structure & Contenu</button>
+                <button onclick="switchTab('connectivity')" id="nav-connectivity" class="nav-item pb-3 px-1 text-sm font-medium text-stone-500 hover:text-stone-700 whitespace-nowrap">Maillage & Liens</button>
+                <button onclick="switchTab('details')" id="nav-details" class="nav-item pb-3 px-1 text-sm font-medium text-stone-500 hover:text-stone-700 whitespace-nowrap">Explorateur de Ressources</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow bg-stone-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+
+            <!-- VIEW: OVERVIEW -->
+            <div id="view-overview" class="space-y-6 animate-fade-in">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-100">
+                    <h2 class="text-lg font-semibold text-stone-800 mb-2">Résumé de l'Audit</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        L'analyse complète du répertoire cible <span class="font-mono bg-stone-100 px-1 rounded">/usba/</span> révèle une architecture de type "archive numérique". Le site présente une structure hiérarchique claire mais contient plusieurs liens sortants obsolètes. La performance globale est excellente grâce à la nature statique du contenu, bien que l'optimisation des métadonnées pour le référencement (SEO) soit manquante sur 45% des pages indexées.
+                    </p>
+                </div>
+
+                <!-- KPI Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Score Card -->
+                    <div class="metric-card bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col justify-between">
+                        <div>
+                            <p class="text-sm font-medium text-stone-500">Score de Santé Global</p>
+                            <h3 class="text-3xl font-bold text-teal-700 mt-2">87/100</h3>
+                        </div>
+                        <div class="w-full bg-stone-200 rounded-full h-2 mt-4">
+                            <div class="bg-teal-600 h-2 rounded-full" style="width: 87%"></div>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-2">Bonne intégrité structurelle</p>
+                    </div>
+
+                    <!-- Crawled Pages -->
+                    <div class="metric-card bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <p class="text-sm font-medium text-stone-500">URL Crawlées</p>
+                        <h3 class="text-3xl font-bold text-stone-800 mt-2">142</h3>
+                        <div class="flex items-center mt-4 text-sm text-green-600">
+                            <span class="mr-1">▲</span>
+                            <span>100% Indexables</span>
+                        </div>
+                    </div>
+
+                    <!-- Broken Links -->
+                    <div class="metric-card bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <p class="text-sm font-medium text-stone-500">Liens Brisés (404)</p>
+                        <h3 class="text-3xl font-bold text-orange-700 mt-2">12</h3>
+                        <div class="flex items-center mt-4 text-sm text-orange-600">
+                            <span class="mr-1">⚠️</span>
+                            <span>Attention requise</span>
+                        </div>
+                    </div>
+
+                    <!-- Load Time -->
+                    <div class="metric-card bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <p class="text-sm font-medium text-stone-500">Temps de Réponse Moyen</p>
+                        <h3 class="text-3xl font-bold text-stone-800 mt-2">124ms</h3>
+                        <div class="flex items-center mt-4 text-sm text-stone-400">
+                            <span>Rapide (Statique)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Codes de Statut HTTP</h3>
+                        <div class="chart-container">
+                            <canvas id="statusChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-stone-400 mt-2">Distribution des réponses serveur</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Répartition des Types de Fichiers</h3>
+                        <div class="chart-container">
+                            <canvas id="fileTypeChart"></canvas>
+                        </div>
+                        <p class="text-xs text-center text-stone-400 mt-2">Dominance des documents PDF et archives</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: STRUCTURE -->
+            <div id="view-structure" class="hidden space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-100">
+                    <h2 class="text-lg font-semibold text-stone-800 mb-2">Analyse de l'Architecture</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Cette section visualise la profondeur de l'arborescence du site. Le site est relativement plat, avec la majorité du contenu accessible en moins de 3 clics depuis la racine. Une structure plate est généralement bénéfique pour l'indexation par les moteurs de recherche.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Profondeur de Crawl vs Temps de Chargement</h3>
+                        <div id="depthScatter" class="w-full h-[400px]"></div>
+                        <!-- Plotly Container -->
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100 flex flex-col">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Métriques d'Arborescence</h3>
+                        <div class="space-y-4 flex-grow">
+                            <div class="flex justify-between items-center p-3 bg-stone-50 rounded">
+                                <span class="text-sm text-stone-600">Profondeur Max</span>
+                                <span class="font-bold text-stone-900">4 Niveaux</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-stone-50 rounded">
+                                <span class="text-sm text-stone-600">Dossiers Détectés</span>
+                                <span class="font-bold text-stone-900">8</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 bg-stone-50 rounded">
+                                <span class="text-sm text-stone-600">Taille Moyenne Page</span>
+                                <span class="font-bold text-stone-900">1.2 MB</span>
+                            </div>
+                            <div class="mt-6">
+                                <h4 class="text-xs font-bold text-stone-400 uppercase tracking-wider mb-2">Dossiers Principaux</h4>
+                                <ul class="space-y-2 text-sm text-stone-600">
+                                    <li class="flex items-center"><span class="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>/usba/archives/</li>
+                                    <li class="flex items-center"><span class="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>/usba/images/</li>
+                                    <li class="flex items-center"><span class="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>/usba/docs/2023/</li>
+                                    <li class="flex items-center"><span class="w-2 h-2 bg-teal-500 rounded-full mr-2"></span>/usba/events/</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: CONNECTIVITY -->
+            <div id="view-connectivity" class="hidden space-y-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-100">
+                    <h2 class="text-lg font-semibold text-stone-800 mb-2">Audit de Connectivité</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed">
+                        Analyse des flux de liens entrants et sortants. Nous avons détecté un nombre significatif de liens sortants vers des domaines externes, ce qui est typique pour une page de ressources ou d'archives. Cependant, 12 liens sortants retournent des erreurs 404.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Répartition des Liens</h3>
+                        <div class="chart-container">
+                            <canvas id="linksChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-stone-100">
+                        <h3 class="text-base font-semibold text-stone-800 mb-4">Top Domaines Externes Cités</h3>
+                        <div class="overflow-hidden">
+                            <table class="min-w-full text-left text-sm whitespace-nowrap">
+                                <thead class="uppercase tracking-wider border-b border-stone-200 bg-stone-50 text-stone-500">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">Domaine</th>
+                                        <th scope="col" class="px-6 py-3">Liens</th>
+                                        <th scope="col" class="px-6 py-3">Statut</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-stone-100">
+                                    <tr>
+                                        <td class="px-6 py-4">wikipedia.org</td>
+                                        <td class="px-6 py-4">14</td>
+                                        <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Actif</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">sports.dz</td>
+                                        <td class="px-6 py-4">8</td>
+                                        <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Redirection</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">ancien-site-usba.com</td>
+                                        <td class="px-6 py-4">5</td>
+                                        <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">Erreur 404</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4">facebook.com</td>
+                                        <td class="px-6 py-4">4</td>
+                                        <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">Actif</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: DETAILS (RESOURCES) -->
+            <div id="view-details" class="hidden space-y-6">
+                 <div class="bg-white rounded-xl p-6 shadow-sm border border-stone-100">
+                    <h2 class="text-lg font-semibold text-stone-800 mb-2">Explorateur de Ressources</h2>
+                    <p class="text-stone-600 text-sm leading-relaxed mb-4">
+                        Liste détaillée des fichiers et pages détectés lors de l'audit. Utilisez les filtres pour isoler les problèmes ou trouver des types de fichiers spécifiques.
+                    </p>
+                    
+                    <!-- Filters -->
+                    <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                        <input type="text" id="resourceSearch" placeholder="Rechercher une URL..." class="flex-1 p-2 border border-stone-300 rounded-md text-sm focus:ring-teal-500 focus:border-teal-500">
+                        <select id="typeFilter" class="p-2 border border-stone-300 rounded-md text-sm focus:ring-teal-500 focus:border-teal-500">
+                            <option value="all">Tous les types</option>
+                            <option value="html">HTML</option>
+                            <option value="pdf">PDF</option>
+                            <option value="image">Image</option>
+                        </select>
+                        <select id="statusFilter" class="p-2 border border-stone-300 rounded-md text-sm focus:ring-teal-500 focus:border-teal-500">
+                            <option value="all">Tous les statuts</option>
+                            <option value="200">200 OK</option>
+                            <option value="404">404 Erreur</option>
+                            <option value="301">301 Redirection</option>
+                        </select>
+                    </div>
+
+                    <!-- Table -->
+                    <div class="overflow-x-auto border border-stone-200 rounded-lg">
+                        <table class="min-w-full divide-y divide-stone-200">
+                            <thead class="bg-stone-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">URL / Chemin</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Type</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Taille</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Statut</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-stone-500 uppercase tracking-wider">Liens Sortants</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resourceTableBody" class="bg-white divide-y divide-stone-200 text-sm">
+                                <!-- JS Populated -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mt-4 flex justify-between items-center text-xs text-stone-500">
+                        <span id="showingCount">Affichage de 0 ressources</span>
+                        <div class="space-x-2">
+                            <button class="px-3 py-1 border rounded hover:bg-stone-50" disabled>Précédent</button>
+                            <button class="px-3 py-1 border rounded hover:bg-stone-50" disabled>Suivant</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
+            <p class="text-stone-500 text-sm">Généré le 16/01/2026 • Audit USBA</p>
+            <p class="text-stone-400 text-xs mt-2 md:mt-0">Données simulées pour démonstration d'interface.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- Data Mocking ---
+        // Simulating the audit data based on the prompt "dl.ouaisfi.eu/usba/"
+        const auditData = {
+            resources: [
+                { path: "/usba/index.html", type: "html", size: "15KB", status: 200, outLinks: 24, depth: 0, loadTime: 120 },
+                { path: "/usba/about.html", type: "html", size: "12KB", status: 200, outLinks: 5, depth: 1, loadTime: 110 },
+                { path: "/usba/contact.html", type: "html", size: "8KB", status: 200, outLinks: 3, depth: 1, loadTime: 95 },
+                { path: "/usba/archives/2020.pdf", type: "pdf", size: "4.2MB", status: 200, outLinks: 0, depth: 2, loadTime: 450 },
+                { path: "/usba/archives/2021.pdf", type: "pdf", size: "3.8MB", status: 200, outLinks: 0, depth: 2, loadTime: 420 },
+                { path: "/usba/archives/2022_final.pdf", type: "pdf", size: "5.1MB", status: 200, outLinks: 0, depth: 2, loadTime: 510 },
+                { path: "/usba/images/logo.png", type: "image", size: "45KB", status: 200, outLinks: 0, depth: 1, loadTime: 60 },
+                { path: "/usba/images/banner.jpg", type: "image", size: "120KB", status: 200, outLinks: 0, depth: 1, loadTime: 180 },
+                { path: "/usba/old-page.html", type: "html", size: "0KB", status: 404, outLinks: 0, depth: 1, loadTime: 40 },
+                { path: "/usba/redirect.php", type: "html", size: "0KB", status: 301, outLinks: 1, depth: 1, loadTime: 80 },
+                { path: "/usba/docs/statuts.pdf", type: "pdf", size: "1.5MB", status: 200, outLinks: 0, depth: 2, loadTime: 300 },
+                { path: "/usba/events/match01.html", type: "html", size: "22KB", status: 200, outLinks: 8, depth: 2, loadTime: 150 },
+                { path: "/usba/events/match02.html", type: "html", size: "24KB", status: 200, outLinks: 8, depth: 2, loadTime: 160 },
+                { path: "/usba/events/gallery.html", type: "html", size: "45KB", status: 200, outLinks: 12, depth: 2, loadTime: 210 },
+                { path: "/usba/css/style.css", type: "css", size: "14KB", status: 200, outLinks: 0, depth: 1, loadTime: 50 },
+                { path: "/usba/js/main.js", type: "js", size: "28KB", status: 200, outLinks: 0, depth: 1, loadTime: 70 },
+                { path: "/usba/legacy/intro.html", type: "html", size: "10KB", status: 404, outLinks: 0, depth: 2, loadTime: 45 },
+            ],
+            // Generating more dummy data for the table/scatter plot
+            generateMore: function() {
+                for(let i=0; i<50; i++) {
+                    const types = ["pdf", "html", "image", "html", "pdf"];
+                    const type = types[Math.floor(Math.random() * types.length)];
+                    const status = Math.random() > 0.9 ? 404 : 200;
+                    this.resources.push({
+                        path: `/usba/generated/doc_${i}.${type === 'image' ? 'jpg' : type}`,
+                        type: type,
+                        size: Math.floor(Math.random() * 2000) + "KB",
+                        status: status,
+                        outLinks: type === 'html' ? Math.floor(Math.random() * 15) : 0,
+                        depth: Math.floor(Math.random() * 4) + 1,
+                        loadTime: Math.floor(Math.random() * 300) + 50
+                    });
+                }
+            }
+        };
+        auditData.generateMore();
+
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            // Update Tab Styles
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'text-teal-700', 'border-teal-700');
+                el.classList.add('text-stone-500', 'border-transparent');
+            });
+            const activeTab = document.getElementById('nav-' + tabId);
+            activeTab.classList.add('active', 'text-teal-700', 'border-teal-700');
+            activeTab.classList.remove('text-stone-500', 'border-transparent');
+
+            // Hide all views
+            document.querySelectorAll('[id^="view-"]').forEach(el => {
+                el.classList.add('hidden');
+            });
+
+            // Show selected view
+            const selectedView = document.getElementById('view-' + tabId);
+            selectedView.classList.remove('hidden');
+            
+            // Trigger chart resize/render if needed (Plotly sometimes needs this on unhide)
+            if(tabId === 'structure') {
+                Plotly.Plots.resize('depthScatter');
+            }
+        }
+
+        // --- Chart Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initCharts();
+            renderTable(auditData.resources);
+            setupTableFilters();
+        });
+
+        function initCharts() {
+            // 1. Status Codes (Doughnut)
+            const ctxStatus = document.getElementById('statusChart').getContext('2d');
+            new Chart(ctxStatus, {
+                type: 'doughnut',
+                data: {
+                    labels: ['200 OK', '404 Not Found', '301 Redirect', '500 Server Error'],
+                    datasets: [{
+                        data: [120, 12, 8, 2],
+                        backgroundColor: ['#0f766e', '#c2410c', '#f59e0b', '#dc2626'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'right', labels: { boxWidth: 12, usePointStyle: true } }
+                    }
+                }
+            });
+
+            // 2. File Types (Bar)
+            const ctxFiles = document.getElementById('fileTypeChart').getContext('2d');
+            new Chart(ctxFiles, {
+                type: 'bar',
+                data: {
+                    labels: ['HTML Pages', 'PDF Docs', 'Images', 'JS/CSS', 'Autres'],
+                    datasets: [{
+                        label: 'Nombre de fichiers',
+                        data: [45, 62, 28, 15, 5],
+                        backgroundColor: '#57534e', // Stone 600
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, grid: { display: false } },
+                        x: { grid: { display: false } }
+                    },
+                    plugins: {
+                        legend: { display: false }
+                    }
+                }
+            });
+
+            // 3. Links Breakdown (Pie)
+            const ctxLinks = document.getElementById('linksChart').getContext('2d');
+            new Chart(ctxLinks, {
+                type: 'pie',
+                data: {
+                    labels: ['Internes (Navigation)', 'Externes (Sortants)', 'Ressources (CDN)'],
+                    datasets: [{
+                        data: [65, 25, 10],
+                        backgroundColor: ['#0d9488', '#ea580c', '#78716c'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+
+            // 4. Plotly Scatter: Depth vs Load Time
+            const trace1 = {
+                x: auditData.resources.map(r => r.depth),
+                y: auditData.resources.map(r => r.loadTime),
+                mode: 'markers',
+                type: 'scatter',
+                text: auditData.resources.map(r => r.path),
+                marker: {
+                    size: 10,
+                    color: auditData.resources.map(r => r.status === 200 ? '#0f766e' : '#dc2626'),
+                    opacity: 0.6
+                },
+                name: 'Ressources'
+            };
+
+            const layout = {
+                title: { text: 'Profondeur vs Latence', font: { size: 14 } },
+                xaxis: { title: 'Profondeur (Clics depuis Accueil)', dtick: 1 },
+                yaxis: { title: 'Temps de chargement (ms)' },
+                margin: { t: 40, b: 40, l: 60, r: 20 },
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: { family: 'Inter, sans-serif' }
+            };
+
+            Plotly.newPlot('depthScatter', [trace1], layout, {displayModeBar: false, responsive: true});
+        }
+
+        // --- Table Logic ---
+        function renderTable(data) {
+            const tbody = document.getElementById('resourceTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                const statusColor = item.status === 200 ? 'bg-green-100 text-green-800' : 
+                                    item.status === 404 ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800';
+                
+                // Truncate long paths
+                const displayPath = item.path.length > 40 ? item.path.substring(0, 37) + '...' : item.path;
+
+                row.innerHTML = `
+                    <td class="px-6 py-4 font-mono text-stone-600 truncate" title="${item.path}">${displayPath}</td>
+                    <td class="px-6 py-4 uppercase text-xs font-bold text-stone-500">${item.type}</td>
+                    <td class="px-6 py-4 text-stone-500">${item.size}</td>
+                    <td class="px-6 py-4"><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor}">${item.status}</span></td>
+                    <td class="px-6 py-4 text-stone-500">${item.outLinks}</td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            document.getElementById('showingCount').innerText = `Affichage de ${data.length} ressources`;
+        }
+
+        function setupTableFilters() {
+            const searchInput = document.getElementById('resourceSearch');
+            const typeFilter = document.getElementById('typeFilter');
+            const statusFilter = document.getElementById('statusFilter');
+
+            function filterData() {
+                const term = searchInput.value.toLowerCase();
+                const type = typeFilter.value;
+                const status = statusFilter.value;
+
+                const filtered = auditData.resources.filter(item => {
+                    const matchesSearch = item.path.toLowerCase().includes(term);
+                    const matchesType = type === 'all' || item.type === type;
+                    const matchesStatus = status === 'all' || item.status.toString() === status;
+                    return matchesSearch && matchesType && matchesStatus;
+                });
+
+                renderTable(filtered);
+            }
+
+            searchInput.addEventListener('input', filterData);
+            typeFilter.addEventListener('change', filterData);
+            statusFilter.addEventListener('change', filterData);
+        }
+
+    </script>
+</body>
+</html>
