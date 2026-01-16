@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrécaireIn — Le réseau des inutiles utiles</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background-color: #f3f2ef;
+            color: #191919;
+            line-height: 1.6;
+        }
+        
+        /* Header bar */
+        .top-bar {
+            background: linear-gradient(135deg, #8b0000, #cc0000);
+            padding: 12px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            background: white;
+            color: #8b0000;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 2px;
+        }
+        
+        .top-bar nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .top-bar nav a:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        /* Main container */
+        .container {
+            max-width: 1128px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 24px;
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Profile card */
+        .profile-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+        }
+        
+        .banner {
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .banner::before {
+            content: "SYSTÈME EN MAINTENANCE DEPUIS 1974";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-5deg);
+            font-size: 18px;
+            color: rgba(255,255,255,0.1);
+            white-space: nowrap;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+        
+        .banner-glitch {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            color: rgba(255,255,255,0.3);
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .profile-photo {
+            width: 152px;
+            height: 152px;
+            border-radius: 50%;
+            border: 4px solid white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            margin-top: -76px;
+            margin-left: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .profile-info {
+            padding: 12px 24px 24px;
+        }
+        
+        .profile-name {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .profile-headline {
+            font-size: 16px;
+            color: #191919;
+            margin-bottom: 8px;
+        }
+        
+        .profile-location {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+        
+        .profile-stats {
+            display: flex;
+            gap: 16px;
+            font-size: 14px;
+            color: #0a66c2;
+            font-weight: 600;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .profile-stats span {
+            cursor: pointer;
+        }
+        
+        .profile-stats span:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 6px 16px;
+            border-radius: 24px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #8b0000;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #a00000;
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #8b0000;
+            border: 2px solid #8b0000;
+        }
+        
+        .btn-secondary:hover {
+            background: #fff5f5;
+        }
+        
+        /* Section cards */
+        .section-card {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-top: 16px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-title .icon {
+            font-size: 20px;
+        }
+        
+        /* À propos */
+        .about-text {
+            font-size: 14px;
+            color: #191919;
+            white-space: pre-line;
+        }
+        
+        .about-text p {
+            margin-bottom: 12px;
+        }
+        
+        .highlight-box {
+            background: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .warning-box {
+            background: #ffebee;
+            border-left: 4px solid #f44336;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .success-box {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 16px;
+            margin: 16px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        /* Experience */
+        .experience-item {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .experience-item:last-child {
+            border-bottom: none;
+        }
+        
+        .exp-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .exp-content {
+            flex: 1;
+        }
+        
+        .exp-title {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .exp-company {
+            font-size: 14px;
+            color: #191919;
+        }
+        
+        .exp-date {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+        
+        .exp-description {
+            font-size: 14px;
+            color: #191919;
+        }
+        
+        /* Skills */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            background: #f3f2ef;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .skill-tag.endorsed {
+            background: #e8f5e9;
+            border: 1px solid #4caf50;
+        }
+        
+        .skill-tag.forbidden {
+            background: #ffebee;
+            border: 1px solid #f44336;
+            text-decoration: line-through;
+        }
+        
+        .endorsement-count {
+            background: #0a66c2;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        /* Activity/Posts */
+        .post {
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .post:last-child {
+            border-bottom: none;
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .post-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+        }
+        
+        .post-meta {
+            flex: 1;
+        }
+        
+        .post-author {
+            font-weight: 600;
+            font-size: 14px;
+        }
+        
+        .post-time {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .post-content {
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+        
+        .post-content p {
+            margin-bottom: 8px;
+        }
+        
+        .post-engagement {
+            display: flex;
+            justify-content: space-between;
+            color: #666;
+            font-size: 12px;
+            padding-top: 8px;
+        }
+        
+        .post-reactions {
+            display: flex;
+            gap: 4px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            position: sticky;
+            top: 80px;
+        }
+        
+        .sidebar-card {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+        }
+        
+        .sidebar-title {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .sidebar-item {
+            padding: 8px 0;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+        
+        .sidebar-item:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-item a {
+            color: #0a66c2;
+            text-decoration: none;
+        }
+        
+        .sidebar-item a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Stats counter */
+        .stat-counter {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+            padding: 16px 0;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #8b0000;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+        }
+        
+        /* Open letter */
+        .open-letter {
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: white;
+            padding: 24px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+        
+        .open-letter h3 {
+            margin-bottom: 16px;
+            font-size: 18px;
+        }
+        
+        .open-letter p {
+            margin-bottom: 12px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .recipients-list {
+            background: rgba(255,255,255,0.1);
+            padding: 16px;
+            border-radius: 8px;
+            margin: 16px 0;
+        }
+        
+        .recipients-list h4 {
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .recipients-list ul {
+            list-style: none;
+            font-size: 12px;
+            columns: 2;
+            column-gap: 20px;
+        }
+        
+        .recipients-list li {
+            padding: 4px 0;
+            opacity: 0.8;
+        }
+        
+        .recipients-list li::before {
+            content: "📩 ";
+        }
+        
+        /* Manifesto */
+        .manifesto-point {
+            display: flex;
+            gap: 16px;
+            padding: 16px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .manifesto-point:last-child {
+            border-bottom: none;
+        }
+        
+        .manifesto-number {
+            width: 32px;
+            height: 32px;
+            background: #8b0000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        
+        .manifesto-text h4 {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        
+        .manifesto-text p {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Footer */
+        footer {
+            background: #191919;
+            color: white;
+            padding: 40px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        footer p {
+            opacity: 0.7;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+        
+        footer a {
+            color: #8b0000;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+        
+        /* Cookie banner parody */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            z-index: 1000;
+            flex-wrap: wrap;
+        }
+        
+        .cookie-banner p {
+            flex: 1;
+            font-size: 14px;
+            min-width: 200px;
+        }
+        
+        .cookie-btn {
+            padding: 12px 24px;
+            border-radius: 24px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .accept-cookies {
+            background: #8b0000;
+            color: white;
+        }
+        
+        .reject-cookies {
+            background: white;
+            border: 2px solid #191919;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        /* Glitch effect */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+        
+        .glitch:hover {
+            animation: glitch 0.3s infinite;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top bar -->
+    <header class="top-bar">
+        <a href="#" class="logo">Précaire<span>In</span></a>
+        <nav>
+            <a href="#about">À propos</a>
+            <a href="#experience">Parcours</a>
+            <a href="#project">Le Projet</a>
+            <a href="#letter">Lettre ouverte</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="main-content">
+            <!-- Profile card -->
+            <section class="profile-card">
+                <div class="banner">
+                    <div class="banner-glitch">
+                        ERROR_404: DIGNITÉ_NOT_FOUND<br>
+                        RETRY? [Y/N] _
+                    </div>
+                </div>
+                <div class="profile-photo">👤</div>
+                <div class="profile-info">
+                    <h1 class="profile-name">Les Inutiles Utiles</h1>
+                    <p class="profile-headline">Collectif des précaires qui en ont à revendre (ou au moins un petit peu) · Créateur·ices d'un ARG sur l'entraide · Disponibles pour l'emploi mais interdits d'être utiles</p>
+                    <p class="profile-location">🇧🇪 Belgique · <span style="color: #0a66c2;">Coordonnées masquées pour éviter le contrôle</span></p>
+                    
+                    <div class="profile-stats">
+                        <span>467 832 précaires en Belgique</span>
+                        <span>∞ compétences gaspillées</span>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary glitch">🔥 Rejoindre la révolte</button>
+                        <button class="btn btn-secondary">📩 Interpeller le système</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Stats -->
+            <section class="section-card">
+                <div class="stat-counter">
+                    <div>
+                        <div class="stat-number">14%</div>
+                        <div class="stat-label">Taux de pauvreté en Belgique</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Envie d'être utile</div>
+                    </div>
+                    <div>
+                        <div class="stat-number">0</div>
+                        <div class="stat-label">Droit de l'être</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About -->
+            <section class="section-card" id="about">
+                <h2 class="section-title"><span class="icon">📝</span> À propos</h2>
+                <div class="about-text">
+                    <p><strong>On nous demande d'être "disponibles pour l'emploi" tout en nous interdisant d'être utiles.</strong></p>
+                    
+                    <p>Nous sommes des allocataires sociaux. RIS, chômage, invalidité, handicap. Des cases administratives. Des statistiques. Des "bénéficiaires".</p>
+                    
+                    <p>Mais nous sommes aussi des gens avec des compétences. Des savoirs. De l'énergie — même par intermittence. L'envie de contribuer, de participer, de ne pas crever d'inutilité dans un studio humide en attendant un emploi qui ne viendra peut-être jamais.</p>
+
+                    <div class="warning-box">
+                        <strong>⚠️ ATTENTION — PARADOXE ADMINISTRATIF DÉTECTÉ</strong><br><br>
+                        Le système nous demande de :<br>
+                        ✓ Prouver notre "volonté de réinsertion"<br>
+                        ✓ Rester "disponibles" pour le marché de l'emploi<br>
+                        ✓ Ne pas "nous complaire" dans l'inactivité<br><br>
+                        Mais nous interdit de :<br>
+                        ✗ Faire quoi que ce soit qui "ressemble à du travail"<br>
+                        ✗ Être régulier dans une activité (= indisponibilité)<br>
+                        ✗ Recevoir la moindre reconnaissance (= revenu déguisé)<br><br>
+                        <em>Résultat : on fabrique des gens cassés, puis on s'étonne qu'ils ne "s'insèrent" pas.</em>
+                    </div>
+
+                    <p><strong>Alors on a créé un jeu.</strong></p>
+                    
+                    <p>Un jeu à réalité alternée (ARG) dont le moteur est l'entraide et la participation citoyenne. Un espace où l'on peut être utile sans être puni. Où la solidarité n'est pas un délit. Où les points ne sont pas de l'argent, où personne n'est le patron de personne, où l'on contribue quand on peut — et où l'on disparaît quand on ne peut plus, sans que personne ne nous en veuille.</p>
+                    
+                    <div class="success-box">
+                        <strong>✊ CE QU'ON PROPOSE</strong><br><br>
+                        Un cadre clair, coconstruit avec les institutions, pour que :<br>
+                        • L'entraide citoyenne ne soit pas requalifiée en "travail déguisé"<br>
+                        • Les précaires puissent participer sans risquer leurs droits<br>
+                        • L'éducation permanente trouve enfin sa place dans le 21e siècle<br><br>
+                        <em>Pas un passe-droit. Un précédent utile.</em>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Experience -->
+            <section class="section-card" id="experience">
+                <h2 class="section-title"><span class="icon">💼</span> Parcours collectif</h2>
+                
+                <div class="experience-item">
+                    <div class="exp-logo">🎮</div>
+                    <div class="exp-content">
+                        <h3 class="exp-title">Créateur·ice de jeu ARG sur l'entraide</h3>
+                        <p class="exp-company">Auto-organisé·e · Belgique</p>
+                        <p class="exp-date">Maintenant · En cours (statut juridique : ???)</p>
+                        <p class="exp-description">Conception d'un jeu à réalité alternée dont le moteur est l'entraide citoyenne. Système de points non monétisables. Pas de hiérarchie. Ouvert à tous. Conçu pour que les précaires puissent y participer sans risque. <strong>En attente de clarification juridique de la part de... tout le monde.</strong></p>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-logo">🏛️</div>
+                    <div class="exp-content">
+                        <h3 class="exp-title">Bénéficiaire d'allocations</h3>
+                        <p class="exp-company">CPAS / ONEM / Mutuelle · Belgique</p>
+                        <p class="exp-date">Depuis trop longtemps · Durée indéterminée</p>
+                        <p class="exp-description">
+                            <strong>Missions principales :</strong><br>
+                            • Remplir des formulaires<br>
+                            • Prouver qu'on existe (mais pas trop)<br>
+                            • Justifier pourquoi on n'a pas trouvé d'emploi dans un marché qui ne veut pas de nous<br>
+                            • Survivre<br><br>
+                            <strong>Compétences développées :</strong> patience administrative, dissociation émotionnelle, expertise en salles d'attente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-logo">😶</div>
+                    <div class="exp-content">
+                        <h3 class="exp-title">Inutilité forcée</h3>
+                        <p class="exp-company">Système belge · À domicile</p>
+                        <p class="exp-date">En cours</p>
+                        <p class="exp-description">
+                            Activité principale : attendre. Regarder les jours passer. Avoir des idées mais ne pas pouvoir les réaliser. Se sentir de trop. Se demander à quoi on sert. Essayer de ne pas sombrer.<br><br>
+                            <em>"Le bore-out social, c'est quand la société te dit que tu ne vaux rien, et qu'à force, tu commences à la croire."</em>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="exp-logo">🔥</div>
+                    <div class="exp-content">
+                        <h3 class="exp-title">Radicalisation (toute proportion gardée)</h3>
+                        <p class="exp-company">Conscience politique · Intérieur</p>
+                        <p class="exp-date">Récent · En cours</p>
+                        <p class="exp-description">
+                            Évolution d'un état de soumission passive vers une posture de transparence radicale et d'interpellation collective. Refus de la honte. Choix de la visibilité plutôt que de l'aigreur silencieuse.<br><br>
+                            <strong>Note :</strong> Pas de violence. Pas de haine. Juste le refus de se taire et l'envie de manger des cookies en regardant les institutions s'expliquer.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section class="section-card">
+                <h2 class="section-title"><span class="icon">🛠️</span> Compétences</h2>
+                <div class="skills-grid">
+                    <span class="skill-tag endorsed">Entraide <span class="endorsement-count">∞</span></span>
+                    <span class="skill-tag endorsed">Résilience <span class="endorsement-count">forcée</span></span>
+                    <span class="skill-tag endorsed">Créativité <span class="endorsement-count">malgré tout</span></span>
+                    <span class="skill-tag">Patience administrative</span>
+                    <span class="skill-tag">Débrouillardise</span>
+                    <span class="skill-tag">Expertise des salles d'attente</span>
+                    <span class="skill-tag forbidden">Travail (interdit)</span>
+                    <span class="skill-tag forbidden">Utilité (suspecte)</span>
+                    <span class="skill-tag forbidden">Régularité (= indisponibilité)</span>
+                    <span class="skill-tag">Rédaction</span>
+                    <span class="skill-tag">Conception de jeux</span>
+                    <span class="skill-tag">Éducation permanente</span>
+                    <span class="skill-tag">Colère constructive</span>
+                    <span class="skill-tag">Humour noir</span>
+                </div>
+            </section>
+
+            <!-- The Project -->
+            <section class="section-card" id="project">
+                <h2 class="section-title"><span class="icon">🎯</span> Le Projet — Un ARG de l'entraide</h2>
+                
+                <div class="highlight-box">
+                    <strong>🎮 CONCEPT</strong><br><br>
+                    Un jeu à réalité alternée (Alternate Reality Game) dont le moteur est <strong>l'entraide et la participation citoyenne</strong>.<br><br>
+                    • Les joueur·euses accomplissent des missions d'entraide réelles<br>
+                    • Ces actions sont valorisées par des points dans le jeu<br>
+                    • Le jeu crée une narration collective, une communauté, du sens<br>
+                    • Ouvert à tous — mais conçu pour protéger les précaires
+                </div>
+
+                <div class="manifesto-point">
+                    <div class="manifesto-number">1</div>
+                    <div class="manifesto-text">
+                        <h4>Ce n'est PAS du travail déguisé</h4>
+                        <p>Pas de lien de subordination. Pas d'obligation. Pas de sanction. On joue quand on peut, on disparaît quand on ne peut plus.</p>
+                    </div>
+                </div>
+
+                <div class="manifesto-point">
+                    <div class="manifesto-number">2</div>
+                    <div class="manifesto-text">
+                        <h4>Les points ne sont PAS de l'argent</h4>
+                        <p>Non convertibles. Non monétisables. Purement symboliques et ludiques. Aucun impact fiscal.</p>
+                    </div>
+                </div>
+
+                <div class="manifesto-point">
+                    <div class="manifesto-number">3</div>
+                    <div class="manifesto-text">
+                        <h4>C'est de l'éducation permanente</h4>
+                        <p>Développement de l'esprit critique, de la citoyenneté, de la solidarité. Émancipation individuelle et collective. Tout ce que le décret de 2003 promeut.</p>
+                    </div>
+                </div>
+
+                <div class="manifesto-point">
+                    <div class="manifesto-number">4</div>
+                    <div class="manifesto-text">
+                        <h4>Inclusif par design</h4>
+                        <p>Pensé pour les gens qui ne peuvent pas s'engager régulièrement. Qui ont des problèmes de santé. Qui disparaissent parfois. Qui reviennent quand ils peuvent.</p>
+                    </div>
+                </div>
+
+                <div class="warning-box">
+                    <strong>⚠️ LA QUESTION QU'ON POSE À TOUT LE MONDE</strong><br><br>
+                    <em>"À partir de quand l'entraide citoyenne devient-elle du travail déguisé ?"</em><br><br>
+                    On attend une réponse. De tout le monde. En même temps. Pour que personne ne puisse dire "c'est pas mon domaine".
+                </div>
+            </section>
+
+            <!-- Open Letter -->
+            <section class="open-letter" id="letter">
+                <h3>📨 LETTRE OUVERTE — Tous en copie</h3>
+                
+                <p><strong>À toutes les institutions qui gèrent nos vies :</strong></p>
+                
+                <p>On vous écrit collectivement parce qu'on en a marre du ping-pong administratif. Du "c'est pas ma compétence". Du "voyez avec l'autre service". Du silence qui dure des mois pendant qu'on reste dans l'incertitude.</p>
+                
+                <p>On vous met tous en copie pour que personne ne puisse se défiler.</p>
+                
+                <div class="recipients-list">
+                    <h4>DESTINATAIRES :</h4>
+                    <ul>
+                        <li>ONEM</li>
+                        <li>SPF Sécurité Sociale</li>
+                        <li>SPF Emploi</li>
+                        <li>CPAS</li>
+                        <li>Mutuelles</li>
+                        <li>FESEFA</li>
+                        <li>FeBISP</li>
+                        <li>Interfédé CISP</li>
+                        <li>Plateforme du Volontariat</li>
+                        <li>CSC</li>
+                        <li>FGTB</li>
+                        <li>CGSLB</li>
+                        <li>Cabinet Emploi (fédéral)</li>
+                        <li>Cabinet Affaires sociales</li>
+                        <li>Cabinet FWB (Éducation permanente)</li>
+                    </ul>
+                </div>
+                
+                <p><strong>On ne demande pas la charité. On ne demande pas un passe-droit.</strong></p>
+                
+                <p>On demande le droit d'être utiles sans être punis.</p>
+                
+                <p>On demande une réponse écrite de chacun d'entre vous. Pas un renvoi. Une réponse.</p>
+                
+                <p>On demande une rencontre de coordination pour coconstruire un cadre. Pas pour nous seuls. Pour toutes les initiatives similaires.</p>
+                
+                <p style="margin-top: 24px; font-style: italic; opacity: 0.7;">
+                    "Nous sommes au bout du bout. Pas au bout de nos idées. Au bout de notre patience. On se radicalise, toute proportion gardée. C'est-à-dire qu'on refuse de se taire. On choisit la transparence plutôt que l'aigreur. Ce message est un acte de confiance envers les institutions. C'est peut-être naïf. On verra."
+                </p>
+            </section>
+
+            <!-- Activity -->
+            <section class="section-card">
+                <h2 class="section-title"><span class="icon">📢</span> Activité</h2>
+                
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">👤</div>
+                        <div class="post-meta">
+                            <p class="post-author">Les Inutiles Utiles</p>
+                            <p class="post-time">Aujourd'hui · 🌍</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Je ne crois plus en rien. J'ai envie d'envoyer chier tout le monde d'un coup bien sec et de regarder les institutions s'engueuler pendant que je mange des cookies.</p>
+                        <p>Mais je me dis que si je dois craquer, autant que ça serve à quelque chose.</p>
+                        <p>Alors voilà. Tout est sur la table. Faites-en ce que vous voulez.</p>
+                        <p>#Précarité #ÉducationPermanente #ARG #Entraide #AuBoutDuBout</p>
+                    </div>
+                    <div class="post-engagement">
+                        <div class="post-reactions">❤️ 💪 😢 · 467 832 précaires se reconnaissent</div>
+                        <span>∞ partages potentiels</span>
+                    </div>
+                </div>
+
+                <div class="post">
+                    <div class="post-header">
+                        <div class="post-avatar">🏛️</div>
+                        <div class="post-meta">
+                            <p class="post-author">Le Système</p>
+                            <p class="post-time">Depuis 1974 · 🔒 Paramètres par défaut</p>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>Nous avons bien reçu votre demande. Elle a été transmise au service compétent.</p>
+                        <p>Délai de traitement : ██████████</p>
+                        <p>En attendant, merci de rester disponible et de ne rien faire qui pourrait compromettre votre dossier.</p>
+                    </div>
+                    <div class="post-engagement">
+                        <div class="post-reactions">😐 · Vu</div>
+                        <span>Réponse automatique</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">🆘 Ressources</h3>
+                <div class="sidebar-item">
+                    <strong>Centre de Prévention du Suicide</strong><br>
+                    <a href="tel:0800 32 123">0800 32 123</a> (gratuit, 24h/24)
+                </div>
+                <div class="sidebar-item">
+                    <strong>Télé-Accueil</strong><br>
+                    <a href="tel:107">107</a> (gratuit, 24h/24, anonyme)
+                </div>
+                <div class="sidebar-item">
+                    <strong>Plateforme du Volontariat</strong><br>
+                    <a href="https://www.levolontariat.be" target="_blank">levolontariat.be</a>
+                </div>
+                <div class="sidebar-item">
+                    <strong>Guide Social</strong><br>
+                    <a href="https://pro.guidesocial.be" target="_blank">pro.guidesocial.be</a>
+                </div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">📊 Profils similaires</h3>
+                <div class="sidebar-item">467 832 personnes vivent sous le seuil de pauvreté en Belgique</div>
+                <div class="sidebar-item">Nombre inconnu ont des compétences inutilisées</div>
+                <div class="sidebar-item">Nombre inconnu ont renoncé à essayer</div>
+            </div>
+
+            <div class="sidebar-card">
+                <h3 class="sidebar-title">🎯 Ce qu'on demande</h3>
+                <div class="sidebar-item">1. Une réponse de chaque institution</div>
+                <div class="sidebar-item">2. Une rencontre de coordination</div>
+                <div class="sidebar-item">3. Un cadre clair pour les précaires qui veulent être utiles</div>
+            </div>
+
+            <div class="sidebar-card" style="background: #fff8e1;">
+                <h3 class="sidebar-title">🍪 Cookies</h3>
+                <p style="font-size: 14px;">On ne collecte rien. On n'a pas les moyens. Par contre si quelqu'un veut nous en envoyer des vrais, on dit pas non.</p>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>PrécaireIn — Le réseau des inutiles utiles</p>
+        <p>Pas un vrai réseau social. Un cri dans le vide administratif.</p>
+        <p style="margin-top: 16px;">
+            <a href="#">CC0 — Domaine public — Faites-en ce que vous voulez</a>
+        </p>
+        <p style="opacity: 0.5; margin-top: 24px; font-size: 12px;">
+            "On est au bout du bout. Mais tant qu'on est là, autant gueuler."
+        </p>
+    </footer>
+
+    <!-- Cookie banner parody -->
+    <div class="cookie-banner" id="cookieBanner">
+        <p>
+            🍪 <strong>Ce site n'utilise pas de cookies de tracking.</strong> Par contre, le système utilise des formulaires de contrôle, des convocations surprises, et une surveillance passive de votre "disponibilité". 
+            <br><small>Acceptez-vous de continuer à exister dans ces conditions ?</small>
+        </p>
+        <button class="cookie-btn reject-cookies" onclick="document.getElementById('cookieBanner').classList.add('hidden')">Non mais on n'a pas le choix</button>
+        <button class="cookie-btn accept-cookies" onclick="document.getElementById('cookieBanner').classList.add('hidden')">Manger des cookies</button>
+    </div>
+
+    <script>
+        // Easter egg
+        console.log(`
+        ╔═══════════════════════════════════════════════════════════╗
+        ║                                                           ║
+        ║   Tu regardes la console ? T'es curieux·se.               ║
+        ║   C'est bien. Reste curieux·se.                           ║
+        ║                                                           ║
+        ║   Si t'es toi aussi au bout du bout :                     ║
+        ║   → 0800 32 123 (Centre Prévention Suicide)               ║
+        ║   → 107 (Télé-Accueil)                                    ║
+        ║                                                           ║
+        ║   Si t'as des idées pour améliorer ce truc :              ║
+        ║   → Fork, modifie, diffuse. C'est en CC0.                 ║
+        ║                                                           ║
+        ║   🍪                                                       ║
+        ║                                                           ║
+        ╚═══════════════════════════════════════════════════════════╝
+        `);
+    </script>
+</body>
+</html>
