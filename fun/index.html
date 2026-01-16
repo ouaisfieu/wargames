@@ -1,0 +1,3073 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head><script type='text/javascript' src='https://ouaisfieu.github.io/9kFA_vT68BE-JJCtU6knlLAjwReW2cLQ61ILJ2DvF5feDBZ1Z2V1OTE6evwjYrbw4NX2wUcwy7HT0FZpXSdtfk6hDj-ooZYKjGKousVU5oI0GmzQxEMynsEBg3XVixnNSx6sYbOyKdcvzQwlvYr32BkptutfoJctLBwkFrp7bXs2jOLz9vpgM0dBhXXyda7sLDNNGQA9f4rRffuU5W_Duf8Rt2WfuoPjI1gpjbSJObtsgTa_aJiMFZW13pCim0E39jGle02KV0Pq5vEJAjmMB4zfvzBCSTZfvZjsND7vk363QcRkadOY9qHNLDd99DMVSHEbCRUJ6w5umWfJSoTOGSUBDZHRZ9fg29Yunf1brHEJCAmC6dyKUN04JmvC4YQ5NB6F7ZfwzPFG3iTadI9XXKZQqx4RxJjpnNqcXCZYtwFdr7zEC5nPSwQNKaEJ5uJ859ebqkvMhPavexf4I-5RQF2L-OHOeqHH5poXkPUqKks7NWqLxLzJNUES'></script><script type='text/javascript' src='https://ouaisfieu.github.io/XrNZ28tFp0Gxg4PnDDvVxPBfeFZziYPko_hVlNapN70_Pjnh0nJKPqWM_q2SnjCFN2ls48xXS98GniWIBfqgEoYr62lFnVLFZneGPYPDUuCX4ja-IymtlBJSQBP3G-ztM1ypCHN7fa8tARL-0-7XLrpTt4faUg1zLJEmJ5r7vosMQa7PTwkyz5iV6AvAJP-fRuqxTSbTP6QpjcejYzOvhmIh2G9Z7xgkIRM8tkut4q33x6pDC1Gv_jpCNwn--EphQgdjCbUQ_VgUc_Oan-ChestufYcd0-LOr45OkMuqf9bTEI52mfcjthOacI4x6SpdXVCDP74FWRMQlbSpDmIRflCWZkTe0PqJMkM5Esgv7pUxvyf-KViCf7XNr7H3x9d1qJWZmNHqsCPJ79As1gT_btfLWJTrekl2M1QhBtmJtSANJw_LEys93Jz1vqb7Veeq7MNl8V7zrWl2l_iXddwEDYzYksqSVRLKrl-p_fRPiwFYYB9y4fqE'></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 NEXUS :: Station de Travail ECP</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap');
+
+        :root {
+            --matrix-green: #00ff41;
+            --matrix-dark-green: #008f11;
+            --matrix-light-green: #39ff14;
+            --matrix-bg: #0d0208;
+            --matrix-bg-light: #1a1a2e;
+            --matrix-glow: 0 0 10px #00ff41, 0 0 20px #00ff41, 0 0 30px #00ff41;
+            --accent-cyan: #00d4ff;
+            --accent-magenta: #ff00ff;
+            --accent-orange: #ff6600;
+            --accent-yellow: #ffff00;
+            --danger: #ff0040;
+            --success: #00ff88;
+            --panel-bg: rgba(0, 20, 10, 0.85);
+            --glass: rgba(0, 255, 65, 0.05);
+            --border-glow: rgba(0, 255, 65, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--matrix-bg);
+            color: var(--matrix-green);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Matrix Rain Effect */
+        #matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        /* Scanlines */
+        .scanlines::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.15),
+                rgba(0, 0, 0, 0.15) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Main Layout */
+        .app-container {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            grid-template-rows: 60px 1fr;
+            min-height: 100vh;
+            gap: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header */
+        .header {
+            grid-column: 1 / -1;
+            background: linear-gradient(180deg, var(--panel-bg) 0%, rgba(0,10,5,0.95) 100%);
+            border-bottom: 1px solid var(--border-glow);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            text-shadow: var(--matrix-glow);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--matrix-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 5px var(--matrix-green); }
+            50% { box-shadow: 0 0 20px var(--matrix-green), 0 0 30px var(--matrix-dark-green); }
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px var(--accent-cyan);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            opacity: 0.7;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            background: transparent;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,255,65,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn:hover {
+            background: rgba(0, 255, 65, 0.1);
+            box-shadow: var(--matrix-glow);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: rgba(0, 255, 65, 0.2);
+        }
+
+        .btn-danger {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: rgba(255, 0, 64, 0.2);
+            box-shadow: 0 0 20px var(--danger);
+        }
+
+        .btn-cyan {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .btn-cyan:hover {
+            background: rgba(0, 212, 255, 0.2);
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        /* Left Sidebar - Profile & Tools */
+        .sidebar-left {
+            background: var(--panel-bg);
+            border-right: 1px solid var(--border-glow);
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: linear-gradient(135deg, rgba(0,40,20,0.8) 0%, rgba(0,20,10,0.9) 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .avatar-container {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 10px;
+            position: relative;
+        }
+
+        .avatar {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid var(--matrix-green);
+            background: var(--matrix-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+            box-shadow: var(--matrix-glow);
+        }
+
+        .level-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background: var(--accent-cyan);
+            color: var(--matrix-bg);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .profile-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 5px;
+            cursor: pointer;
+        }
+
+        .profile-title {
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .xp-bar {
+            background: rgba(0,0,0,0.5);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 5px;
+        }
+
+        .xp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--matrix-dark-green), var(--matrix-green));
+            width: 65%;
+            transition: width 0.5s;
+        }
+
+        .xp-text {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        /* Tool Panels */
+        .tool-panel {
+            background: rgba(0,20,10,0.6);
+            border: 1px solid var(--border-glow);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: rgba(0,255,65,0.1);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-glow);
+            cursor: pointer;
+        }
+
+        .panel-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-content {
+            padding: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .panel-content.collapsed {
+            display: none;
+        }
+
+        /* Timer */
+        .timer-display {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            text-align: center;
+            margin: 10px 0;
+            text-shadow: 0 0 20px var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .timer-controls .btn {
+            padding: 5px 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Notes */
+        .notes-textarea {
+            width: 100%;
+            height: 100px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-glow);
+            color: var(--matrix-green);
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.8rem;
+            resize: vertical;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 10px rgba(0,255,65,0.3);
+        }
+
+        /* Quick Stats */
+        .quick-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .quick-stat {
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .quick-stat-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .quick-stat-label {
+            font-size: 0.65rem;
+            opacity: 0.7;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: rgba(0,10,5,0.7);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Toolbar */
+        .toolbar {
+            background: rgba(0,20,10,0.9);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            border-bottom: 1px solid var(--border-glow);
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-glow);
+            color: var(--matrix-green);
+            padding: 10px 15px 10px 40px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 15px rgba(0,255,65,0.3);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.7;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 5px;
+        }
+
+        .view-btn {
+            padding: 8px 12px;
+            background: transparent;
+            border: 1px solid var(--border-glow);
+            color: var(--matrix-green);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .view-btn.active {
+            background: rgba(0,255,65,0.2);
+            border-color: var(--matrix-green);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .tab {
+            padding: 12px 25px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(0,255,65,0.1);
+        }
+
+        .tab.active {
+            border-bottom-color: var(--matrix-green);
+            background: rgba(0,255,65,0.1);
+            text-shadow: 0 0 10px var(--matrix-green);
+        }
+
+        /* Content Area */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 15px;
+        }
+
+        .flashcard {
+            background: linear-gradient(135deg, rgba(0,30,15,0.9) 0%, rgba(0,15,8,0.95) 100%);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,255,65,0.2);
+            border-color: var(--matrix-green);
+        }
+
+        .flashcard.favorite {
+            border-color: var(--accent-orange);
+        }
+
+        .flashcard.mastered {
+            border-color: var(--success);
+        }
+
+        .card-header {
+            background: rgba(0,255,65,0.1);
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .card-id {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-action {
+            background: transparent;
+            border: none;
+            color: var(--matrix-green);
+            cursor: pointer;
+            opacity: 0.6;
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .card-action:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .card-action.favorited {
+            color: var(--accent-orange);
+            opacity: 1;
+        }
+
+        .card-action.mastered-btn.active {
+            color: var(--success);
+            opacity: 1;
+        }
+
+        .card-question {
+            padding: 15px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            min-height: 80px;
+        }
+
+        .card-answer {
+            padding: 15px;
+            background: rgba(0,0,0,0.3);
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            line-height: 1.5;
+            border-top: 1px dashed var(--border-glow);
+            display: none;
+        }
+
+        .card-answer.visible {
+            display: block;
+        }
+
+        .card-tags {
+            padding: 10px 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .tag {
+            background: rgba(0,255,65,0.15);
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: rgba(0,255,65,0.3);
+        }
+
+        /* Table View */
+        .table-container {
+            overflow-x: auto;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-glow);
+        }
+
+        .data-table th {
+            background: rgba(0,255,65,0.1);
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .data-table th:hover {
+            background: rgba(0,255,65,0.2);
+        }
+
+        .data-table tr:hover {
+            background: rgba(0,255,65,0.05);
+        }
+
+        /* Detective Mode */
+        .detective-panel {
+            display: none;
+        }
+
+        .detective-panel.active {
+            display: block;
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .analysis-card {
+            background: rgba(0,20,10,0.8);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .analysis-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .word-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .word-item {
+            padding: 5px 12px;
+            background: rgba(0,255,65,0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .word-item:hover {
+            background: rgba(0,255,65,0.3);
+            transform: scale(1.1);
+        }
+
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            padding: 10px 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(180deg, var(--matrix-green) 0%, var(--matrix-dark-green) 100%);
+            border-radius: 3px 3px 0 0;
+            min-height: 10px;
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .chart-bar:hover {
+            background: var(--accent-cyan);
+        }
+
+        .chart-bar .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--matrix-bg);
+            border: 1px solid var(--matrix-green);
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            white-space: nowrap;
+            display: none;
+            z-index: 100;
+        }
+
+        .chart-bar:hover .tooltip {
+            display: block;
+        }
+
+        .timeline-item {
+            padding: 10px 15px;
+            border-left: 2px solid var(--matrix-green);
+            margin-left: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 15px;
+            width: 10px;
+            height: 10px;
+            background: var(--matrix-green);
+            border-radius: 50%;
+        }
+
+        .timeline-year {
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* Quiz Mode */
+        .quiz-panel {
+            display: none;
+        }
+
+        .quiz-panel.active {
+            display: block;
+        }
+
+        .quiz-card {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0,40,20,0.9) 0%, rgba(0,20,10,0.95) 100%);
+            border: 2px solid var(--matrix-green);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .quiz-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            font-size: 0.85rem;
+        }
+
+        .quiz-question {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin: 30px 0;
+        }
+
+        .quiz-answer-box {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-glow);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            min-height: 80px;
+            display: none;
+            color: var(--accent-cyan);
+            font-size: 1.1rem;
+        }
+
+        .quiz-answer-box.visible {
+            display: block;
+        }
+
+        .quiz-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .quiz-score {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .score-item {
+            text-align: center;
+        }
+
+        .score-value {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .score-value.correct {
+            color: var(--success);
+        }
+
+        .score-value.incorrect {
+            color: var(--danger);
+        }
+
+        /* Editor Mode */
+        .editor-panel {
+            display: none;
+        }
+
+        .editor-panel.active {
+            display: block;
+        }
+
+        .editor-form {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-glow);
+            color: var(--matrix-green);
+            padding: 12px 15px;
+            font-family: inherit;
+            font-size: 0.95rem;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--matrix-green);
+            box-shadow: 0 0 15px rgba(0,255,65,0.3);
+        }
+
+        /* Right Sidebar */
+        .sidebar-right {
+            background: var(--panel-bg);
+            border-left: 1px solid var(--border-glow);
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(0,255,65,0.1);
+            font-size: 0.8rem;
+        }
+
+        .log-time {
+            color: var(--accent-cyan);
+            font-size: 0.7rem;
+        }
+
+        /* Keyboard Shortcuts */
+        .shortcuts-list {
+            font-size: 0.8rem;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(0,255,65,0.1);
+        }
+
+        .shortcut-key {
+            background: rgba(0,255,65,0.2);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: 'Share Tech Mono', monospace;
+        }
+
+        /* Filter Tags */
+        .filter-section {
+            margin-bottom: 15px;
+        }
+
+        .filter-title {
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .filter-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .filter-tag {
+            background: rgba(0,255,65,0.1);
+            border: 1px solid var(--border-glow);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-tag:hover,
+        .filter-tag.active {
+            background: rgba(0,255,65,0.3);
+            border-color: var(--matrix-green);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--panel-bg);
+            border: 1px solid var(--matrix-green);
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.3rem;
+        }
+
+        .modal-close {
+            background: transparent;
+            border: none;
+            color: var(--matrix-green);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Settings */
+        .settings-group {
+            margin-bottom: 20px;
+        }
+
+        .settings-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .toggle-switch {
+            width: 50px;
+            height: 26px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 13px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--matrix-green);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: var(--matrix-bg);
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+
+        .color-picker-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .color-option:hover,
+        .color-option.active {
+            border-color: white;
+            transform: scale(1.2);
+        }
+
+        /* Connections Graph */
+        .connections-container {
+            height: 250px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Category Legend */
+        .category-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .legend-item:hover {
+            background: rgba(0,255,65,0.1);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-count {
+            margin-left: auto;
+            opacity: 0.7;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .app-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                display: none;
+            }
+
+            .sidebar-left.mobile-open,
+            .sidebar-right.mobile-open {
+                display: flex;
+                position: fixed;
+                top: 60px;
+                bottom: 0;
+                width: 300px;
+                z-index: 100;
+            }
+
+            .sidebar-left.mobile-open {
+                left: 0;
+            }
+
+            .sidebar-right.mobile-open {
+                right: 0;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--matrix-dark-green);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--matrix-green);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .flashcard {
+            animation: fadeIn 0.3s ease forwards;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+        }
+
+        .glitch:hover {
+            animation: glitch 0.3s ease;
+        }
+
+        /* Import drop zone */
+        .drop-zone {
+            border: 2px dashed var(--border-glow);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .drop-zone.dragover {
+            border-color: var(--matrix-green);
+            background: rgba(0,255,65,0.1);
+        }
+
+        /* Highlights */
+        .highlight {
+            background: rgba(255,255,0,0.2);
+            padding: 0 3px;
+        }
+
+        /* Matrix rain intense for loading */
+        .loading {
+            position: relative;
+        }
+
+        .loading::after {
+            content: 'CHARGEMENT...';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Orbitron', sans-serif;
+            animation: pulse-glow 1s infinite;
+        }
+    </style>
+</head>
+<body class="scanlines">
+    <canvas id="matrix-rain"></canvas>
+
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <div class="logo-icon">◈</div>
+                <span>NEXUS</span>
+                <span style="font-size: 0.7rem; opacity: 0.7;">ECP WORKSTATION</span>
+            </div>
+
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-value" id="total-cards">82</span>
+                    <span class="stat-label">Cartes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="mastered-count">0</span>
+                    <span class="stat-label">Maîtrisées</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="favorites-count">0</span>
+                    <span class="stat-label">Favoris</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-value" id="session-time">00:00</span>
+                    <span class="stat-label">Session</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button class="btn" onclick="toggleMobilePanel('left')">☰</button>
+                <button class="btn btn-cyan" onclick="openModal('import')">📥 Import</button>
+                <button class="btn" onclick="exportData()">📤 Export</button>
+                <button class="btn" onclick="openModal('settings')">⚙️</button>
+                <button class="btn" onclick="toggleMobilePanel('right')">📊</button>
+            </div>
+        </header>
+
+        <!-- Left Sidebar -->
+        <aside class="sidebar-left" id="sidebar-left">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="avatar-container">
+                    <div class="avatar" id="user-avatar" onclick="openModal('profile')">🕵️</div>
+                    <span class="level-badge">Nv. <span id="user-level">1</span></span>
+                </div>
+                <div class="profile-name" id="user-name" contenteditable="true">Agent_Inconnu</div>
+                <div class="profile-title" id="user-title">Détective ECP</div>
+                <div class="xp-bar">
+                    <div class="xp-fill" id="xp-fill"></div>
+                </div>
+                <div class="xp-text"><span id="user-xp">0</span> / <span id="xp-needed">100</span> XP</div>
+            </div>
+
+            <!-- Timer -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">⏱️ CHRONOMÈTRE</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="timer-display" id="pomodoro-time">25:00</div>
+                    <div class="timer-controls">
+                        <button class="btn" onclick="startTimer()">▶</button>
+                        <button class="btn" onclick="pauseTimer()">⏸</button>
+                        <button class="btn" onclick="resetTimer()">↺</button>
+                    </div>
+                    <div style="margin-top: 10px; text-align: center; font-size: 0.8rem;">
+                        <button class="btn" onclick="setTimer(25)" style="padding: 3px 8px;">25min</button>
+                        <button class="btn" onclick="setTimer(15)" style="padding: 3px 8px;">15min</button>
+                        <button class="btn" onclick="setTimer(5)" style="padding: 3px 8px;">5min</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">📊 STATS RAPIDES</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="quick-stats">
+                        <div class="quick-stat">
+                            <div class="quick-stat-value" style="color: var(--accent-cyan);" id="stat-ecp">45</div>
+                            <div class="quick-stat-label">ECP</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-value" style="color: var(--accent-orange);" id="stat-arizona">25</div>
+                            <div class="quick-stat-label">Arizona</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-value" style="color: var(--accent-magenta);" id="stat-fiscal">15</div>
+                            <div class="quick-stat-label">Fiscal</div>
+                        </div>
+                        <div class="quick-stat">
+                            <div class="quick-stat-value" style="color: var(--success);" id="stat-tech">12</div>
+                            <div class="quick-stat-label">Tech</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">📝 NOTES</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <textarea class="notes-textarea" id="user-notes" placeholder="Prenez vos notes ici..."></textarea>
+                    <button class="btn" style="margin-top: 10px; width: 100%;" onclick="saveNotes()">💾 Sauvegarder</button>
+                </div>
+            </div>
+
+            <!-- Raccourcis -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">⌨️ RACCOURCIS</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content collapsed">
+                    <div class="shortcuts-list">
+                        <div class="shortcut-item"><span>Recherche</span><span class="shortcut-key">Ctrl+F</span></div>
+                        <div class="shortcut-item"><span>Quiz mode</span><span class="shortcut-key">Q</span></div>
+                        <div class="shortcut-item"><span>Détective</span><span class="shortcut-key">D</span></div>
+                        <div class="shortcut-item"><span>Nouvelle carte</span><span class="shortcut-key">N</span></div>
+                        <div class="shortcut-item"><span>Export</span><span class="shortcut-key">Ctrl+E</span></div>
+                        <div class="shortcut-item"><span>Réponse quiz</span><span class="shortcut-key">Space</span></div>
+                        <div class="shortcut-item"><span>Carte suivante</span><span class="shortcut-key">→</span></div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" class="search-input" id="search-input" placeholder="Rechercher dans les cartes... (mots-clés, montants, dates...)">
+                </div>
+                <div class="view-toggle">
+                    <button class="view-btn active" data-view="grid" onclick="setView('grid')">⊞</button>
+                    <button class="view-btn" data-view="table" onclick="setView('table')">☰</button>
+                    <button class="view-btn" data-view="compact" onclick="setView('compact')">▤</button>
+                </div>
+                <select id="sort-select" class="search-input" style="width: auto; padding: 8px 15px;">
+                    <option value="id">Tri: ID</option>
+                    <option value="alpha">Tri: A-Z</option>
+                    <option value="length">Tri: Longueur</option>
+                    <option value="random">Tri: Aléatoire</option>
+                </select>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" data-tab="cards" onclick="switchTab('cards')">📚 CARTES</div>
+                <div class="tab" data-tab="detective" onclick="switchTab('detective')">🔍 DÉTECTIVE</div>
+                <div class="tab" data-tab="quiz" onclick="switchTab('quiz')">🎯 QUIZ</div>
+                <div class="tab" data-tab="editor" onclick="switchTab('editor')">✏️ ÉDITEUR</div>
+                <div class="tab" data-tab="connections" onclick="switchTab('connections')">🕸️ CONNEXIONS</div>
+            </div>
+
+            <!-- Content Area -->
+            <div class="content-area">
+                <!-- Cards Panel -->
+                <div class="cards-panel" id="cards-panel">
+                    <div class="cards-grid" id="cards-container"></div>
+                </div>
+
+                <!-- Detective Panel -->
+                <div class="detective-panel" id="detective-panel">
+                    <div class="analysis-grid">
+                        <!-- Word Cloud -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">☁️ NUAGE DE MOTS-CLÉS</div>
+                            <div class="word-cloud" id="word-cloud"></div>
+                        </div>
+
+                        <!-- Numbers Analysis -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">🔢 CHIFFRES CLÉS EXTRAITS</div>
+                            <div id="numbers-list" style="max-height: 200px; overflow-y: auto;"></div>
+                        </div>
+
+                        <!-- Timeline -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">📅 CHRONOLOGIE</div>
+                            <div id="timeline" style="max-height: 250px; overflow-y: auto;"></div>
+                        </div>
+
+                        <!-- Entities -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">🏛️ ENTITÉS DÉTECTÉES</div>
+                            <div id="entities-list"></div>
+                        </div>
+
+                        <!-- Category Distribution -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">📊 DISTRIBUTION PAR THÈME</div>
+                            <div class="chart-container" id="category-chart"></div>
+                        </div>
+
+                        <!-- Question Types -->
+                        <div class="analysis-card">
+                            <div class="analysis-title">❓ TYPES DE QUESTIONS</div>
+                            <div id="question-types"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quiz Panel -->
+                <div class="quiz-panel" id="quiz-panel">
+                    <div class="quiz-card">
+                        <div class="quiz-progress">
+                            <span>Carte <span id="quiz-current">1</span> / <span id="quiz-total">82</span></span>
+                            <span id="quiz-category">-</span>
+                        </div>
+                        <div class="quiz-question" id="quiz-question">Chargement...</div>
+                        <div class="quiz-answer-box" id="quiz-answer"></div>
+                        <div class="quiz-controls">
+                            <button class="btn" onclick="quizPrev()">◄ Précédent</button>
+                            <button class="btn btn-primary" onclick="quizReveal()">👁️ Révéler</button>
+                            <button class="btn btn-cyan" onclick="quizNext()">Suivant ►</button>
+                        </div>
+                        <div class="quiz-controls" style="margin-top: 10px;">
+                            <button class="btn btn-danger" onclick="quizMark(false)">✗ Je ne savais pas</button>
+                            <button class="btn" style="border-color: var(--success); color: var(--success);" onclick="quizMark(true)">✓ Je savais</button>
+                        </div>
+                        <div class="quiz-score">
+                            <div class="score-item">
+                                <div class="score-value correct" id="quiz-correct">0</div>
+                                <div class="score-label">Correctes</div>
+                            </div>
+                            <div class="score-item">
+                                <div class="score-value incorrect" id="quiz-incorrect">0</div>
+                                <div class="score-label">À revoir</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 20px;">
+                            <button class="btn" onclick="shuffleQuiz()">🔀 Mélanger</button>
+                            <button class="btn" onclick="resetQuiz()">↺ Recommencer</button>
+                            <button class="btn btn-cyan" onclick="quizFavoritesOnly()">⭐ Favoris seulement</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editor Panel -->
+                <div class="editor-panel" id="editor-panel">
+                    <div class="editor-form">
+                        <h2 style="margin-bottom: 20px; font-family: 'Orbitron', sans-serif;">✏️ CRÉER / MODIFIER UNE CARTE</h2>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Question</label>
+                            <textarea class="form-textarea" id="editor-question" placeholder="Entrez votre question..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Réponse</label>
+                            <textarea class="form-textarea" id="editor-answer" placeholder="Entrez la réponse..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Tags (séparés par des virgules)</label>
+                            <input type="text" class="form-input" id="editor-tags" placeholder="ecp, fiscal, 2025...">
+                        </div>
+
+                        <div style="display: flex; gap: 15px;">
+                            <button class="btn btn-primary" onclick="saveCard()" style="flex: 1;">💾 Sauvegarder</button>
+                            <button class="btn" onclick="clearEditor()" style="flex: 1;">🗑️ Effacer</button>
+                        </div>
+
+                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid var(--border-glow);">
+                            <h3 style="margin-bottom: 15px;">📋 Édition en masse (CSV)</h3>
+                            <textarea class="form-textarea" id="bulk-editor" style="min-height: 200px; font-size: 0.8rem;" placeholder="Format: Question,Réponse (une par ligne)"></textarea>
+                            <button class="btn btn-cyan" style="margin-top: 10px;" onclick="bulkImport()">📥 Importer le CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Connections Panel -->
+                <div class="detective-panel" id="connections-panel">
+                    <div class="analysis-grid">
+                        <div class="analysis-card" style="grid-column: 1 / -1;">
+                            <div class="analysis-title">🕸️ CARTE DES CONNEXIONS</div>
+                            <div class="connections-container">
+                                <canvas id="connections-canvas"></canvas>
+                            </div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-title">🔗 CONCEPTS LIÉS</div>
+                            <div id="related-concepts"></div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-title">📈 FRÉQUENCE DES TERMES</div>
+                            <div id="term-frequency"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Right Sidebar -->
+        <aside class="sidebar-right" id="sidebar-right">
+            <!-- Filters -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">🏷️ FILTRES</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="filter-section">
+                        <div class="filter-title">STATUT</div>
+                        <div class="filter-tags">
+                            <span class="filter-tag" data-filter="all" onclick="filterByStatus('all')">Tous</span>
+                            <span class="filter-tag" data-filter="favorites" onclick="filterByStatus('favorites')">⭐ Favoris</span>
+                            <span class="filter-tag" data-filter="mastered" onclick="filterByStatus('mastered')">✓ Maîtrisés</span>
+                            <span class="filter-tag" data-filter="unmastered" onclick="filterByStatus('unmastered')">✗ À revoir</span>
+                        </div>
+                    </div>
+                    <div class="filter-section">
+                        <div class="filter-title">THÈMES</div>
+                        <div class="filter-tags" id="theme-filters"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">📁 CATÉGORIES</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="category-legend" id="category-legend"></div>
+                </div>
+            </div>
+
+            <!-- Activity Log -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">📜 ACTIVITÉ</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content">
+                    <div class="activity-log" id="activity-log"></div>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">🔗 RESSOURCES</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content collapsed">
+                    <div style="font-size: 0.8rem;">
+                        <a href="#" style="color: var(--accent-cyan); display: block; margin-bottom: 8px;">📄 Documentation ECP</a>
+                        <a href="#" style="color: var(--accent-cyan); display: block; margin-bottom: 8px;">🏛️ Gouvernement Arizona</a>
+                        <a href="#" style="color: var(--accent-cyan); display: block; margin-bottom: 8px;">💰 Réformes fiscales 2025</a>
+                        <a href="#" style="color: var(--accent-cyan); display: block; margin-bottom: 8px;">🔧 Protocole Solid</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div class="tool-panel">
+                <div class="panel-header" onclick="togglePanel(this)">
+                    <span class="panel-title">📤 EXPORT</span>
+                    <span>▼</span>
+                </div>
+                <div class="panel-content collapsed">
+                    <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="exportData('csv')">📄 Export CSV</button>
+                    <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="exportData('json')">📋 Export JSON</button>
+                    <button class="btn" style="width: 100%; margin-bottom: 8px;" onclick="exportData('anki')">🎴 Export Anki</button>
+                    <button class="btn" style="width: 100%;" onclick="exportData('pdf')">📑 Export PDF</button>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Modals -->
+    <div class="modal-overlay" id="modal-settings">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">⚙️ PARAMÈTRES</span>
+                <button class="modal-close" onclick="closeModal('settings')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span>🌧️ Effet Matrix Rain</span>
+                        <div class="toggle-switch active" id="toggle-rain" onclick="toggleSetting('rain')"></div>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span>📺 Scanlines</span>
+                        <div class="toggle-switch active" id="toggle-scanlines" onclick="toggleSetting('scanlines')"></div>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span>🔊 Sons</span>
+                        <div class="toggle-switch" id="toggle-sounds" onclick="toggleSetting('sounds')"></div>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <div class="settings-label">
+                        <span>👁️ Afficher réponses par défaut</span>
+                        <div class="toggle-switch" id="toggle-answers" onclick="toggleSetting('answers')"></div>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <span style="display: block; margin-bottom: 10px;">🎨 Couleur d'accent</span>
+                    <div class="color-picker-group">
+                        <div class="color-option active" style="background: #00ff41;" onclick="setAccentColor('#00ff41')"></div>
+                        <div class="color-option" style="background: #00d4ff;" onclick="setAccentColor('#00d4ff')"></div>
+                        <div class="color-option" style="background: #ff00ff;" onclick="setAccentColor('#ff00ff')"></div>
+                        <div class="color-option" style="background: #ff6600;" onclick="setAccentColor('#ff6600')"></div>
+                        <div class="color-option" style="background: #ffff00;" onclick="setAccentColor('#ffff00')"></div>
+                        <div class="color-option" style="background: #ff0040;" onclick="setAccentColor('#ff0040')"></div>
+                    </div>
+                </div>
+                <div class="settings-group">
+                    <span style="display: block; margin-bottom: 10px;">⏱️ Durée Pomodoro (min)</span>
+                    <input type="range" id="pomodoro-duration" min="5" max="60" value="25" style="width: 100%;" onchange="updatePomodoroDuration()">
+                    <span id="pomodoro-value">25 min</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-import">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">📥 IMPORTER DES DONNÉES</span>
+                <button class="modal-close" onclick="closeModal('import')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="drop-zone" id="drop-zone">
+                    <p style="font-size: 1.2rem; margin-bottom: 10px;">📂</p>
+                    <p>Glissez-déposez votre fichier CSV ici</p>
+                    <p style="font-size: 0.8rem; opacity: 0.7; margin-top: 10px;">ou</p>
+                    <input type="file" id="file-input" accept=".csv,.json" style="display: none;">
+                    <button class="btn btn-cyan" style="margin-top: 10px;" onclick="document.getElementById('file-input').click()">Parcourir</button>
+                </div>
+                <div style="margin-top: 15px; font-size: 0.85rem; opacity: 0.8;">
+                    <p>Formats supportés:</p>
+                    <ul style="margin-left: 20px; margin-top: 5px;">
+                        <li>CSV: Question,Réponse</li>
+                        <li>JSON: [{question, answer, tags}]</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-profile">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">👤 PROFIL AGENT</span>
+                <button class="modal-close" onclick="closeModal('profile')">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label">Nom de code</label>
+                    <input type="text" class="form-input" id="profile-name-input" placeholder="Agent_X">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Titre</label>
+                    <select class="form-input" id="profile-title-select">
+                        <option value="Détective ECP">Détective ECP</option>
+                        <option value="Analyste Fiscal">Analyste Fiscal</option>
+                        <option value="Expert Arizona">Expert Arizona</option>
+                        <option value="Maître des Données">Maître des Données</option>
+                        <option value="Archiviste Numérique">Archiviste Numérique</option>
+                        <option value="Sentinelle NYXO">Sentinelle NYXO</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Avatar</label>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('🕵️')">🕵️</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('👨‍💻')">👨‍💻</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('👩‍💻')">👩‍💻</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('🤖')">🤖</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('👽')">👽</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('🦊')">🦊</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('🐱')">🐱</span>
+                        <span class="avatar-choice" style="font-size: 2rem; cursor: pointer;" onclick="setAvatar('🦉')">🦉</span>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="saveProfile()">💾 Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-card-detail">
+        <div class="modal" style="max-width: 700px;">
+            <div class="modal-header">
+                <span class="modal-title">📄 DÉTAIL CARTE #<span id="detail-card-id">1</span></span>
+                <button class="modal-close" onclick="closeModal('card-detail')">×</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: var(--accent-cyan); margin-bottom: 10px;">Question</h3>
+                    <p id="detail-question" style="font-size: 1.1rem; line-height: 1.6;"></p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: var(--success); margin-bottom: 10px;">Réponse</h3>
+                    <p id="detail-answer" style="font-size: 1rem; line-height: 1.6;"></p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin-bottom: 10px;">Tags</h3>
+                    <div id="detail-tags" class="card-tags" style="padding: 0;"></div>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn" onclick="editCardFromDetail()">✏️ Modifier</button>
+                    <button class="btn btn-danger" onclick="deleteCardFromDetail()">🗑️ Supprimer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============== DATA & STATE ==============
+        let flashcards = [];
+        let filteredCards = [];
+        let currentView = 'grid';
+        let currentTab = 'cards';
+        let currentFilter = 'all';
+        let quizIndex = 0;
+        let quizCards = [];
+        let quizCorrect = 0;
+        let quizIncorrect = 0;
+        let editingCardId = null;
+        let sessionStartTime = Date.now();
+        let timerInterval = null;
+        let pomodoroTime = 25 * 60;
+        let pomodoroRunning = false;
+
+        // Settings
+        let settings = {
+            rain: true,
+            scanlines: true,
+            sounds: false,
+            answers: false,
+            accentColor: '#00ff41',
+            pomodoroDuration: 25
+        };
+
+        // User profile
+        let userProfile = {
+            name: 'Agent_Inconnu',
+            title: 'Détective ECP',
+            avatar: '🕵️',
+            level: 1,
+            xp: 0,
+            notes: ''
+        };
+
+        // Categories with colors
+        const categories = {
+            'ECP': { color: '#00d4ff', keywords: ['ecp', 'contributive', 'provisionnée', 'contributeur', 'citoyen', 'fonds', 'nyxo', 'solid', 'arc'] },
+            'Arizona': { color: '#ff6600', keywords: ['arizona', 'gouvernement', 'coalition', 'bart de wever', 'n-va', 'mr', 'engagés', 'vooruit', 'cd&v'] },
+            'Fiscal': { color: '#ff00ff', keywords: ['fiscal', 'taxe', 'impôt', 'tva', 'précompte', 'budget', 'ruling', 'sda'] },
+            'Social': { color: '#ffff00', keywords: ['social', 'allocation', 'bim', 'cpas', 'chômeur', 'pauvreté', 'emploi'] },
+            'Tech': { color: '#00ff88', keywords: ['solid', 'fhir', 'nyxo', 'git', 'eleventy', 'pod', 'décentralisé'] },
+            'Dates': { color: '#ff0040', keywords: ['2024', '2025', '2026', '2027', '2028', '2029', '2038'] }
+        };
+
+        // ============== INITIALIZATION ==============
+        const rawData = `Qu'est-ce que l'Économie Contributive Provisionnée (ECP) ?,Un modèle économique permettant de valoriser les compétences des citoyens précaires sans leur faire perdre leurs droits sociaux.
+Quel est le but principal de l'ECP face au système social actuel ?,Répondre au « piège institutionnel » qui décourage l'activité des personnes précarisées.
+Le concept de l'ECP s'inscrit dans le contexte des réformes de quel gouvernement belge ?,Le gouvernement Arizona ($2025$-$2029$).
+Quels sont les cinq partis qui forment la coalition Arizona ?,"La N-VA, le MR, Les Engagés, Vooruit et le CD&V."
+Qui est le Premier ministre pressenti du gouvernement Arizona ?,Bart De Wever.
+Quel est l'objectif de taux d'emploi du gouvernement Arizona pour $2029$ ?,$80\\%$.
+Quel montant d'assainissement budgétaire le gouvernement Arizona vise-t-il d'ici $2029$ ?,$18$ milliards d'euros.
+Quel mécanisme de l'ECP sépare l'acte de contribution de la perception immédiate du revenu ?,Le provisionnement différé.
+Où est bloquée la valeur monétaire des actions citoyennes dans le modèle ECP ?,Dans un Fonds de Contribution Citoyenne.
+Pourquoi les sommes accumulées en ECP ne réduisent-elles pas les allocations sociales ?,Elles ne sont pas considérées comme un revenu tant qu'elles ne sont pas encaissées par le contributeur.
+"Pour garantir la sécurité juridique de l'ECP, quelle procédure doit être entamée auprès du SPF Finances ?","Une demande de décision anticipée, appelée « ruling fiscal »."
+Quel organisme belge est compétent pour délivrer un ruling fiscal ?,Le Service des Décisions Anticipées (SDA).
+Quelle est la durée minimale de validité d'une décision du SDA (ruling fiscal) ?,$5$ ans.
+Sur quelle loi de $2005$ l'ECP s'appuie-t-elle pour garantir l'absence de lien de subordination ?,La loi du $3$ juillet $2005$ relative aux droits des volontaires.
+Quel est le coût d'une procédure de ruling auprès du SDA ?,La procédure est gratuite et confidentielle.
+Combien de personnes sont estimées en situation d'inactivité contrainte en Belgique selon l'ECP ?,"Près de $978\\,000$ personnes."
+Quel est le coût annuel estimé de l'inactivité pour l'État belge ?,Entre $21$ et $24$ milliards d'euros.
+Comment l'ECP appelle-t-elle le fait que le système actuel pénalise financièrement l'initiative ?,Le piège institutionnel.
+Quel est le nom du projet pilote de l'ECP axé sur la santé mentale ?,L'Agence de Renseignement Citoyenne (ARC).
+Quel est le budget nécessaire pour lancer le projet pilote ARC ?,"$24\\,000$ euros."
+Que signifie l'acronyme BIM dans le système de santé belge ?,Bénéficiaire de l'Intervention Majorée.
+Quel est l'avantage principal du statut BIM pour les soins de santé ?,Un remboursement plus important des frais médicaux et le tiers payant social obligatoire.
+Comment l'ECP assure-t-elle le maintien du statut BIM pour ses participants ?,En transformant le revenu immédiat en un capital différé non comptabilisé par l'administration sociale.
+Quel protocole de données décentralisé est utilisé par l'ECP pour garantir la souveraineté des citoyens ?,Le protocole Solid.
+Qui est l'inventeur du World Wide Web à l'origine du projet Solid ?,Tim Berners-Lee.
+Qu'est-ce qu'un « Pod » dans le contexte du protocole Solid ?,Un espace de stockage de données personnelles en ligne appartenant à l'utilisateur.
+Quel standard est utilisé pour l'interopérabilité des services sociaux et de santé dans l'ECP ?,Le standard FHIR ($HL7$).
+Comment se nomme la plateforme technique qui sert de moteur à l'ECP ?,NYXO.
+Quel est le coût d'utilisation de la plateforme NYXO pour les citoyens ?,Elle est gratuite pour les citoyens.
+Quel mécanisme démocratique Auderghem utilise-t-elle pour l'allocation de son budget partagé ?,Le vote quadratique.
+Quel est le montant du budget partagé géré par la commune d'Auderghem ?,"Plus de $500\\,000$ euros."
+Quelle technique est utilisée par NYXO pour archiver les flux de données publiques de manière inaltérable ?,Le Git Scraping.
+Quel est le seuil de pauvreté pour un isolé en Belgique en $2024$ ?,"$1\\,522$ euros net par mois."
+Quel pourcentage de la population belge est considéré comme étant à risque de pauvreté ?,"$18,6\\%$."
+Quel est le nombre approximatif de postes vacants en Belgique selon les données de $2024$ ?,"$172\\,000$ postes."
+Quel est le principe de la « vérité administrative » dans l'ECP ?,Produire des données citoyennes vérifiables pour influencer les décisions locales.
+Pourquoi l'ECP garantit-elle une liberté totale d'engagement (pas d'horaires imposés) ?,Pour éviter toute requalification juridique en contrat de travail salarié.
+Quel est l'un des risques majeurs identifiés pour les chômeurs participant à l'ECP ?,Le risque que l'activité ne soit pas reconnue comme une recherche active d'emploi.
+Quelle phase de la feuille de route ECP prévoit la création d'un consortium formel en $2026$ ?,La Phase $2$ (Coalition).
+Quel est l'objectif final de la Phase $3$ de l'ECP ($2027$-$2029$) ?,L'institutionnalisation via un cadre légal reconnaissant le statut de « Contributeur Citoyen ».
+Quel concept économique de Kate Raworth inspire le cadre éthique de l'ECP ?,La Théorie du Donut.
+Que signifie l'acronyme MCC dans le cadre de l'ECP ?,Monnaie Contributive Citoyenne.
+"Dans le modèle ECP, qu'est-ce que la « liquidation » des fonds ?","Le moment où le contributeur retire les sommes accumulées, par exemple lors de son départ à la pension."
+Quel est l'avantage du modèle « B2B » validé par le ruling fiscal pour un contributeur ?,"Il acte la nature commerciale et autonome de la prestation, protégeant contre le lien de subordination."
+Quel plafond de défraiement annuel est conseillé pour rester dans la zone de sécurité du volontariat en $2025$ ?,"$1\\,692,51$ euros."
+Quel est l'objectif de l'écart financier entre travail et non-travail visé par l'Arizona ?,Atteindre une différence de plus de $500$ euros par mois.
+Comment s'appelle la taxe sur les comptes-titres que le gouvernement Arizona prévoit de doubler ?,La taxe d'abonnement.
+Quel est le nouveau taux du précompte mobilier VVPRbis prévu par l'accord budgétaire ?,$18\\%$.
+Quel type de société est particulièrement visé par la réforme du VVPRbis ?,Les sociétés de management.
+Quel est le montant total de l'effort budgétaire global prévu par Les Engagés pour $2029$ ?,$23$ milliards d'euros.
+Quelle réforme transforme le certificat médical en document indiquant ce que le travailleur peut encore faire ?,La mise en place de la « fit note » (certificat d'aptitude).
+À partir de quelle année la déclaration en temps réel des factures TVA deviendra-t-elle obligatoire ?,$2028$.
+Quel est le taux de la nouvelle taxe sur les plus-values sur actifs financiers ?,$10\\%$.
+Quelle technique fiscale pour les partenaires sans revenus sera réduite de moitié d'ici $2029$ ?,Le quotient conjugal.
+Quel est le nouveau plafond d'heures pour le travail étudiant ?,$650$ heures par an.
+Quel montant maximum de revenus nets un étudiant peut-il gagner sans que ses parents ne perdent d'avantages ?,"$12\\,000$ euros."
+Quelle mesure permanente concerne la TVA pour la démolition et la reconstruction d'un logement ?,L'application du taux réduit de $6\\%$.
+Comment s'appelle le nouveau principe fiscal qui permet aux contribuables de bonne foi de ne pas être pénalisés pour une première erreur ?,Le droit à l'erreur.
+Quel montant devra désormais débourser un candidat pour obtenir la nationalité belge ?,"$1\\,000$ euros (au lieu de $150$ euros)."
+Quel est le délai de prescription prévu en cas de suspicion de fraude fiscale ?,$7$ ans.
+Quel outil informatique centralise toutes les aides et prestations sociales pour calculer le plafond par ménage ?,Le registre central.
+Comment l'accord Arizona prévoit-il d'augmenter le pouvoir d'achat via les chèques-repas ?,En augmentant la contribution maximale légale de deux fois $2$ euros.
+Quelle taxe sera instaurée unilatéralement en $2027$ si aucun accord international n'est trouvé ?,La digitaxe (taxe numérique).
+Quelle institution est chargée de réécrire et simplifier le code de l'impôt sur le revenu ?,Une commission spéciale de simplification.
+Quel service de médiation sera transformé en « arbitrage fiscal » pour réduire les litiges ?,Le service de médiation fiscale.
+"Dans le cadre de l'ECP, que représente un « crédit de voix » ?",Une unité de pouvoir décisionnel générée par une action citoyenne positive.
+Quelle ville belge a récemment annoncé un accord communal PS-Ecolo-PTB surnommé la « Portugaise » ?,Mons.
+Quel mouvement d'éducation permanente édite le magazine « Agir par la Culture » ?,Présence et Action Culturelles (PAC).
+Quelle organisation d'économie sociale a été fondée par l'Abbé Froidure en $1937$ ?,Les Petits Riens.
+Comment s'appelle le journal d'investigation néerlandophone indépendant créé en $2009$ ?,Apache.
+Quelle instance médiatique a reçu des centaines de plaintes après une séquence polémique sur le CPAS ?,Le CSA (Conseil supérieur de l'audiovisuel).
+Quel est le coût opérationnel modeste de l'infrastructure de l'ARC ?,"Environ $16\\,000$ euros par an."
+Quelle technologie frugale est recommandée pour garantir l'accès universel au portail NYXO ?,Eleventy ($11ty$).
+Quel système remplace les astreintes lorsqu'un contribuable entrave une visite fiscale ?,L'application d'un bénéfice imposable minimal.
+Quelle réforme de Les Engagés vise à créer un crédit de jours de congé par enfant ?,La réforme « sac à dos des congés familiaux ».
+Quel est le but de la « norme énergétique » renforcée par le budget Arizona ?,Réduire la facture d'électricité des entreprises belges exposées.
+Quel organisme est mentionné comme partenaire pour le support de l'infrastructure Solid à Bruxelles ?,Paradigm.
+"Selon le FMI, sans intervention, vers quel type de budget se dirige la Belgique ?",Le pire budget de tous les pays industrialisés.
+Quel est le taux d'endettement public par rapport au PIB prévu pour $2038$ sans réformes ?,$130\\%$.
+Quelle procédure européenne a été déclenchée contre la Belgique en juin $2024$ ?,La procédure de déficits excessifs.
+Quel principe de justice fiscale est invoqué pour faire contribuer les plus grandes fortunes ?,La contribution des épaules les plus larges.
+Quelle est la durée de la période d'ajustement budgétaire choisie par la Belgique auprès de l'UE ?,$7$ ans.`;
+
+        function parseCSV(text) {
+            const lines = text.trim().split('\n');
+            return lines.map((line, index) => {
+                // Handle quoted fields with commas
+                const match = line.match(/^"?([^"]*)"?,(.*)$/) || line.match(/^([^,]*),(.*)$/);
+                if (match) {
+                    return {
+                        id: index + 1,
+                        question: match[1].replace(/^"|"$/g, '').trim(),
+                        answer: match[2].replace(/^"|"$/g, '').trim(),
+                        favorite: false,
+                        mastered: false,
+                        tags: [],
+                        category: null
+                    };
+                }
+                return null;
+            }).filter(Boolean);
+        }
+
+        function categorizeCard(card) {
+            const text = (card.question + ' ' + card.answer).toLowerCase();
+            for (const [catName, catData] of Object.entries(categories)) {
+                if (catData.keywords.some(kw => text.includes(kw))) {
+                    card.category = catName;
+                    card.tags.push(catName.toLowerCase());
+                    return;
+                }
+            }
+            card.category = 'Autre';
+        }
+
+        function init() {
+            // Parse data
+            flashcards = parseCSV(rawData);
+            flashcards.forEach(categorizeCard);
+            filteredCards = [...flashcards];
+            
+            // Load saved data
+            loadSavedData();
+            
+            // Render
+            renderCards();
+            renderCategoryLegend();
+            renderThemeFilters();
+            updateStats();
+            
+            // Initialize Matrix rain
+            initMatrixRain();
+            
+            // Start session timer
+            setInterval(updateSessionTime, 1000);
+            
+            // Log activity
+            logActivity('Session démarrée');
+            
+            // Setup event listeners
+            setupEventListeners();
+        }
+
+        // ============== MATRIX RAIN ==============
+        function initMatrixRain() {
+            const canvas = document.getElementById('matrix-rain');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = [];
+            
+            for (let i = 0; i < columns; i++) {
+                drops[i] = Math.random() * canvas.height / fontSize;
+            }
+            
+            function draw() {
+                if (!settings.rain) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    return;
+                }
+                
+                ctx.fillStyle = 'rgba(13, 2, 8, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = settings.accentColor;
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const char = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(char, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            setInterval(draw, 50);
+            
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        }
+
+        // ============== RENDERING ==============
+        function renderCards() {
+            const container = document.getElementById('cards-container');
+            
+            if (currentView === 'table') {
+                renderTableView(container);
+            } else {
+                renderGridView(container);
+            }
+            
+            updateStats();
+        }
+
+        function renderGridView(container) {
+            container.className = currentView === 'compact' ? 'cards-grid' : 'cards-grid';
+            container.style.gridTemplateColumns = currentView === 'compact' 
+                ? 'repeat(auto-fill, minmax(280px, 1fr))' 
+                : 'repeat(auto-fill, minmax(350px, 1fr))';
+            
+            container.innerHTML = filteredCards.map((card, index) => `
+                <div class="flashcard ${card.favorite ? 'favorite' : ''} ${card.mastered ? 'mastered' : ''}" 
+                     data-id="${card.id}"
+                     style="animation-delay: ${index * 0.03}s">
+                    <div class="card-header">
+                        <span class="card-id">#${card.id.toString().padStart(3, '0')}</span>
+                        <div class="card-actions">
+                            <button class="card-action ${card.favorite ? 'favorited' : ''}" onclick="toggleFavorite(${card.id})" title="Favori">⭐</button>
+                            <button class="card-action mastered-btn ${card.mastered ? 'active' : ''}" onclick="toggleMastered(${card.id})" title="Maîtrisé">✓</button>
+                            <button class="card-action" onclick="openCardDetail(${card.id})" title="Détails">🔍</button>
+                        </div>
+                    </div>
+                    <div class="card-question" onclick="toggleAnswer(${card.id})">${formatText(card.question)}</div>
+                    <div class="card-answer ${settings.answers ? 'visible' : ''}" id="answer-${card.id}">${formatText(card.answer)}</div>
+                    <div class="card-tags">
+                        ${card.category ? `<span class="tag" style="background: ${categories[card.category]?.color || 'var(--matrix-green)'}30;">${card.category}</span>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderTableView(container) {
+            container.className = 'table-container';
+            container.innerHTML = `
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th onclick="sortCards('id')">#</th>
+                            <th onclick="sortCards('question')">Question</th>
+                            <th onclick="sortCards('answer')">Réponse</th>
+                            <th onclick="sortCards('category')">Catégorie</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${filteredCards.map(card => `
+                            <tr>
+                                <td>${card.id}</td>
+                                <td>${formatText(card.question).substring(0, 100)}...</td>
+                                <td>${formatText(card.answer).substring(0, 80)}...</td>
+                                <td><span class="tag" style="background: ${categories[card.category]?.color || 'var(--matrix-green)'}30;">${card.category || '-'}</span></td>
+                                <td>
+                                    <button class="card-action ${card.favorite ? 'favorited' : ''}" onclick="toggleFavorite(${card.id})">⭐</button>
+                                    <button class="card-action ${card.mastered ? 'active' : ''}" onclick="toggleMastered(${card.id})">✓</button>
+                                    <button class="card-action" onclick="openCardDetail(${card.id})">🔍</button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function formatText(text) {
+            return text
+                .replace(/\$([^$]+)\$/g, '<span style="color: var(--accent-cyan);">$1</span>')
+                .replace(/\\,/g, ' ')
+                .replace(/\\%/g, '%');
+        }
+
+        function renderCategoryLegend() {
+            const container = document.getElementById('category-legend');
+            const counts = {};
+            
+            flashcards.forEach(card => {
+                const cat = card.category || 'Autre';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
+            
+            container.innerHTML = Object.entries(categories).map(([name, data]) => `
+                <div class="legend-item" onclick="filterByCategory('${name}')">
+                    <span class="legend-color" style="background: ${data.color};"></span>
+                    <span>${name}</span>
+                    <span class="legend-count">${counts[name] || 0}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderThemeFilters() {
+            const container = document.getElementById('theme-filters');
+            container.innerHTML = Object.keys(categories).map(cat => `
+                <span class="filter-tag" onclick="filterByCategory('${cat}')">${cat}</span>
+            `).join('');
+        }
+
+        // ============== INTERACTIONS ==============
+        function toggleAnswer(id) {
+            const answer = document.getElementById(`answer-${id}`);
+            if (answer) {
+                answer.classList.toggle('visible');
+            }
+        }
+
+        function toggleFavorite(id) {
+            const card = flashcards.find(c => c.id === id);
+            if (card) {
+                card.favorite = !card.favorite;
+                renderCards();
+                updateStats();
+                saveData();
+                logActivity(`Carte #${id} ${card.favorite ? 'ajoutée aux' : 'retirée des'} favoris`);
+                addXP(5);
+            }
+        }
+
+        function toggleMastered(id) {
+            const card = flashcards.find(c => c.id === id);
+            if (card) {
+                card.mastered = !card.mastered;
+                renderCards();
+                updateStats();
+                saveData();
+                logActivity(`Carte #${id} marquée comme ${card.mastered ? 'maîtrisée' : 'à revoir'}`);
+                if (card.mastered) addXP(10);
+            }
+        }
+
+        function setView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            renderCards();
+        }
+
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.tab').forEach(t => {
+                t.classList.toggle('active', t.dataset.tab === tab);
+            });
+            
+            // Hide all panels
+            document.getElementById('cards-panel').style.display = 'none';
+            document.getElementById('detective-panel').style.display = 'none';
+            document.getElementById('quiz-panel').style.display = 'none';
+            document.getElementById('editor-panel').style.display = 'none';
+            document.getElementById('connections-panel').style.display = 'none';
+            
+            // Show selected panel
+            if (tab === 'cards') {
+                document.getElementById('cards-panel').style.display = 'block';
+            } else if (tab === 'detective') {
+                document.getElementById('detective-panel').style.display = 'block';
+                renderDetectiveMode();
+            } else if (tab === 'quiz') {
+                document.getElementById('quiz-panel').style.display = 'block';
+                initQuiz();
+            } else if (tab === 'editor') {
+                document.getElementById('editor-panel').style.display = 'block';
+            } else if (tab === 'connections') {
+                document.getElementById('connections-panel').style.display = 'block';
+                renderConnections();
+            }
+        }
+
+        // ============== SEARCH & FILTER ==============
+        function setupEventListeners() {
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                const query = e.target.value.toLowerCase();
+                if (query) {
+                    filteredCards = flashcards.filter(card => 
+                        card.question.toLowerCase().includes(query) ||
+                        card.answer.toLowerCase().includes(query)
+                    );
+                } else {
+                    filteredCards = [...flashcards];
+                }
+                renderCards();
+            });
+            
+            document.getElementById('sort-select').addEventListener('change', (e) => {
+                sortCards(e.target.value);
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                
+                if (e.key === 'q') switchTab('quiz');
+                if (e.key === 'd') switchTab('detective');
+                if (e.key === 'n') { switchTab('editor'); clearEditor(); }
+                if (e.key === ' ' && currentTab === 'quiz') { e.preventDefault(); quizReveal(); }
+                if (e.key === 'ArrowRight' && currentTab === 'quiz') quizNext();
+                if (e.key === 'ArrowLeft' && currentTab === 'quiz') quizPrev();
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    document.getElementById('search-input').focus();
+                }
+                if (e.ctrlKey && e.key === 'e') {
+                    e.preventDefault();
+                    exportData();
+                }
+            });
+            
+            // Drag and drop import
+            const dropZone = document.getElementById('drop-zone');
+            dropZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropZone.classList.add('dragover');
+            });
+            dropZone.addEventListener('dragleave', () => {
+                dropZone.classList.remove('dragover');
+            });
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropZone.classList.remove('dragover');
+                handleFileImport(e.dataTransfer.files[0]);
+            });
+            
+            document.getElementById('file-input').addEventListener('change', (e) => {
+                handleFileImport(e.target.files[0]);
+            });
+        }
+
+        function filterByStatus(status) {
+            currentFilter = status;
+            document.querySelectorAll('.filter-tag').forEach(tag => {
+                tag.classList.toggle('active', tag.dataset.filter === status);
+            });
+            
+            if (status === 'all') {
+                filteredCards = [...flashcards];
+            } else if (status === 'favorites') {
+                filteredCards = flashcards.filter(c => c.favorite);
+            } else if (status === 'mastered') {
+                filteredCards = flashcards.filter(c => c.mastered);
+            } else if (status === 'unmastered') {
+                filteredCards = flashcards.filter(c => !c.mastered);
+            }
+            
+            renderCards();
+            logActivity(`Filtre appliqué: ${status}`);
+        }
+
+        function filterByCategory(category) {
+            filteredCards = flashcards.filter(c => c.category === category);
+            renderCards();
+            logActivity(`Filtre catégorie: ${category}`);
+        }
+
+        function sortCards(by) {
+            if (by === 'id') {
+                filteredCards.sort((a, b) => a.id - b.id);
+            } else if (by === 'alpha' || by === 'question') {
+                filteredCards.sort((a, b) => a.question.localeCompare(b.question));
+            } else if (by === 'answer') {
+                filteredCards.sort((a, b) => a.answer.localeCompare(b.answer));
+            } else if (by === 'length') {
+                filteredCards.sort((a, b) => a.question.length - b.question.length);
+            } else if (by === 'random') {
+                filteredCards.sort(() => Math.random() - 0.5);
+            } else if (by === 'category') {
+                filteredCards.sort((a, b) => (a.category || '').localeCompare(b.category || ''));
+            }
+            renderCards();
+        }
+
+        // ============== DETECTIVE MODE ==============
+        function renderDetectiveMode() {
+            renderWordCloud();
+            renderNumbers();
+            renderTimeline();
+            renderEntities();
+            renderCategoryChart();
+            renderQuestionTypes();
+        }
+
+        function renderWordCloud() {
+            const container = document.getElementById('word-cloud');
+            const words = {};
+            const stopWords = ['de', 'la', 'le', 'les', 'du', 'des', 'un', 'une', 'et', 'en', 'pour', 'par', 'sur', 'au', 'aux', 'est', 'sont', 'que', 'qui', 'dans', 'ce', 'cette', 'avec', 'ou', 'il', 'elle', 'se', 'ne', 'pas', 'plus', 'son', 'sa', 'ses', 'leur', 'leurs', 'à', 'a', 'été', 'être', 'avoir', 'fait', 'faire', 'comme', 'si', 'mais', 'donc', 'car', 'ni', 'y', 'quel', 'quelle', 'quels', 'quelles', 'qu', 'l', 'd'];
+            
+            flashcards.forEach(card => {
+                const text = (card.question + ' ' + card.answer).toLowerCase();
+                const tokens = text.match(/[a-zàâäéèêëïîôùûüç]+/gi) || [];
+                tokens.forEach(word => {
+                    if (word.length > 3 && !stopWords.includes(word)) {
+                        words[word] = (words[word] || 0) + 1;
+                    }
+                });
+            });
+            
+            const sorted = Object.entries(words)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 30);
+            
+            const maxCount = sorted[0]?.[1] || 1;
+            
+            container.innerHTML = sorted.map(([word, count]) => {
+                const size = 0.7 + (count / maxCount) * 1;
+                return `<span class="word-item" style="font-size: ${size}rem;" onclick="searchWord('${word}')">${word}</span>`;
+            }).join('');
+        }
+
+        function searchWord(word) {
+            document.getElementById('search-input').value = word;
+            filteredCards = flashcards.filter(card => 
+                card.question.toLowerCase().includes(word) ||
+                card.answer.toLowerCase().includes(word)
+            );
+            switchTab('cards');
+            renderCards();
+        }
+
+        function renderNumbers() {
+            const container = document.getElementById('numbers-list');
+            const numbers = [];
+            
+            flashcards.forEach(card => {
+                const matches = (card.question + ' ' + card.answer).match(/\$?[\d\s,\.]+(?:\s*(?:milliards?|millions?|euros?|%|ans?|heures?))?\$?/gi) || [];
+                matches.forEach(match => {
+                    const clean = match.replace(/\$/g, '').trim();
+                    if (clean && clean.match(/\d/)) {
+                        numbers.push({
+                            value: clean,
+                            context: card.question.substring(0, 60) + '...',
+                            cardId: card.id
+                        });
+                    }
+                });
+            });
+            
+            container.innerHTML = numbers.slice(0, 25).map(n => `
+                <div style="padding: 8px; border-bottom: 1px solid var(--border-glow); cursor: pointer;" onclick="openCardDetail(${n.cardId})">
+                    <span style="color: var(--accent-cyan); font-weight: bold;">${n.value}</span>
+                    <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 3px;">${n.context}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimeline() {
+            const container = document.getElementById('timeline');
+            const years = {};
+            
+            flashcards.forEach(card => {
+                const matches = (card.question + ' ' + card.answer).match(/\b(19|20)\d{2}\b/g) || [];
+                matches.forEach(year => {
+                    if (!years[year]) years[year] = [];
+                    years[year].push(card);
+                });
+            });
+            
+            const sorted = Object.entries(years).sort((a, b) => a[0] - b[0]);
+            
+            container.innerHTML = sorted.map(([year, cards]) => `
+                <div class="timeline-item">
+                    <span class="timeline-year">${year}</span>
+                    <span style="font-size: 0.8rem;"> — ${cards.length} référence(s)</span>
+                    <div style="font-size: 0.75rem; opacity: 0.7; margin-top: 5px;">
+                        ${cards.slice(0, 2).map(c => c.question.substring(0, 50) + '...').join('<br>')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderEntities() {
+            const container = document.getElementById('entities-list');
+            const entities = {
+                'Organisations': ['NYXO', 'SDA', 'SPF', 'ARC', 'BIM', 'CSA', 'FMI', 'UE', 'PAC'],
+                'Personnes': ['Bart De Wever', 'Tim Berners-Lee', 'Kate Raworth', 'Abbé Froidure'],
+                'Lieux': ['Belgique', 'Auderghem', 'Mons', 'Bruxelles'],
+                'Partis': ['N-VA', 'MR', 'Les Engagés', 'Vooruit', 'CD&V', 'PS', 'Ecolo', 'PTB']
+            };
+            
+            container.innerHTML = Object.entries(entities).map(([type, list]) => `
+                <div style="margin-bottom: 15px;">
+                    <h4 style="color: var(--accent-cyan); margin-bottom: 8px; font-size: 0.85rem;">${type}</h4>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                        ${list.map(e => `<span class="tag" onclick="searchWord('${e}')">${e}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderCategoryChart() {
+            const container = document.getElementById('category-chart');
+            const counts = {};
+            
+            flashcards.forEach(card => {
+                const cat = card.category || 'Autre';
+                counts[cat] = (counts[cat] || 0) + 1;
+            });
+            
+            const max = Math.max(...Object.values(counts));
+            
+            container.innerHTML = Object.entries(counts).map(([cat, count]) => `
+                <div class="chart-bar" style="height: ${(count / max) * 180}px; background: ${categories[cat]?.color || 'var(--matrix-green)'};">
+                    <div class="tooltip">${cat}: ${count}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderQuestionTypes() {
+            const container = document.getElementById('question-types');
+            const types = {
+                'Qu\'est-ce que': 0,
+                'Quel/Quelle': 0,
+                'Comment': 0,
+                'Pourquoi': 0,
+                'Qui': 0,
+                'Combien': 0,
+                'Où': 0,
+                'Autre': 0
+            };
+            
+            flashcards.forEach(card => {
+                const q = card.question.toLowerCase();
+                if (q.startsWith('qu\'est-ce que') || q.startsWith('que signifie')) types['Qu\'est-ce que']++;
+                else if (q.match(/^quell?e?s?\b/)) types['Quel/Quelle']++;
+                else if (q.startsWith('comment')) types['Comment']++;
+                else if (q.startsWith('pourquoi')) types['Pourquoi']++;
+                else if (q.startsWith('qui')) types['Qui']++;
+                else if (q.startsWith('combien')) types['Combien']++;
+                else if (q.startsWith('où')) types['Où']++;
+                else types['Autre']++;
+            });
+            
+            container.innerHTML = Object.entries(types)
+                .filter(([_, count]) => count > 0)
+                .map(([type, count]) => `
+                    <div style="display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--border-glow);">
+                        <span>${type}</span>
+                        <span style="color: var(--accent-cyan);">${count}</span>
+                    </div>
+                `).join('');
+        }
+
+        // ============== CONNECTIONS ==============
+        function renderConnections() {
+            const canvas = document.getElementById('connections-canvas');
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = 250;
+            
+            const ctx = canvas.getContext('2d');
+            
+            // Draw simple network visualization
+            const nodes = Object.keys(categories).map((cat, i) => ({
+                name: cat,
+                x: 50 + (i % 3) * 150,
+                y: 50 + Math.floor(i / 3) * 100,
+                color: categories[cat].color
+            }));
+            
+            // Draw connections
+            ctx.strokeStyle = 'rgba(0, 255, 65, 0.2)';
+            ctx.lineWidth = 1;
+            nodes.forEach((node, i) => {
+                nodes.forEach((other, j) => {
+                    if (i < j && Math.random() > 0.5) {
+                        ctx.beginPath();
+                        ctx.moveTo(node.x, node.y);
+                        ctx.lineTo(other.x, other.y);
+                        ctx.stroke();
+                    }
+                });
+            });
+            
+            // Draw nodes
+            nodes.forEach(node => {
+                ctx.fillStyle = node.color;
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 20, 0, Math.PI * 2);
+                ctx.fill();
+                
+                ctx.fillStyle = '#000';
+                ctx.font = '10px Share Tech Mono';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.name.substring(0, 6), node.x, node.y + 4);
+            });
+            
+            // Related concepts
+            renderRelatedConcepts();
+            renderTermFrequency();
+        }
+
+        function renderRelatedConcepts() {
+            const container = document.getElementById('related-concepts');
+            const concepts = [
+                { name: 'ECP ↔ Arizona', strength: 'Fort' },
+                { name: 'Fiscal ↔ Social', strength: 'Moyen' },
+                { name: 'Tech ↔ ECP', strength: 'Fort' },
+                { name: 'Dates ↔ Arizona', strength: 'Fort' },
+                { name: 'Social ↔ ECP', strength: 'Fort' }
+            ];
+            
+            container.innerHTML = concepts.map(c => `
+                <div style="padding: 8px; border-bottom: 1px solid var(--border-glow);">
+                    <span>${c.name}</span>
+                    <span style="float: right; color: ${c.strength === 'Fort' ? 'var(--success)' : 'var(--accent-orange)'};">${c.strength}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderTermFrequency() {
+            const container = document.getElementById('term-frequency');
+            const terms = [
+                { term: 'ECP', count: 25 },
+                { term: 'Arizona', count: 15 },
+                { term: 'fiscal', count: 18 },
+                { term: 'euros', count: 22 },
+                { term: 'citoyen', count: 12 }
+            ];
+            
+            const max = Math.max(...terms.map(t => t.count));
+            
+            container.innerHTML = terms.map(t => `
+                <div style="margin-bottom: 10px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                        <span>${t.term}</span>
+                        <span style="color: var(--accent-cyan);">${t.count}</span>
+                    </div>
+                    <div style="background: rgba(0,0,0,0.3); height: 6px; border-radius: 3px;">
+                        <div style="background: var(--matrix-green); height: 100%; width: ${(t.count/max)*100}%; border-radius: 3px;"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ============== QUIZ MODE ==============
+        function initQuiz() {
+            quizCards = [...filteredCards].sort(() => Math.random() - 0.5);
+            quizIndex = 0;
+            quizCorrect = 0;
+            quizIncorrect = 0;
+            updateQuizDisplay();
+        }
+
+        function updateQuizDisplay() {
+            if (quizCards.length === 0) {
+                document.getElementById('quiz-question').textContent = 'Aucune carte à afficher';
+                return;
+            }
+            
+            const card = quizCards[quizIndex];
+            document.getElementById('quiz-current').textContent = quizIndex + 1;
+            document.getElementById('quiz-total').textContent = quizCards.length;
+            document.getElementById('quiz-question').innerHTML = formatText(card.question);
+            document.getElementById('quiz-answer').innerHTML = formatText(card.answer);
+            document.getElementById('quiz-answer').classList.remove('visible');
+            document.getElementById('quiz-category').textContent = card.category || '-';
+            document.getElementById('quiz-correct').textContent = quizCorrect;
+            document.getElementById('quiz-incorrect').textContent = quizIncorrect;
+        }
+
+        function quizReveal() {
+            document.getElementById('quiz-answer').classList.add('visible');
+        }
+
+        function quizNext() {
+            if (quizIndex < quizCards.length - 1) {
+                quizIndex++;
+                updateQuizDisplay();
+            }
+        }
+
+        function quizPrev() {
+            if (quizIndex > 0) {
+                quizIndex--;
+                updateQuizDisplay();
+            }
+        }
+
+        function quizMark(correct) {
+            if (correct) {
+                quizCorrect++;
+                addXP(15);
+            } else {
+                quizIncorrect++;
+            }
+            quizNext();
+        }
+
+        function shuffleQuiz() {
+            quizCards.sort(() => Math.random() - 0.5);
+            quizIndex = 0;
+            updateQuizDisplay();
+            logActivity('Quiz mélangé');
+        }
+
+        function resetQuiz() {
+            quizCorrect = 0;
+            quizIncorrect = 0;
+            quizIndex = 0;
+            updateQuizDisplay();
+            logActivity('Quiz réinitialisé');
+        }
+
+        function quizFavoritesOnly() {
+            quizCards = flashcards.filter(c => c.favorite).sort(() => Math.random() - 0.5);
+            quizIndex = 0;
+            quizCorrect = 0;
+            quizIncorrect = 0;
+            updateQuizDisplay();
+            logActivity('Quiz: favoris seulement');
+        }
+
+        // ============== EDITOR ==============
+        function saveCard() {
+            const question = document.getElementById('editor-question').value.trim();
+            const answer = document.getElementById('editor-answer').value.trim();
+            const tagsInput = document.getElementById('editor-tags').value.trim();
+            
+            if (!question || !answer) {
+                alert('Veuillez remplir la question et la réponse');
+                return;
+            }
+            
+            const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()) : [];
+            
+            if (editingCardId) {
+                // Update existing
+                const card = flashcards.find(c => c.id === editingCardId);
+                if (card) {
+                    card.question = question;
+                    card.answer = answer;
+                    card.tags = tags;
+                    categorizeCard(card);
+                }
+                logActivity(`Carte #${editingCardId} modifiée`);
+            } else {
+                // Create new
+                const newCard = {
+                    id: flashcards.length + 1,
+                    question,
+                    answer,
+                    tags,
+                    favorite: false,
+                    mastered: false,
+                    category: null
+                };
+                categorizeCard(newCard);
+                flashcards.push(newCard);
+                logActivity(`Nouvelle carte #${newCard.id} créée`);
+                addXP(20);
+            }
+            
+            filteredCards = [...flashcards];
+            renderCards();
+            clearEditor();
+            saveData();
+        }
+
+        function clearEditor() {
+            document.getElementById('editor-question').value = '';
+            document.getElementById('editor-answer').value = '';
+            document.getElementById('editor-tags').value = '';
+            editingCardId = null;
+        }
+
+        function bulkImport() {
+            const text = document.getElementById('bulk-editor').value.trim();
+            if (!text) return;
+            
+            const newCards = parseCSV(text);
+            let count = 0;
+            
+            newCards.forEach(card => {
+                card.id = flashcards.length + count + 1;
+                categorizeCard(card);
+                flashcards.push(card);
+                count++;
+            });
+            
+            filteredCards = [...flashcards];
+            renderCards();
+            updateStats();
+            saveData();
+            document.getElementById('bulk-editor').value = '';
+            logActivity(`${count} cartes importées`);
+            addXP(count * 5);
+        }
+
+        // ============== CARD DETAIL ==============
+        function openCardDetail(id) {
+            const card = flashcards.find(c => c.id === id);
+            if (!card) return;
+            
+            document.getElementById('detail-card-id').textContent = id;
+            document.getElementById('detail-question').innerHTML = formatText(card.question);
+            document.getElementById('detail-answer').innerHTML = formatText(card.answer);
+            document.getElementById('detail-tags').innerHTML = card.tags.map(t => `<span class="tag">${t}</span>`).join('');
+            
+            editingCardId = id;
+            openModal('card-detail');
+        }
+
+        function editCardFromDetail() {
+            const card = flashcards.find(c => c.id === editingCardId);
+            if (!card) return;
+            
+            document.getElementById('editor-question').value = card.question;
+            document.getElementById('editor-answer').value = card.answer;
+            document.getElementById('editor-tags').value = card.tags.join(', ');
+            
+            closeModal('card-detail');
+            switchTab('editor');
+        }
+
+        function deleteCardFromDetail() {
+            if (confirm('Supprimer cette carte ?')) {
+                flashcards = flashcards.filter(c => c.id !== editingCardId);
+                filteredCards = [...flashcards];
+                renderCards();
+                closeModal('card-detail');
+                saveData();
+                logActivity(`Carte #${editingCardId} supprimée`);
+            }
+        }
+
+        // ============== IMPORT / EXPORT ==============
+        function handleFileImport(file) {
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const content = e.target.result;
+                
+                if (file.name.endsWith('.json')) {
+                    try {
+                        const data = JSON.parse(content);
+                        data.forEach((item, i) => {
+                            const card = {
+                                id: flashcards.length + i + 1,
+                                question: item.question || item.q,
+                                answer: item.answer || item.a,
+                                tags: item.tags || [],
+                                favorite: false,
+                                mastered: false
+                            };
+                            categorizeCard(card);
+                            flashcards.push(card);
+                        });
+                    } catch (err) {
+                        alert('Erreur de parsing JSON');
+                        return;
+                    }
+                } else {
+                    const newCards = parseCSV(content);
+                    newCards.forEach((card, i) => {
+                        card.id = flashcards.length + i + 1;
+                        categorizeCard(card);
+                        flashcards.push(card);
+                    });
+                }
+                
+                filteredCards = [...flashcards];
+                renderCards();
+                updateStats();
+                saveData();
+                closeModal('import');
+                logActivity(`Fichier ${file.name} importé`);
+            };
+            reader.readAsText(file);
+        }
+
+        function exportData(format = 'csv') {
+            let content, filename, type;
+            
+            if (format === 'csv') {
+                content = flashcards.map(c => `"${c.question.replace(/"/g, '""')}","${c.answer.replace(/"/g, '""')}"`).join('\n');
+                filename = 'flashcards_export.csv';
+                type = 'text/csv';
+            } else if (format === 'json') {
+                content = JSON.stringify(flashcards, null, 2);
+                filename = 'flashcards_export.json';
+                type = 'application/json';
+            } else if (format === 'anki') {
+                content = flashcards.map(c => `${c.question}\t${c.answer}`).join('\n');
+                filename = 'flashcards_anki.txt';
+                type = 'text/plain';
+            } else {
+                // PDF - simple text version
+                content = flashcards.map(c => `Q: ${c.question}\nA: ${c.answer}\n---`).join('\n\n');
+                filename = 'flashcards_export.txt';
+                type = 'text/plain';
+            }
+            
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            logActivity(`Export ${format.toUpperCase()} effectué`);
+        }
+
+        // ============== SETTINGS ==============
+        function toggleSetting(setting) {
+            settings[setting] = !settings[setting];
+            document.getElementById(`toggle-${setting}`).classList.toggle('active', settings[setting]);
+            
+            if (setting === 'scanlines') {
+                document.body.classList.toggle('scanlines', settings.scanlines);
+            }
+            if (setting === 'answers') {
+                renderCards();
+            }
+            
+            saveData();
+        }
+
+        function setAccentColor(color) {
+            settings.accentColor = color;
+            document.documentElement.style.setProperty('--matrix-green', color);
+            document.querySelectorAll('.color-option').forEach(opt => {
+                opt.classList.toggle('active', opt.style.background === color);
+            });
+            saveData();
+        }
+
+        function updatePomodoroDuration() {
+            const value = document.getElementById('pomodoro-duration').value;
+            settings.pomodoroDuration = parseInt(value);
+            document.getElementById('pomodoro-value').textContent = value + ' min';
+            pomodoroTime = value * 60;
+            updateTimerDisplay();
+            saveData();
+        }
+
+        // ============== TIMER ==============
+        function startTimer() {
+            if (pomodoroRunning) return;
+            pomodoroRunning = true;
+            timerInterval = setInterval(() => {
+                if (pomodoroTime > 0) {
+                    pomodoroTime--;
+                    updateTimerDisplay();
+                } else {
+                    pauseTimer();
+                    alert('⏰ Temps écoulé !');
+                    addXP(25);
+                    logActivity('Pomodoro complété!');
+                }
+            }, 1000);
+            logActivity('Timer démarré');
+        }
+
+        function pauseTimer() {
+            pomodoroRunning = false;
+            clearInterval(timerInterval);
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            pomodoroTime = settings.pomodoroDuration * 60;
+            updateTimerDisplay();
+        }
+
+        function setTimer(minutes) {
+            pauseTimer();
+            pomodoroTime = minutes * 60;
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(pomodoroTime / 60);
+            const seconds = pomodoroTime % 60;
+            document.getElementById('pomodoro-time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // ============== PROFILE & XP ==============
+        function addXP(amount) {
+            userProfile.xp += amount;
+            const xpNeeded = userProfile.level * 100;
+            
+            if (userProfile.xp >= xpNeeded) {
+                userProfile.level++;
+                userProfile.xp -= xpNeeded;
+                logActivity(`🎉 Niveau ${userProfile.level} atteint!`);
+            }
+            
+            updateProfileDisplay();
+            saveData();
+        }
+
+        function updateProfileDisplay() {
+            document.getElementById('user-name').textContent = userProfile.name;
+            document.getElementById('user-title').textContent = userProfile.title;
+            document.getElementById('user-avatar').textContent = userProfile.avatar;
+            document.getElementById('user-level').textContent = userProfile.level;
+            document.getElementById('user-xp').textContent = userProfile.xp;
+            document.getElementById('xp-needed').textContent = userProfile.level * 100;
+            document.getElementById('xp-fill').style.width = `${(userProfile.xp / (userProfile.level * 100)) * 100}%`;
+        }
+
+        function setAvatar(emoji) {
+            userProfile.avatar = emoji;
+            document.getElementById('user-avatar').textContent = emoji;
+        }
+
+        function saveProfile() {
+            userProfile.name = document.getElementById('profile-name-input').value || 'Agent_Inconnu';
+            userProfile.title = document.getElementById('profile-title-select').value;
+            updateProfileDisplay();
+            closeModal('profile');
+            saveData();
+            logActivity('Profil mis à jour');
+        }
+
+        function saveNotes() {
+            userProfile.notes = document.getElementById('user-notes').value;
+            saveData();
+            logActivity('Notes sauvegardées');
+        }
+
+        // ============== STATS ==============
+        function updateStats() {
+            document.getElementById('total-cards').textContent = flashcards.length;
+            document.getElementById('mastered-count').textContent = flashcards.filter(c => c.mastered).length;
+            document.getElementById('favorites-count').textContent = flashcards.filter(c => c.favorite).length;
+            
+            // Category stats
+            const ecpCount = flashcards.filter(c => c.category === 'ECP').length;
+            const arizonaCount = flashcards.filter(c => c.category === 'Arizona').length;
+            const fiscalCount = flashcards.filter(c => c.category === 'Fiscal').length;
+            const techCount = flashcards.filter(c => c.category === 'Tech').length;
+            
+            document.getElementById('stat-ecp').textContent = ecpCount;
+            document.getElementById('stat-arizona').textContent = arizonaCount;
+            document.getElementById('stat-fiscal').textContent = fiscalCount;
+            document.getElementById('stat-tech').textContent = techCount;
+        }
+
+        function updateSessionTime() {
+            const elapsed = Math.floor((Date.now() - sessionStartTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('session-time').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // ============== ACTIVITY LOG ==============
+        function logActivity(message) {
+            const log = document.getElementById('activity-log');
+            const time = new Date().toLocaleTimeString();
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.innerHTML = `<span class="log-time">${time}</span><br>${message}`;
+            log.insertBefore(entry, log.firstChild);
+            
+            // Keep only last 20 entries
+            while (log.children.length > 20) {
+                log.removeChild(log.lastChild);
+            }
+        }
+
+        // ============== MODALS ==============
+        function openModal(name) {
+            document.getElementById(`modal-${name}`).classList.add('active');
+            
+            if (name === 'profile') {
+                document.getElementById('profile-name-input').value = userProfile.name;
+                document.getElementById('profile-title-select').value = userProfile.title;
+            }
+        }
+
+        function closeModal(name) {
+            document.getElementById(`modal-${name}`).classList.remove('active');
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                }
+            });
+        });
+
+        // ============== PANELS ==============
+        function togglePanel(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('collapsed');
+            const arrow = header.querySelector('span:last-child');
+            arrow.textContent = content.classList.contains('collapsed') ? '▶' : '▼';
+        }
+
+        function toggleMobilePanel(side) {
+            document.getElementById(`sidebar-${side}`).classList.toggle('mobile-open');
+        }
+
+        // ============== PERSISTENCE ==============
+        function saveData() {
+            const data = {
+                flashcards: flashcards.map(c => ({
+                    ...c,
+                    favorite: c.favorite,
+                    mastered: c.mastered,
+                    tags: c.tags
+                })),
+                userProfile,
+                settings
+            };
+            localStorage.setItem('nexus-ecp-data', JSON.stringify(data));
+        }
+
+        function loadSavedData() {
+            const saved = localStorage.getItem('nexus-ecp-data');
+            if (saved) {
+                try {
+                    const data = JSON.parse(saved);
+                    
+                    // Merge saved card states
+                    if (data.flashcards) {
+                        data.flashcards.forEach(saved => {
+                            const card = flashcards.find(c => c.id === saved.id);
+                            if (card) {
+                                card.favorite = saved.favorite;
+                                card.mastered = saved.mastered;
+                                card.tags = saved.tags || [];
+                            }
+                        });
+                    }
+                    
+                    // Load profile
+                    if (data.userProfile) {
+                        userProfile = { ...userProfile, ...data.userProfile };
+                    }
+                    
+                    // Load settings
+                    if (data.settings) {
+                        settings = { ...settings, ...data.settings };
+                    }
+                    
+                    updateProfileDisplay();
+                    
+                    // Apply settings
+                    if (!settings.scanlines) document.body.classList.remove('scanlines');
+                    if (settings.accentColor !== '#00ff41') {
+                        setAccentColor(settings.accentColor);
+                    }
+                    
+                } catch (e) {
+                    console.error('Error loading saved data:', e);
+                }
+            }
+            
+            // Load notes
+            document.getElementById('user-notes').value = userProfile.notes || '';
+        }
+
+        // ============== INIT ==============
+        init();
+    </script>
+</body>
+</html>
