@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#B!Mi — Le réseau des Bénéficiaires de l'Intervention Majorée en action</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bimi-red: #b91c1c;
+            --bimi-dark: #1a1a2e;
+            --bimi-accent: #fbbf24;
+            --micro: #10b981;
+            --meso: #3b82f6;
+            --macro: #8b5cf6;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+        
+        /* Header */
+        header {
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        
+        .logo {
+            font-size: 28px;
+            font-weight: 900;
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-hash {
+            color: var(--bimi-accent);
+        }
+        
+        .logo-b {
+            color: var(--bimi-red);
+        }
+        
+        .logo-exclaim {
+            color: var(--bimi-accent);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .tagline {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+        
+        nav a {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover {
+            color: var(--bimi-accent);
+        }
+        
+        /* Main content */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+        
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 48px 24px;
+            background: linear-gradient(135deg, rgba(185,28,28,0.2), rgba(139,92,246,0.2));
+            border-radius: 16px;
+            margin-bottom: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .hero h1 {
+            font-size: 36px;
+            margin-bottom: 16px;
+            background: linear-gradient(90deg, var(--bimi-accent), var(--bimi-red), var(--macro));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero p {
+            font-size: 18px;
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 24px;
+        }
+        
+        .level-legend {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+        
+        .level-badge {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 24px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .level-micro {
+            background: rgba(16,185,129,0.2);
+            border: 1px solid var(--micro);
+            color: var(--micro);
+        }
+        
+        .level-meso {
+            background: rgba(59,130,246,0.2);
+            border: 1px solid var(--meso);
+            color: var(--meso);
+        }
+        
+        .level-macro {
+            background: rgba(139,92,246,0.2);
+            border: 1px solid var(--macro);
+            color: var(--macro);
+        }
+        
+        /* Task Force Grid */
+        .task-force-title {
+            text-align: center;
+            margin: 48px 0 32px;
+        }
+        
+        .task-force-title h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+        
+        .task-force-title p {
+            opacity: 0.6;
+        }
+        
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+            gap: 24px;
+        }
+        
+        @media (max-width: 500px) {
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Profile Card */
+        .profile-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .profile-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+        }
+        
+        .profile-header {
+            padding: 24px;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            flex-shrink: 0;
+            border: 3px solid rgba(255,255,255,0.2);
+        }
+        
+        .profile-info {
+            flex: 1;
+        }
+        
+        .profile-name {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .profile-handle {
+            font-size: 14px;
+            color: var(--bimi-accent);
+            margin-bottom: 8px;
+        }
+        
+        .profile-bio {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        
+        .profile-level {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .profile-body {
+            padding: 24px;
+        }
+        
+        .profile-section {
+            margin-bottom: 20px;
+        }
+        
+        .profile-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .profile-section h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: rgba(255,255,255,0.5);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .skill-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+        }
+        
+        .situation-box {
+            background: rgba(185,28,28,0.15);
+            border: 1px solid rgba(185,28,28,0.3);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+        
+        .mission-text {
+            font-size: 14px;
+            font-style: italic;
+            opacity: 0.9;
+            padding-left: 16px;
+            border-left: 3px solid var(--bimi-accent);
+        }
+        
+        /* Associations */
+        .associations-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .association-item {
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 16px;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: background 0.2s;
+        }
+        
+        .association-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .association-name {
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 4px;
+            color: var(--bimi-accent);
+        }
+        
+        .association-type {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.5;
+            margin-bottom: 8px;
+        }
+        
+        .association-why {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .association-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-size: 12px;
+            color: var(--meso);
+            text-decoration: none;
+        }
+        
+        .association-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Strategy Section */
+        .strategy-section {
+            margin-top: 48px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .strategy-section h2 {
+            text-align: center;
+            margin-bottom: 32px;
+            font-size: 24px;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        @media (max-width: 900px) {
+            .strategy-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .strategy-card {
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        
+        .strategy-card.micro {
+            background: rgba(16,185,129,0.1);
+            border: 1px solid var(--micro);
+        }
+        
+        .strategy-card.meso {
+            background: rgba(59,130,246,0.1);
+            border: 1px solid var(--meso);
+        }
+        
+        .strategy-card.macro {
+            background: rgba(139,92,246,0.1);
+            border: 1px solid var(--macro);
+        }
+        
+        .strategy-card h3 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+        
+        .strategy-card ul {
+            text-align: left;
+            font-size: 14px;
+            list-style: none;
+        }
+        
+        .strategy-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .strategy-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .strategy-card li::before {
+            content: "→ ";
+            opacity: 0.5;
+        }
+        
+        /* Manifesto */
+        .manifesto {
+            margin-top: 48px;
+            text-align: center;
+            padding: 48px 24px;
+            background: linear-gradient(135deg, rgba(185,28,28,0.3), rgba(0,0,0,0.5));
+            border-radius: 16px;
+            border: 1px solid var(--bimi-red);
+        }
+        
+        .manifesto h2 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        
+        .manifesto blockquote {
+            font-size: 20px;
+            font-style: italic;
+            max-width: 600px;
+            margin: 0 auto 24px;
+            opacity: 0.9;
+        }
+        
+        .manifesto p {
+            font-size: 14px;
+            opacity: 0.7;
+        }
+        
+        /* Resources sidebar */
+        .resources-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 280px;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+        }
+        
+        .resources-float h4 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .resources-float a {
+            display: block;
+            color: var(--bimi-accent);
+            text-decoration: none;
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .resources-float a:last-child {
+            border-bottom: none;
+        }
+        
+        .resources-float a:hover {
+            color: white;
+        }
+        
+        .close-resources {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.5;
+        }
+        
+        .close-resources:hover {
+            opacity: 1;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 64px;
+            padding: 32px 24px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        footer p {
+            font-size: 14px;
+            opacity: 0.5;
+            margin-bottom: 8px;
+        }
+        
+        footer .license {
+            display: inline-block;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .profile-card {
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        .profile-card:nth-child(2) { animation-delay: 0.1s; }
+        .profile-card:nth-child(3) { animation-delay: 0.2s; }
+        .profile-card:nth-child(4) { animation-delay: 0.3s; }
+        .profile-card:nth-child(5) { animation-delay: 0.4s; }
+        .profile-card:nth-child(6) { animation-delay: 0.5s; }
+        .profile-card:nth-child(7) { animation-delay: 0.6s; }
+        .profile-card:nth-child(8) { animation-delay: 0.7s; }
+        .profile-card:nth-child(9) { animation-delay: 0.8s; }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div>
+                <a href="#" class="logo">
+                    <span class="logo-hash">#</span><span class="logo-b">B</span><span class="logo-exclaim">!</span>Mi
+                </a>
+                <p class="tagline">Bénéficiaires de l'Intervention Majorée en Insurrection</p>
+            </div>
+            <nav>
+                <a href="#task-force">La Task Force</a>
+                <a href="#strategy">Stratégie</a>
+                <a href="#manifesto">Manifeste</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <h1>🔥 Guérilla Cognitive Activée 🔥</h1>
+            <p>9 bénéficiaires BIM. 3 niveaux d'action. 27 associations à infiltrer. Une mission : prouver qu'on existe et qu'on en a à revendre.</p>
+            
+            <div class="level-legend">
+                <span class="level-badge level-micro">🎯 MICRO — Terrain & Proximité</span>
+                <span class="level-badge level-meso">🔗 MÉSO — Réseaux & Communautés</span>
+                <span class="level-badge level-macro">🏛️ MACRO — Institutions & Politique</span>
+            </div>
+        </section>
+
+        <!-- Task Force -->
+        <section id="task-force">
+            <div class="task-force-title">
+                <h2>👊 LA TASK FORCE #B!Mi</h2>
+                <p>Cliquez sur un profil pour voir ses missions et associations cibles</p>
+            </div>
+
+            <div class="profiles-grid">
+                
+                <!-- PROFIL 1 — MICRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--micro), #065f46);">🦊</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Renard Silencieux
+                                <span class="profile-level level-micro">MICRO</span>
+                            </h3>
+                            <p class="profile-handle">@fox_in_the_shadows</p>
+                            <p class="profile-bio">Ex-travailleur social cramé. Connaît le système de l'intérieur. Spécialiste de l'accompagnement pair-à-pair.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Burn-out professionnel → invalidité → BIM depuis 3 ans. Expertise en écoute active et orientation sociale.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Écoute active</span>
+                                <span class="skill-tag">Connaissance CPAS</span>
+                                <span class="skill-tag">Rédaction administrative</span>
+                                <span class="skill-tag">Médiation</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Créer des ponts entre précaires. Traduire le jargon administratif. Être le·a pote qu'on aurait aimé avoir quand on a coulé."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Lire et Écrire Bruxelles</p>
+                                    <p class="association-type">Alphabétisation / Éducation permanente</p>
+                                    <p class="association-why">Pour créer des outils d'aide administrative simplifiés, accessibles à tous niveaux de lecture.</p>
+                                    <a href="https://www.lire-et-ecrire.be/bruxelles" target="_blank" class="association-link">→ lire-et-ecrire.be/bruxelles</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Collectif Solidarité Contre l'Exclusion (CSCE)</p>
+                                    <p class="association-type">Défense des droits / Accompagnement</p>
+                                    <p class="association-why">Pour rejoindre leurs permanences sociales et apporter l'expertise terrain.</p>
+                                    <a href="https://www.asbl-csce.be" target="_blank" class="association-link">→ asbl-csce.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Droits Quotidiens</p>
+                                    <p class="association-type">Information juridique accessible</p>
+                                    <p class="association-why">Pour contribuer à la vulgarisation des droits sociaux en langage clair.</p>
+                                    <a href="https://www.droitsquotidiens.be" target="_blank" class="association-link">→ droitsquotidiens.be</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 2 — MICRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--micro), #047857);">🌱</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Racine Tenace
+                                <span class="profile-level level-micro">MICRO</span>
+                            </h3>
+                            <p class="profile-handle">@root_access_denied</p>
+                            <p class="profile-bio">Mère solo, fibromyalgie. Experte en survie quotidienne et en bidouillages administratifs impossibles.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Handicap invisible + charge familiale. BIM automatique via allocation handicap. Énergie par intermittence.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Organisation domestique</span>
+                                <span class="skill-tag">Budget serré</span>
+                                <span class="skill-tag">Parentalité solo</span>
+                                <span class="skill-tag">Couture / Récup</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Partager les trucs et astuces de survie. Parce que la débrouille, c'est une compétence qu'on n'enseigne nulle part."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Vie Féminine</p>
+                                    <p class="association-type">Mouvement féministe / Éducation permanente</p>
+                                    <p class="association-why">Pour animer des ateliers d'entraide entre femmes en situation précaire.</p>
+                                    <a href="https://www.viefeminine.be" target="_blank" class="association-link">→ viefeminine.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Repair Café Belgique</p>
+                                    <p class="association-type">Économie circulaire / Lien social</p>
+                                    <p class="association-why">Pour transmettre les savoirs de réparation et créer du lien local.</p>
+                                    <a href="https://www.intradel.be/repair-cafe" target="_blank" class="association-link">→ repaircafe.org/fr</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Touche pas à mes Allocs</p>
+                                    <p class="association-type">Défense des allocataires</p>
+                                    <p class="association-why">Pour documenter les galères concrètes et nourrir le plaidoyer.</p>
+                                    <a href="https://www.facebook.com/TouchePasAMesAllocs" target="_blank" class="association-link">→ Facebook: Touche pas à mes Allocs</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 3 — MICRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--micro), #059669);">🎸</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Bruit Blanc
+                                <span class="profile-level level-micro">MICRO</span>
+                            </h3>
+                            <p class="profile-handle">@static_but_alive</p>
+                            <p class="profile-bio">Artiste intermittent tombé du statut. Troubles anxieux. Transforme la galère en création.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Ex-artiste → chômage → RIS → BIM revenus. Créativité intacte mais cadre administratif kafkaïen.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Musique / Son</span>
+                                <span class="skill-tag">Graphisme</span>
+                                <span class="skill-tag">Animation d'ateliers</span>
+                                <span class="skill-tag">Expression créative</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Utiliser l'art pour exprimer ce qu'on n'arrive pas à dire. Créer des espaces où la précarité devient matière, pas honte."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Article 27</p>
+                                    <p class="association-type">Accès à la culture</p>
+                                    <p class="association-why">Pour proposer des ateliers de création par et pour les personnes précarisées.</p>
+                                    <a href="https://www.article27.be" target="_blank" class="association-link">→ article27.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Culture & Démocratie</p>
+                                    <p class="association-type">Réflexion / Éducation permanente</p>
+                                    <p class="association-why">Pour documenter et valoriser les pratiques artistiques en milieu précaire.</p>
+                                    <a href="https://www.cultureetdemocratie.be" target="_blank" class="association-link">→ cultureetdemocratie.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Zinneke</p>
+                                    <p class="association-type">Arts urbains / Inclusion</p>
+                                    <p class="association-why">Pour intégrer des créations collectives avec des publics mixtes.</p>
+                                    <a href="https://www.zinneke.org" target="_blank" class="association-link">→ zinneke.org</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 4 — MÉSO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--meso), #1d4ed8);">🕸️</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Tisseuse de Liens
+                                <span class="profile-level level-meso">MÉSO</span>
+                            </h3>
+                            <p class="profile-handle">@web_weaver_404</p>
+                            <p class="profile-bio">Ex-community manager. Dépression chronique. Capable de créer des réseaux depuis son lit.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Incapacité de travail longue durée. BIM via mutuelle. Énergie fluctuante mais cerveau toujours connecté.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Réseaux sociaux</span>
+                                <span class="skill-tag">Rédaction web</span>
+                                <span class="skill-tag">Community building</span>
+                                <span class="skill-tag">Veille informationnelle</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Connecter les initiatives isolées. Faire circuler l'information entre les bulles. Créer du collectif à distance."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Plateforme Francophone du Volontariat</p>
+                                    <p class="association-type">Coordination / Ressources</p>
+                                    <p class="association-why">Pour documenter les freins au bénévolat des personnes précarisées et proposer des solutions.</p>
+                                    <a href="https://www.levolontariat.be" target="_blank" class="association-link">→ levolontariat.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">SAW-B (Solidarité des Alternatives Wallonnes et Bruxelloises)</p>
+                                    <p class="association-type">Économie sociale</p>
+                                    <p class="association-why">Pour explorer les modèles d'économie sociale compatibles avec la précarité.</p>
+                                    <a href="https://www.saw-b.be" target="_blank" class="association-link">→ saw-b.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Réseau Wallon de Lutte contre la Pauvreté (RWLP)</p>
+                                    <p class="association-type">Coordination / Plaidoyer</p>
+                                    <p class="association-why">Pour relayer les témoignages et participer aux campagnes de sensibilisation.</p>
+                                    <a href="https://www.rwlp.be" target="_blank" class="association-link">→ rwlp.be</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 5 — MÉSO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--meso), #2563eb);">📚</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Archiviste Pirate
+                                <span class="profile-level level-meso">MÉSO</span>
+                            </h3>
+                            <p class="profile-handle">@memory_leaks</p>
+                            <p class="profile-bio">Ancien documentaliste. Troubles cognitifs post-COVID. Obsédé par la préservation des savoirs militants.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">COVID long → incapacité partielle → BIM. Mémoire à court terme défaillante mais passion intacte pour l'archivage.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Documentation</span>
+                                <span class="skill-tag">Recherche</span>
+                                <span class="skill-tag">Classification</span>
+                                <span class="skill-tag">Fact-checking</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Collecter et organiser les ressources. Créer une mémoire collective des luttes. Pour qu'on n'ait pas à tout réinventer à chaque génération."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">CARHOP (Centre d'Animation et de Recherche en Histoire Ouvrière et Populaire)</p>
+                                    <p class="association-type">Archives / Éducation permanente</p>
+                                    <p class="association-why">Pour documenter l'histoire contemporaine de la précarité et des luttes.</p>
+                                    <a href="https://www.carhop.be" target="_blank" class="association-link">→ carhop.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Barricade (Liège)</p>
+                                    <p class="association-type">Librairie / Éducation permanente</p>
+                                    <p class="association-why">Pour contribuer à leur travail de publication et de diffusion critique.</p>
+                                    <a href="https://www.barricade.be" target="_blank" class="association-link">→ barricade.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">CESEP</p>
+                                    <p class="association-type">Formation / Éducation permanente</p>
+                                    <p class="association-why">Pour participer à la création de ressources pédagogiques sur la précarité.</p>
+                                    <a href="https://www.cesep.be" target="_blank" class="association-link">→ cesep.be</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 6 — MÉSO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--meso), #3b82f6);">⚖️</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Juriste de Fortune
+                                <span class="profile-level level-meso">MÉSO</span>
+                            </h3>
+                            <p class="profile-handle">@legal_aid_loading</p>
+                            <p class="profile-bio">Études de droit abandonnées (dépression). Autodidacte en droit social. Rage contre la machine.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Étudiant·e décroché·e → RIS → BIM revenus. Expertise juridique partielle mais motivation totale.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Droit social (bases)</span>
+                                <span class="skill-tag">Recherche juridique</span>
+                                <span class="skill-tag">Rédaction de recours</span>
+                                <span class="skill-tag">Argumentation</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Décrypter les textes de loi. Identifier les failles. Armer les précaires pour qu'ils puissent se défendre."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Atelier des Droits Sociaux (Bruxelles)</p>
+                                    <p class="association-type">Aide juridique / Éducation permanente</p>
+                                    <p class="association-why">Pour rejoindre leurs permanences juridiques et apprendre sur le terrain.</p>
+                                    <a href="https://www.atelierdroitssociaux.be" target="_blank" class="association-link">→ atelierdroitssociaux.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">DoucheFLUX</p>
+                                    <p class="association-type">Aide aux sans-abri / Services sociaux</p>
+                                    <p class="association-why">Pour accompagner juridiquement les personnes en grande précarité.</p>
+                                    <a href="https://doucheflux.be" target="_blank" class="association-link">→ doucheflux.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Syndicat des Immenses (Liège)</p>
+                                    <p class="association-type">Défense des sans-abri</p>
+                                    <p class="association-why">Pour soutenir leur travail de défense des droits des plus exclus.</p>
+                                    <a href="https://www.facebook.com/syndicatdesimmenses" target="_blank" class="association-link">→ Facebook: Syndicat des Immenses</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 7 — MACRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--macro), #6d28d9);">📣</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Porte-Voix Anonyme
+                                <span class="profile-level level-macro">MACRO</span>
+                            </h3>
+                            <p class="profile-handle">@megaphone_ghost</p>
+                            <p class="profile-bio">Ex-militant·e associatif. Épuisé·e mais pas résigné·e. Sait comment parler aux médias et aux politiques.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Épuisement militant → burn-out → BIM. Carnet d'adresses intact, énergie limitée.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Relations presse</span>
+                                <span class="skill-tag">Plaidoyer</span>
+                                <span class="skill-tag">Rédaction de CP</span>
+                                <span class="skill-tag">Stratégie de campagne</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Porter la parole collective là où elle doit être entendue. Transformer les témoignages en arguments politiques."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">FESEFA</p>
+                                    <p class="association-type">Fédération employeurs / Éducation permanente</p>
+                                    <p class="association-why">Pour poser la question du cadre juridique des initiatives citoyennes en précarité.</p>
+                                    <a href="https://www.fesefa.be" target="_blank" class="association-link">→ fesefa.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">FeBISP</p>
+                                    <p class="association-type">Fédération ISP Bruxelles</p>
+                                    <p class="association-why">Pour explorer la reconnaissance des parcours atypiques dans l'insertion.</p>
+                                    <a href="https://www.febisp.be" target="_blank" class="association-link">→ febisp.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">ATD Quart Monde Belgique</p>
+                                    <p class="association-type">Lutte contre la pauvreté</p>
+                                    <p class="association-why">Pour s'inscrire dans une démarche de croisement des savoirs avec les premiers concernés.</p>
+                                    <a href="https://www.atd-quartmonde.be" target="_blank" class="association-link">→ atd-quartmonde.be</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 8 — MACRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--macro), #7c3aed);">🔬</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Chercheur·se Sauvage
+                                <span class="profile-level level-macro">MACRO</span>
+                            </h3>
+                            <p class="profile-handle">@wild_researcher</p>
+                            <p class="profile-bio">Doctorat abandonné. Expertise en sciences sociales. Transforme la rage en données.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Précarité académique → dépression → RIS → BIM. Capacité d'analyse intacte, cadre institutionnel perdu.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Recherche qualitative</span>
+                                <span class="skill-tag">Analyse de données</span>
+                                <span class="skill-tag">Rédaction académique</span>
+                                <span class="skill-tag">Méthodologie</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Produire du savoir sur nous, par nous. Donner une légitimité scientifique à nos revendications."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">Fondation Roi Baudouin</p>
+                                    <p class="association-type">Fondation / Recherche-action</p>
+                                    <p class="association-why">Pour proposer des recherches participatives sur la précarité et l'engagement citoyen.</p>
+                                    <a href="https://www.kbs-frb.be" target="_blank" class="association-link">→ kbs-frb.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">IWEPS (Institut wallon de l'évaluation, de la prospective et de la statistique)</p>
+                                    <p class="association-type">Recherche publique</p>
+                                    <p class="association-why">Pour contribuer aux données sur la pauvreté et l'exclusion en Wallonie.</p>
+                                    <a href="https://www.iweps.be" target="_blank" class="association-link">→ iweps.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Observatoire de la Santé et du Social (Bruxelles)</p>
+                                    <p class="association-type">Recherche / Santé publique</p>
+                                    <p class="association-why">Pour alimenter le baromètre social avec des témoignages et données qualitatives.</p>
+                                    <a href="https://www.ccc-ggc.brussels/fr/observatbru/accueil" target="_blank" class="association-link">→ ccc-ggc.brussels/observatbru</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PROFIL 9 — MACRO -->
+                <article class="profile-card">
+                    <div class="profile-header">
+                        <div class="avatar" style="background: linear-gradient(135deg, var(--macro), #8b5cf6);">🎮</div>
+                        <div class="profile-info">
+                            <h3 class="profile-name">
+                                Game Master Fantôme
+                                <span class="profile-level level-macro">MACRO</span>
+                            </h3>
+                            <p class="profile-handle">@ghost_in_the_system</p>
+                            <p class="profile-bio">C'est toi. Créateur·ice de l'ARG. Coordinateur·ice de la Task Force. Au bout du bout mais toujours debout.</p>
+                        </div>
+                    </div>
+                    <div class="profile-body">
+                        <div class="profile-section">
+                            <h4>💥 Situation</h4>
+                            <div class="situation-box">Dépression + bore-out social + raisons médicales. BIM. Ne croit plus en rien mais agit quand même. Paradoxe ambulant.</div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🛠️ Compétences</h4>
+                            <div class="skills-list">
+                                <span class="skill-tag">Game design</span>
+                                <span class="skill-tag">Vision systémique</span>
+                                <span class="skill-tag">Coordination</span>
+                                <span class="skill-tag">Écriture</span>
+                                <span class="skill-tag">Humour noir</span>
+                            </div>
+                        </div>
+                        <div class="profile-section">
+                            <h4>🎯 Mission</h4>
+                            <p class="mission-text">"Tenir le fil. Coordonner la guérilla. Transformer le chaos en jeu. Et manger des cookies en regardant les institutions s'expliquer."</p>
+                        </div>
+                        <div class="profile-section">
+                            <h4>📬 Associations à contacter</h4>
+                            <div class="associations-list">
+                                <div class="association-item">
+                                    <p class="association-name">FESEFA</p>
+                                    <p class="association-type">Éducation permanente / Cadre juridique</p>
+                                    <p class="association-why">Pour poser LA question : comment cadrer un ARG citoyen en éducation permanente ?</p>
+                                    <a href="https://www.fesefa.be" target="_blank" class="association-link">→ fesefa.be</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Lutte Solidarité Travail (LST)</p>
+                                    <p class="association-type">Mouvement de lutte contre la pauvreté</p>
+                                    <p class="association-why">Pour ancrer le projet dans une histoire de lutte et de dignité.</p>
+                                    <a href="https://www.mouvement-lst.org" target="_blank" class="association-link">→ mouvement-lst.org</a>
+                                </div>
+                                <div class="association-item">
+                                    <p class="association-name">Service de lutte contre la pauvreté</p>
+                                    <p class="association-type">Institution publique fédérale</p>
+                                    <p class="association-why">Pour interpeller directement l'État sur la question du droit à l'utilité.</p>
+                                    <a href="https://www.luttepauvrete.be" target="_blank" class="association-link">→ luttepauvrete.be</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </section>
+
+        <!-- Strategy Section -->
+        <section class="strategy-section" id="strategy">
+            <h2>🎯 Stratégie de Guérilla Cognitive</h2>
+            <div class="strategy-grid">
+                <div class="strategy-card micro">
+                    <h3 style="color: var(--micro);">🎯 NIVEAU MICRO</h3>
+                    <p style="margin-bottom: 16px; opacity: 0.8;">Action directe, terrain, proximité</p>
+                    <ul>
+                        <li>Entraide pair-à-pair entre précaires</li>
+                        <li>Ateliers de partage de savoirs pratiques</li>
+                        <li>Création de contenus accessibles</li>
+                        <li>Soutien émotionnel et administratif</li>
+                        <li>Documentation des galères quotidiennes</li>
+                    </ul>
+                </div>
+                <div class="strategy-card meso">
+                    <h3 style="color: var(--meso);">🔗 NIVEAU MÉSO</h3>
+                    <p style="margin-bottom: 16px; opacity: 0.8;">Réseaux, communautés, associations</p>
+                    <ul>
+                        <li>Mise en réseau des initiatives locales</li>
+                        <li>Création de ressources collectives</li>
+                        <li>Collaboration avec le secteur associatif</li>
+                        <li>Formation juridique mutuelle</li>
+                        <li>Archivage des luttes et savoirs</li>
+                    </ul>
+                </div>
+                <div class="strategy-card macro">
+                    <h3 style="color: var(--macro);">🏛️ NIVEAU MACRO</h3>
+                    <p style="margin-bottom: 16px; opacity: 0.8;">Institutions, politique, structurel</p>
+                    <ul>
+                        <li>Interpellation collective des institutions</li>
+                        <li>Production de données et recherches</li>
+                        <li>Plaidoyer pour un cadre juridique clair</li>
+                        <li>Médiatisation des enjeux</li>
+                        <li>Création de précédents utiles</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Manifesto -->
+        <section class="manifesto" id="manifesto">
+            <h2>📜 MANIFESTE #B!Mi</h2>
+            <blockquote>
+                "On nous demande d'être disponibles pour l'emploi tout en nous interdisant d'être utiles. On refuse ce paradoxe. On choisit l'action."
+            </blockquote>
+            <p>9 profils. 27 associations. 3 niveaux d'action. Un seul objectif :</p>
+            <p style="font-size: 18px; color: var(--bimi-accent); margin-top: 16px;"><strong>PROUVER QU'ON EXISTE ET QU'ON EN A À REVENDRE.</strong></p>
+        </section>
+
+        <!-- Summary table -->
+        <section class="section-card" style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 32px; margin-top: 48px; overflow-x: auto;">
+            <h2 style="text-align: center; margin-bottom: 24px;">📋 TABLEAU RÉCAPITULATIF — 27 ASSOCIATIONS À CONTACTER</h2>
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid var(--bimi-accent);">
+                        <th style="padding: 12px; text-align: left;">NIVEAU</th>
+                        <th style="padding: 12px; text-align: left;">PROFIL</th>
+                        <th style="padding: 12px; text-align: left;">ASSOCIATION 1</th>
+                        <th style="padding: 12px; text-align: left;">ASSOCIATION 2</th>
+                        <th style="padding: 12px; text-align: left;">ASSOCIATION 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--micro);">MICRO</td>
+                        <td style="padding: 12px;">🦊 Renard Silencieux</td>
+                        <td style="padding: 12px;">Lire et Écrire</td>
+                        <td style="padding: 12px;">CSCE</td>
+                        <td style="padding: 12px;">Droits Quotidiens</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--micro);">MICRO</td>
+                        <td style="padding: 12px;">🌱 Racine Tenace</td>
+                        <td style="padding: 12px;">Vie Féminine</td>
+                        <td style="padding: 12px;">Repair Café</td>
+                        <td style="padding: 12px;">Touche pas à mes Allocs</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--micro);">MICRO</td>
+                        <td style="padding: 12px;">🎸 Bruit Blanc</td>
+                        <td style="padding: 12px;">Article 27</td>
+                        <td style="padding: 12px;">Culture & Démocratie</td>
+                        <td style="padding: 12px;">Zinneke</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--meso);">MÉSO</td>
+                        <td style="padding: 12px;">🕸️ Tisseuse de Liens</td>
+                        <td style="padding: 12px;">Plateforme Volontariat</td>
+                        <td style="padding: 12px;">SAW-B</td>
+                        <td style="padding: 12px;">RWLP</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--meso);">MÉSO</td>
+                        <td style="padding: 12px;">📚 Archiviste Pirate</td>
+                        <td style="padding: 12px;">CARHOP</td>
+                        <td style="padding: 12px;">Barricade</td>
+                        <td style="padding: 12px;">CESEP</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--meso);">MÉSO</td>
+                        <td style="padding: 12px;">⚖️ Juriste de Fortune</td>
+                        <td style="padding: 12px;">Atelier Droits Sociaux</td>
+                        <td style="padding: 12px;">DoucheFLUX</td>
+                        <td style="padding: 12px;">Syndicat des Immenses</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--macro);">MACRO</td>
+                        <td style="padding: 12px;">📣 Porte-Voix Anonyme</td>
+                        <td style="padding: 12px;">FESEFA</td>
+                        <td style="padding: 12px;">FeBISP</td>
+                        <td style="padding: 12px;">ATD Quart Monde</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <td style="padding: 12px; color: var(--macro);">MACRO</td>
+                        <td style="padding: 12px;">🔬 Chercheur·se Sauvage</td>
+                        <td style="padding: 12px;">Fondation Roi Baudouin</td>
+                        <td style="padding: 12px;">IWEPS</td>
+                        <td style="padding: 12px;">Observatoire Santé & Social</td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px; color: var(--macro);">MACRO</td>
+                        <td style="padding: 12px;">🎮 Game Master Fantôme (TOI)</td>
+                        <td style="padding: 12px;"><strong>FESEFA</strong></td>
+                        <td style="padding: 12px;"><strong>LST</strong></td>
+                        <td style="padding: 12px;"><strong>Service Lutte Pauvreté</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+
+    <!-- Resources Float -->
+    <div class="resources-float" id="resourcesFloat">
+        <button class="close-resources" onclick="document.getElementById('resourcesFloat').classList.add('hidden')">×</button>
+        <h4>🆘 Si t'es au bout du bout</h4>
+        <a href="tel:0800 32 123">📞 0800 32 123 — Centre Prévention Suicide (24h/24, gratuit)</a>
+        <a href="tel:107">📞 107 — Télé-Accueil (24h/24, anonyme)</a>
+        <a href="https://www.levolontariat.be" target="_blank">🤝 Plateforme du Volontariat</a>
+        <a href="https://www.luttepauvrete.be" target="_blank">📋 Service Lutte contre la Pauvreté</a>
+    </div>
+
+    <footer>
+        <p>#B!Mi — Bénéficiaires de l'Intervention Majorée en Insurrection</p>
+        <p>Un réseau fictif pour une cause réelle.</p>
+        <p style="opacity: 0.5; margin-top: 16px;">"On est au bout du bout. Mais tant qu'on est là, autant jouer."</p>
+        <span class="license">CC0 — Domaine public — Fais-en ce que tu veux</span>
+    </footer>
+
+    <script>
+        console.log(`
+╔═══════════════════════════════════════════════════════════════════╗
+║                                                                   ║
+║   #B!Mi — TASK FORCE ACTIVÉE                                      ║
+║                                                                   ║
+║   9 profils. 27 associations. 3 niveaux.                          ║
+║   Une guérilla cognitive en préparation.                          ║
+║                                                                   ║
+║   Si t'es vraiment au bout du bout :                              ║
+║   → 0800 32 123 (Centre Prévention Suicide)                       ║
+║   → 107 (Télé-Accueil)                                            ║
+║                                                                   ║
+║   Sinon, bienvenue dans la résistance. 🍪                         ║
+║                                                                   ║
+╚═══════════════════════════════════════════════════════════════════╝
+        `);
+    </script>
+</body>
+</html>
