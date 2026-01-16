@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="PROTOCOLE USBA — Unité de Suivi des Biens Activés. Rejoignez le réseau de veille citoyenne gamifié.">
+  <meta name="theme-color" content="#0a0a0f">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="PROTOCOLE USBA">
+  <meta property="og:description" content="La faille est ouverte. Les Fragments vous attendent.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/images/og-image.png">
+  
+  <title>◈ PROTOCOLE USBA</title>
+  
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="index.html" class="logo">
+          <span class="logo__symbol">◈</span>
+          <span>PROTOCOLE USBA</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="index.html" class="nav__link nav__link--active">Accueil</a>
+          <a href="pages/missions.html" class="nav__link">Missions</a>
+          <a href="pages/archives.html" class="nav__link">Archives</a>
+          <a href="pages/fragments.html" class="nav__link">Fragments</a>
+          <a href="pages/about.html" class="nav__link">Protocole</a>
+        </nav>
+        
+        <div class="status-bar">
+          <div class="status-bar__item">
+            <span class="status-bar__dot"></span>
+            <span>EN LIGNE</span>
+          </div>
+          <div class="status-bar__item status-bar__fragments">
+            ◈ <span data-fragments>0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <p class="hero__pretitle">// TRANSMISSION INTERCEPTÉE</p>
+      <h1 class="hero__title glitch" data-text="PROTOCOLE USBA">PROTOCOLE USBA</h1>
+      <p class="hero__subtitle">
+        La faille est ouverte. Le répertoire <code class="code">/usba/</code> n'était pas vide. 
+        Chaque action compte. Chaque Fragment rapproche de la vérité.
+      </p>
+      <div class="hero__cta">
+        <a href="pages/missions.html" class="btn btn--primary">Commencer les Missions</a>
+        <a href="pages/about.html" class="btn">Comprendre le Protocole</a>
+      </div>
+      <div class="terminal-prompt">
+        <span class="mono">> Bienvenue, Agent <span data-codename>...</span></span>
+        <span class="terminal-prompt__cursor"></span>
+      </div>
+    </div>
+    
+    <!-- Secret caché dans le hero -->
+    <div class="hidden-fragment" data-secret="USBA-001" title="Cliquez si vous trouvez..." style="position: absolute; bottom: 20px; right: 20px; font-size: 0.6rem; color: var(--void);">
+      ◈ USBA-001 ◈
+    </div>
+  </section>
+
+  <!-- Stats Overview -->
+  <section class="section">
+    <div class="container">
+      <div class="data-grid">
+        <div class="data-cell">
+          <div class="data-cell__value" data-fragments>0</div>
+          <div class="data-cell__label">Fragments ◈</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell__value" data-level>Observateur</div>
+          <div class="data-cell__label">Niveau</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell__value" id="missions-count">0</div>
+          <div class="data-cell__label">Missions</div>
+        </div>
+        <div class="data-cell">
+          <div class="data-cell__value" id="secrets-count">0/5</div>
+          <div class="data-cell__label">Secrets</div>
+        </div>
+      </div>
+      
+      <div class="mt-3">
+        <div class="progress" style="max-width: 400px; margin: 0 auto;">
+          <div class="progress__bar" data-level-progress style="width: 0%;"></div>
+        </div>
+        <p class="text-center mt-1 mono" style="font-size: 0.75rem; color: var(--fog);">
+          Progression vers le prochain niveau
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Active Missions Preview -->
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <p class="section__pretitle">// MISSIONS ACTIVES</p>
+        <h2 class="section__title">Objectifs en cours</h2>
+        <p class="section__description">
+          Complétez des missions pour gagner des Fragments et progresser dans les rangs.
+        </p>
+      </div>
+      
+      <div data-missions>
+        <!-- Filled by JS -->
+        <div class="mission-board">
+          <div class="mission">
+            <div class="mission__status mission__status--active">○</div>
+            <div class="mission__content">
+              <div class="mission__title">Chargement...</div>
+              <div class="mission__description">Initialisation du protocole</div>
+            </div>
+            <div class="mission__reward">...</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="text-center mt-3">
+        <a href="pages/missions.html" class="btn">Voir toutes les missions</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Recent Archives -->
+  <section class="section">
+    <div class="container">
+      <div class="section__header">
+        <p class="section__pretitle">// ARCHIVES RÉCENTES</p>
+        <h2 class="section__title">Dossiers déclassifiés</h2>
+        <p class="section__description">
+          Des documents extraits du Protocole. Chaque lecture rapporte des Fragments.
+        </p>
+      </div>
+      
+      <div class="grid grid--3">
+        <article class="card card--archive">
+          <span class="card__tag">Dossier #001</span>
+          <h3 class="card__title">La Genèse du Protocole</h3>
+          <p>Comment tout a commencé. Les origines de l'Unité de Suivi des Biens Activés et sa mission.</p>
+          <div class="card__meta">
+            <span>12 min</span>
+            <span class="card__reward">+15 ◈</span>
+          </div>
+        </article>
+        
+        <article class="card card--archive">
+          <span class="card__tag">Dossier #002</span>
+          <h3 class="card__title">L'Économie des Fragments</h3>
+          <p>Comprendre la valeur citoyenne. Comment les Fragments mesurent l'engagement démocratique.</p>
+          <div class="card__meta">
+            <span>8 min</span>
+            <span class="card__reward">+10 ◈</span>
+          </div>
+        </article>
+        
+        <article class="card card--archive card--locked">
+          <span class="card__tag">Dossier #003</span>
+          <h3 class="card__title">[CLASSIFIÉ]</h3>
+          <p>Niveau Sentinelle requis pour accéder à ce dossier.</p>
+          <div class="card__meta">
+            <span>??? min</span>
+            <span class="card__reward">+??? ◈</span>
+          </div>
+        </article>
+      </div>
+      
+      <div class="text-center mt-3">
+        <a href="pages/archives.html" class="btn">Explorer les Archives</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Terminal Section -->
+  <section class="section">
+    <div class="container container--narrow">
+      <div class="terminal">
+        <div class="terminal__header">
+          <span class="terminal__dot terminal__dot--red"></span>
+          <span class="terminal__dot terminal__dot--yellow"></span>
+          <span class="terminal__dot terminal__dot--green"></span>
+          <span class="terminal__title">usba_terminal v0.1.0</span>
+        </div>
+        <div class="terminal__body">
+          <div class="terminal__line terminal__line--prompt">init protocole_usba</div>
+          <div class="terminal__line terminal__line--output">Chargement des modules...</div>
+          <div class="terminal__line terminal__line--success">✓ Module FRAGMENTS activé</div>
+          <div class="terminal__line terminal__line--success">✓ Module MISSIONS activé</div>
+          <div class="terminal__line terminal__line--success">✓ Module ARCHIVES activé</div>
+          <div class="terminal__line terminal__line--output">Vérification de l'identité Agent...</div>
+          <div class="terminal__line terminal__line--success">✓ Agent authentifié : <span data-codename>...</span></div>
+          <div class="terminal__line terminal__line--output"></div>
+          <div class="terminal__line terminal__line--prompt">status</div>
+          <div class="terminal__line terminal__line--output">Fragments : <span data-fragments>0</span> ◈</div>
+          <div class="terminal__line terminal__line--output">Niveau : <span data-level>Observateur</span></div>
+          <div class="terminal__line terminal__line--output">Statut : ACTIF</div>
+          <div class="terminal__line terminal__line--output"></div>
+          <div class="terminal__line terminal__line--prompt" data-secret-hover="USBA-002">help</div>
+          <div class="terminal__line terminal__line--output">Commandes disponibles :</div>
+          <div class="terminal__line terminal__line--output">  - status    : Afficher le statut de l'Agent</div>
+          <div class="terminal__line terminal__line--output">  - missions  : Lister les missions actives</div>
+          <div class="terminal__line terminal__line--output">  - secrets   : ???</div>
+          <div class="terminal__line terminal__line--output">  - [REDACTED]</div>
+        </div>
+      </div>
+      
+      <p class="text-center mt-2 mono" style="font-size: 0.7rem; color: var(--fog);">
+        Ouvrez la console développeur (F12) pour plus d'interactions.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Call to Action -->
+  <section class="section">
+    <div class="container text-center">
+      <h2 class="mb-2">Prêt à rejoindre le Protocole ?</h2>
+      <p class="mb-3" style="color: var(--smoke); max-width: 500px; margin-left: auto; margin-right: auto;">
+        Chaque citoyen compte. Chaque action génère de la valeur. 
+        Les Fragments sont la preuve de votre engagement.
+      </p>
+      <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+        <a href="pages/missions.html" class="btn btn--primary">Commencer maintenant</a>
+        <a href="pages/about.html" class="btn">En savoir plus</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <p>◈ PROTOCOLE USBA — v0.1.0-alpha</p>
+          <p style="margin-top: 4px;">Unité de Suivi des Biens Activés</p>
+        </div>
+        <div class="footer__right">
+          <a href="pages/about.html" class="footer__link">Protocole</a>
+          <a href="pages/rules.html" class="footer__link">Règles</a>
+          <a href="pages/api.html" class="footer__link">API</a>
+          <a href="https://github.com/protocole-usba" class="footer__link" target="_blank">GitHub</a>
+        </div>
+      </div>
+      
+      <!-- Secret code hidden in footer -->
+      <div class="secret-code" data-secret-dblclick="USBA-003" style="margin-top: 2rem; text-align: center;">
+        <!-- Double-cliquez pour révéler -->
+        01010101 01010011 01000010 01000001
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/engine.js"></script>
+  <script>
+    // Update mission count
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        if (window.ProtocoleUSBA) {
+          const completed = window.ProtocoleUSBA.Missions.getCompleted().length;
+          document.getElementById('missions-count').textContent = completed;
+          
+          const secrets = window.ProtocoleUSBA.Storage.load() ? 
+            JSON.parse(localStorage.getItem('usba_protocol_data'))?.secrets?.found?.length || 0 : 0;
+          document.getElementById('secrets-count').textContent = `${secrets}/5`;
+        }
+      }, 100);
+    });
+  </script>
+</body>
+</html>
