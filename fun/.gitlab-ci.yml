@@ -1,0 +1,69 @@
+# GitLab CI/CD Configuration for GitLab Pages
+# Ce fichier déploie automatiquement sur GitLab Pages à chaque push
+
+image: alpine:latest
+
+variables:
+  GIT_DEPTH: 1
+
+stages:
+  - build
+  - deploy
+
+# Cache pour accélérer les builds
+cache:
+  paths:
+    - node_modules/
+
+# Build stage (optionnel pour site statique)
+build:
+  stage: build
+  script:
+    - echo "Building static site..."
+    - mkdir -p public
+    - cp -r *.html public/ 2>/dev/null || true
+    - cp -r *.xml public/ 2>/dev/null || true
+    - cp -r *.txt public/ 2>/dev/null || true
+    - cp -r *.json public/ 2>/dev/null || true
+    - cp -r assets public/ 2>/dev/null || true
+    - cp -r images public/ 2>/dev/null || true
+    - cp -r css public/ 2>/dev/null || true
+    - cp -r js public/ 2>/dev/null || true
+    # Créer un fichier de version
+    - echo "Build: $(date +%Y-%m-%d_%H:%M:%S)" > public/version.txt
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 hour
+  only:
+    - main
+    - master
+
+# Deploy to GitLab Pages
+pages:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - echo "Deploying to GitLab Pages..."
+    - ls -la public/
+  artifacts:
+    paths:
+      - public
+  environment:
+    name: production
+    url: https://$CI_PROJECT_NAMESPACE.gitlab.io/$CI_PROJECT_NAME
+  only:
+    - main
+    - master
+
+# Optionnel: Notification après déploiement
+notify:
+  stage: deploy
+  script:
+    - echo "Site deployed successfully!"
+    - echo "URL: https://$CI_PROJECT_NAMESPACE.gitlab.io/$CI_PROJECT_NAME"
+  when: on_success
+  only:
+    - main
+    - master

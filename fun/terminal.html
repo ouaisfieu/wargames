@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💀 TERMINAL v3.1.337 — Accès Root</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --green: #00ff41;
+            --green-dim: #00aa2a;
+            --green-glow: rgba(0, 255, 65, 0.6);
+            --amber: #ffb000;
+            --red: #ff3333;
+            --cyan: #00ffff;
+            --magenta: #ff00ff;
+            --bg: #0a0a0a;
+            --bg-terminal: #000000;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        
+        /* Monitor frame */
+        .monitor {
+            background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 
+                0 0 0 2px #333,
+                0 0 0 4px #1a1a1a,
+                0 0 50px rgba(0, 255, 65, 0.1),
+                inset 0 0 100px rgba(0, 0, 0, 0.5);
+            position: relative;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .monitor::before {
+            content: '◉ OUAISFIEU SYSTEMS';
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Fira Code', monospace;
+            font-size: 10px;
+            color: #333;
+            letter-spacing: 2px;
+        }
+        
+        /* Power LED */
+        .power-led {
+            position: absolute;
+            bottom: 12px;
+            right: 30px;
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--green-glow);
+            animation: led-blink 2s ease-in-out infinite;
+        }
+        
+        @keyframes led-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        /* Screen bezel */
+        .screen-bezel {
+            background: #111;
+            border-radius: 10px;
+            padding: 4px;
+            box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* CRT Screen */
+        .crt {
+            background: var(--bg-terminal);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+        }
+        
+        /* Scanlines */
+        .crt::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 1px,
+                rgba(0, 0, 0, 0.3) 1px,
+                rgba(0, 0, 0, 0.3) 2px
+            );
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        /* Screen curve effect */
+        .crt::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                ellipse at center,
+                transparent 0%,
+                transparent 70%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            pointer-events: none;
+            z-index: 11;
+        }
+        
+        /* Flicker animation */
+        .crt {
+            animation: flicker 0.15s infinite;
+        }
+        
+        @keyframes flicker {
+            0% { opacity: 0.97; }
+            50% { opacity: 1; }
+            100% { opacity: 0.98; }
+        }
+        
+        /* Terminal content */
+        .terminal {
+            height: 100%;
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .terminal::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .terminal::-webkit-scrollbar-track {
+            background: #111;
+        }
+        
+        .terminal::-webkit-scrollbar-thumb {
+            background: var(--green-dim);
+            border-radius: 4px;
+        }
+        
+        /* Output lines */
+        .output {
+            font-size: 18px;
+            line-height: 1.4;
+            color: var(--green);
+            text-shadow: 0 0 5px var(--green-glow);
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .output .error {
+            color: var(--red);
+            text-shadow: 0 0 5px rgba(255, 51, 51, 0.6);
+        }
+        
+        .output .warning {
+            color: var(--amber);
+            text-shadow: 0 0 5px rgba(255, 176, 0, 0.6);
+        }
+        
+        .output .info {
+            color: var(--cyan);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+        }
+        
+        .output .success {
+            color: var(--green);
+        }
+        
+        .output .magenta {
+            color: var(--magenta);
+            text-shadow: 0 0 5px rgba(255, 0, 255, 0.6);
+        }
+        
+        .output .dim {
+            color: var(--green-dim);
+            text-shadow: none;
+        }
+        
+        /* Input line */
+        .input-line {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 18px;
+            color: var(--green);
+            text-shadow: 0 0 5px var(--green-glow);
+        }
+        
+        .prompt {
+            color: var(--cyan);
+            text-shadow: 0 0 5px rgba(0, 255, 255, 0.6);
+            margin-right: 8px;
+            white-space: nowrap;
+        }
+        
+        #command-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            color: var(--green);
+            text-shadow: 0 0 5px var(--green-glow);
+            caret-color: var(--green);
+        }
+        
+        #command-input::placeholder {
+            color: var(--green-dim);
+            text-shadow: none;
+        }
+        
+        /* Cursor blink */
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background: var(--green);
+            animation: cursor-blink 1s step-end infinite;
+            box-shadow: 0 0 5px var(--green-glow);
+        }
+        
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* ASCII Art styling */
+        .ascii-art {
+            font-size: 14px;
+            line-height: 1.1;
+            letter-spacing: 1px;
+        }
+        
+        /* Glitch effect */
+        .glitch {
+            animation: glitch-text 0.3s ease;
+        }
+        
+        @keyframes glitch-text {
+            0% { transform: translate(0); filter: hue-rotate(0deg); }
+            20% { transform: translate(-2px, 2px); filter: hue-rotate(90deg); }
+            40% { transform: translate(-2px, -2px); filter: hue-rotate(180deg); }
+            60% { transform: translate(2px, 2px); filter: hue-rotate(270deg); }
+            80% { transform: translate(2px, -2px); filter: hue-rotate(360deg); }
+            100% { transform: translate(0); filter: hue-rotate(0deg); }
+        }
+        
+        /* Matrix rain canvas */
+        #matrix-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        #matrix-canvas.active {
+            opacity: 0.3;
+        }
+        
+        /* Boot sequence */
+        .boot-text {
+            animation: boot-fade 0.5s ease-out;
+        }
+        
+        @keyframes boot-fade {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Typing animation */
+        .typing {
+            overflow: hidden;
+            border-right: 2px solid var(--green);
+            animation: typing-cursor 0.7s step-end infinite;
+        }
+        
+        @keyframes typing-cursor {
+            0%, 100% { border-color: var(--green); }
+            50% { border-color: transparent; }
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .monitor {
+                padding: 15px;
+                border-radius: 15px;
+            }
+            
+            .crt {
+                height: 400px;
+            }
+            
+            .terminal {
+                padding: 10px;
+            }
+            
+            .output, #command-input, .input-line {
+                font-size: 14px;
+            }
+            
+            .ascii-art {
+                font-size: 8px;
+            }
+        }
+        
+        /* Hidden for screen readers */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="monitor">
+        <div class="screen-bezel">
+            <div class="crt">
+                <canvas id="matrix-canvas"></canvas>
+                <div class="terminal" id="terminal">
+                    <div class="output" id="output"></div>
+                    <div class="input-line">
+                        <span class="prompt" id="prompt">guest@ouaisfieu:~$</span>
+                        <input type="text" id="command-input" autofocus autocomplete="off" spellcheck="false" placeholder="tape 'help' pour commencer...">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="power-led"></div>
+    </div>
+    
+    <audio id="beep" preload="auto">
+        <source src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdH2LkZSPiHhwaG90go+ZnZSHdmhfYW96ipicnJOHd2hkZnF/jZaanJWMgXdwa3F9iZOYmpiTi4N6c3N3f4iRlpmYlI+Hf3h0dHh/h4+UlpWTj4mDfXh2eH2EjJGUlJKPi4WAfXp5e4CGi5CSkpCNiYWBfnx7fYGFio2PkI6LiIWCf31+gIKGiouMjIuJhoSCgICAgoSGiImKioiGhYOBgIGCg4WGh4iIh4aFhIOCgoKDhIWGh4eHhoWEg4KCgoOEhYaGhoaFhYSEg4ODhISFhYWFhYWEhISEg4OEhISEhYWFhYWEhISEhISEhISEhYWEhISEhISEhISEhA==" type="audio/wav">
+    </audio>
+    
+    <script>
+        // ============================================
+        // TERMINAL SYSTEM v3.1.337
+        // ============================================
+        
+        const output = document.getElementById('output');
+        const input = document.getElementById('command-input');
+        const terminal = document.getElementById('terminal');
+        const prompt = document.getElementById('prompt');
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let commandHistory = [];
+        let historyIndex = -1;
+        let currentUser = 'guest';
+        let currentDir = '~';
+        let matrixActive = false;
+        let hackerMode = false;
+        
+        // File system simulation
+        const fileSystem = {
+            '~': {
+                type: 'dir',
+                contents: ['documents', 'downloads', 'secrets', '.hidden', 'readme.txt']
+            },
+            '~/documents': {
+                type: 'dir',
+                contents: ['rapport_confidentiel.pdf', 'liste_noms.txt', 'preuves.zip']
+            },
+            '~/downloads': {
+                type: 'dir',
+                contents: ['virus.exe', 'totally_not_a_virus.bat', 'cat_video.mp4']
+            },
+            '~/secrets': {
+                type: 'dir',
+                contents: ['passwords.txt', 'bitcoin_wallet.dat', 'area51_map.jpg']
+            },
+            '~/.hidden': {
+                type: 'dir',
+                contents: ['nuclear_codes.txt', 'illuminati_members.csv']
+            },
+            '~/readme.txt': {
+                type: 'file',
+                content: `
+╔════════════════════════════════════════════╗
+║     BIENVENUE DANS LE SYSTÈME OUAISFIEU    ║
+╠════════════════════════════════════════════╣
+║                                            ║
+║  Ce terminal est votre porte d'entrée      ║
+║  vers les dossiers confidentiels.          ║
+║                                            ║
+║  Tapez 'help' pour voir les commandes.     ║
+║  Tapez 'dossiers' pour accéder aux leaks.  ║
+║                                            ║
+║  >> La vérité est quelque part...          ║
+║                                            ║
+╚════════════════════════════════════════════╝`
+            },
+            '~/secrets/passwords.txt': {
+                type: 'file',
+                content: `
+[FICHIER CHIFFRÉ]
+
+Mot de passe admin: ************
+Mot de passe root:  ************
+Code nucléaire:     ************
+
+>> Nice try, hacker! 😏`
+            },
+            '~/secrets/bitcoin_wallet.dat': {
+                type: 'file',
+                content: `
+WALLET BITCOIN
+==============
+Adresse: 1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa
+Balance: 0.00000001 BTC
+
+Valeur estimée: Pas grand chose lol`
+            },
+            '~/.hidden/nuclear_codes.txt': {
+                type: 'file',
+                content: `
+╔═══════════════════════════════════╗
+║  CODES DE LANCEMENT NUCLÉAIRE     ║
+║  CLASSIFICATION: TOP SECRET       ║
+╠═══════════════════════════════════╣
+║                                   ║
+║  Code Alpha:   00000000           ║
+║  Code Bravo:   12345678           ║
+║  Code Charlie: password           ║
+║                                   ║
+║  (Ce sont vraiment les vrais      ║
+║   codes utilisés pendant la       ║
+║   guerre froide. Véridique.)      ║
+║                                   ║
+╚═══════════════════════════════════╝`
+            }
+        };
+        
+        // Dossiers links
+        const dossiers = {
+            'acab': { url: 'acab/', icon: '🚨', desc: 'Dossier sensible' },
+            'fraude': { url: 'fraude/', icon: '💰', desc: 'Systèmes frauduleux' },
+            'lounge': { url: 'lounge/', icon: '🍸', desc: 'Espace détente' },
+            'michel': { url: 'mich-mich-michel-henrion/', icon: '🎭', desc: 'Michel Henrion' },
+            'puduku': { url: 'puduku/', icon: '🎮', desc: 'Archives' },
+            'seo': { url: 'seo-gratuit/', icon: '🔍', desc: 'SEO Tools' },
+            'snowden': { url: 'snowden/', icon: '🕵️', desc: 'Whistleblowing' },
+            'solidaris': { url: 'solidaris/', icon: '🏥', desc: 'Mutuelle belge' },
+            'squeezie': { url: 'squeezie/', icon: '📺', desc: 'YouTube & médias' },
+            'tdc': { url: 'tete-de-cul/', icon: '🤡', desc: 'Dossier spécial' },
+            'kikoolol': { url: 'kikoolol.html', icon: '😂', desc: 'Humour' }
+        };
+        
+        // ASCII Art
+        const asciiLogo = `
+<span class="info ascii-art">
+ ██████╗ ██╗   ██╗ █████╗ ██╗███████╗███████╗██╗███████╗██╗   ██╗
+██╔═══██╗██║   ██║██╔══██╗██║██╔════╝██╔════╝██║██╔════╝██║   ██║
+██║   ██║██║   ██║███████║██║███████╗█████╗  ██║█████╗  ██║   ██║
+██║   ██║██║   ██║██╔══██║██║╚════██║██╔══╝  ██║██╔══╝  ██║   ██║
+╚██████╔╝╚██████╔╝██║  ██║██║███████║██║     ██║███████╗╚██████╔╝
+ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝╚══════╝╚═╝     ╚═╝╚══════╝ ╚═════╝ 
+</span>`;
+        
+        const skullArt = `
+<span class="error ascii-art">
+    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+    ░░░░░░░░░░▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄░░░░░░░░░
+    ░░░░░░░░▄▀░░░░░░░░░░░░▄░░░░░░░▀▄░░░░░░░
+    ░░░░░░░░█░░▄░░░░▄░░░░░░░░░░░░░░█░░░░░░░
+    ░░░░░░░░█░░░░░░░░░░░░▄█▄▄░░▄░░░█░▄▄▄░░░
+    ░▄▄▄▄▄░░█░░░░░░▀░░░░▀█░░▀▄░░░░░█▀▀░██░░
+    ░██▄▀██▄█░░░▄░░░░░░░██░░░░▀▀▀▀▀░░░░██░░
+    ░░▀██▄▀██░░░░░░░░▀░██▀░░░░░░░░░░░░░▀██░
+    ░░░░▀████░▀░░░░▄░░░██░░░▄█░░░░▄░▄█░░██░
+    ░░░░░░░▀█░░░░▄░░░░░██░░░░▄░░░▄░░▄░░░██░
+    ░░░░░░░▄█▄░░░░░░░░░░░▀▄░░▀▀▀▀▀▀▀▀░░▄▀░░
+    ░░░░░░█▀▀█████████▀▀▀▀████████████▀░░░░
+    ░░░░░░████▀░░███▀░░░░░░▀███░░▀██▀░░░░░░
+    ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+</span>`;
+        
+        // Boot sequence
+        async function boot() {
+            const bootMessages = [
+                { text: 'BIOS v4.20.69 - OUAISFIEU SYSTEMS', class: 'dim' },
+                { text: 'Initializing system...', class: 'dim' },
+                { text: 'RAM: 640K (ought to be enough for anybody)', class: 'dim' },
+                { text: 'Detecting hardware... <span class="success">OK</span>', class: '' },
+                { text: 'Loading kernel... <span class="success">OK</span>', class: '' },
+                { text: 'Mounting /dev/secrets... <span class="warning">CLASSIFIED</span>', class: '' },
+                { text: 'Starting network daemon... <span class="success">OK</span>', class: '' },
+                { text: 'Bypassing firewalls... <span class="success">OK</span>', class: '' },
+                { text: 'Connecting to darknet... <span class="success">OK</span>', class: '' },
+                { text: '', class: '' },
+                { text: asciiLogo, class: '', raw: true },
+                { text: '', class: '' },
+                { text: '<span class="warning">████████████████████████████████████████████████</span>', class: '' },
+                { text: '<span class="warning">█ TERMINAL v3.1.337 — SYSTÈME DE FICHIERS LEAKS █</span>', class: '' },
+                { text: '<span class="warning">████████████████████████████████████████████████</span>', class: '' },
+                { text: '', class: '' },
+                { text: 'Tapez <span class="info">help</span> pour la liste des commandes', class: '' },
+                { text: 'Tapez <span class="info">dossiers</span> pour accéder aux fichiers confidentiels', class: '' },
+                { text: '', class: '' },
+            ];
+            
+            for (const msg of bootMessages) {
+                await delay(msg.raw ? 100 : 50);
+                printLine(msg.text, msg.class, msg.raw);
+            }
+            
+            input.focus();
+        }
+        
+        // Utility functions
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+        
+        function printLine(text, className = '', raw = false) {
+            const line = document.createElement('div');
+            line.className = 'boot-text';
+            if (raw) {
+                line.innerHTML = text;
+            } else {
+                line.innerHTML = className ? `<span class="${className}">${text}</span>` : text;
+            }
+            output.appendChild(line);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+        
+        function printCommand(cmd) {
+            printLine(`<span class="info">${prompt.textContent}</span> ${cmd}`);
+        }
+        
+        function clear() {
+            output.innerHTML = '';
+        }
+        
+        function beep() {
+            const audio = document.getElementById('beep');
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
+        
+        // Matrix rain effect
+        function initMatrix() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEF';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+            
+            function draw() {
+                if (!matrixActive) return;
+                
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#00ff41';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+                
+                requestAnimationFrame(draw);
+            }
+            
+            draw();
+        }
+        
+        function toggleMatrix(state) {
+            matrixActive = state;
+            canvas.classList.toggle('active', state);
+            if (state) initMatrix();
+        }
+        
+        // Typing effect
+        async function typeText(text, speed = 30) {
+            for (let i = 0; i < text.length; i++) {
+                output.lastChild.innerHTML += text[i];
+                terminal.scrollTop = terminal.scrollHeight;
+                await delay(speed);
+            }
+        }
+        
+        // Fake hacking animation
+        async function fakeHack(target) {
+            printLine('');
+            printLine(`<span class="warning">INITIALISATION DE L'ATTAQUE SUR ${target.toUpperCase()}...</span>`);
+            await delay(500);
+            
+            const steps = [
+                'Scanning ports... 21, 22, 80, 443, 8080',
+                'Vulnerability found: CVE-2024-1337',
+                'Injecting payload...',
+                'Bypassing authentication...',
+                'Escalating privileges...',
+                'Extracting data...',
+                'Covering tracks...',
+            ];
+            
+            for (const step of steps) {
+                printLine(`<span class="dim">[*]</span> ${step}`);
+                await delay(300 + Math.random() * 500);
+            }
+            
+            printLine('');
+            printLine('<span class="success">[✓] ACCÈS OBTENU!</span>');
+            printLine('<span class="magenta">Bienvenue dans la Matrice, Neo.</span>');
+            toggleMatrix(true);
+            
+            await delay(3000);
+            toggleMatrix(false);
+        }
+        
+        // Commands
+        const commands = {
+            help: () => {
+                printLine('');
+                printLine('<span class="warning">═══════════════════════════════════════════</span>');
+                printLine('<span class="warning">           COMMANDES DISPONIBLES           </span>');
+                printLine('<span class="warning">═══════════════════════════════════════════</span>');
+                printLine('');
+                printLine('<span class="info">Navigation:</span>');
+                printLine('  <span class="success">dossiers</span>     Liste des dossiers confidentiels');
+                printLine('  <span class="success">open [nom]</span>   Ouvrir un dossier (ex: open snowden)');
+                printLine('  <span class="success">ls</span>           Lister les fichiers');
+                printLine('  <span class="success">cd [dir]</span>     Changer de répertoire');
+                printLine('  <span class="success">cat [file]</span>   Afficher un fichier');
+                printLine('  <span class="success">pwd</span>          Afficher le répertoire courant');
+                printLine('');
+                printLine('<span class="info">Système:</span>');
+                printLine('  <span class="success">whoami</span>       Afficher l\'utilisateur');
+                printLine('  <span class="success">date</span>         Afficher la date');
+                printLine('  <span class="success">uptime</span>       Temps de fonctionnement');
+                printLine('  <span class="success">clear</span>        Effacer l\'écran');
+                printLine('  <span class="success">history</span>      Historique des commandes');
+                printLine('');
+                printLine('<span class="info">Fun:</span>');
+                printLine('  <span class="success">matrix</span>       Activer l\'effet Matrix');
+                printLine('  <span class="success">hack [cible]</span> "Pirater" une cible');
+                printLine('  <span class="success">skull</span>        Afficher un crâne');
+                printLine('  <span class="success">fortune</span>      Citation aléatoire');
+                printLine('  <span class="success">sudo</span>         Devenir root (lol)');
+                printLine('');
+                printLine('<span class="dim">Astuce: utilisez ↑/↓ pour naviguer l\'historique</span>');
+            },
+            
+            dossiers: () => {
+                printLine('');
+                printLine('<span class="warning">╔═══════════════════════════════════════════════════════╗</span>');
+                printLine('<span class="warning">║           DOSSIERS CONFIDENTIELS DISPONIBLES          ║</span>');
+                printLine('<span class="warning">╚═══════════════════════════════════════════════════════╝</span>');
+                printLine('');
+                
+                for (const [key, val] of Object.entries(dossiers)) {
+                    printLine(`  ${val.icon} <span class="info">${key.padEnd(12)}</span> <span class="dim">│</span> ${val.desc}`);
+                }
+                
+                printLine('');
+                printLine('<span class="dim">Usage: open [nom] pour accéder au dossier</span>');
+                printLine('<span class="dim">Ex: open snowden</span>');
+            },
+            
+            open: (args) => {
+                const target = args[0]?.toLowerCase();
+                if (!target) {
+                    printLine('<span class="error">Usage: open [nom_du_dossier]</span>');
+                    printLine('<span class="dim">Tapez "dossiers" pour voir la liste</span>');
+                    return;
+                }
+                
+                if (dossiers[target]) {
+                    printLine(`<span class="success">Ouverture de ${target}...</span>`);
+                    printLine('<span class="warning">Redirection en cours...</span>');
+                    setTimeout(() => {
+                        window.location.href = dossiers[target].url;
+                    }, 1000);
+                } else {
+                    printLine(`<span class="error">Dossier "${target}" non trouvé.</span>`);
+                    printLine('<span class="dim">Tapez "dossiers" pour voir la liste</span>');
+                }
+            },
+            
+            ls: (args) => {
+                const path = args[0] ? resolvePath(args[0]) : currentDir;
+                const dir = fileSystem[path];
+                
+                if (!dir) {
+                    printLine(`<span class="error">ls: ${path}: No such file or directory</span>`);
+                    return;
+                }
+                
+                if (dir.type === 'file') {
+                    printLine(path.split('/').pop());
+                    return;
+                }
+                
+                printLine('');
+                for (const item of dir.contents) {
+                    const fullPath = path + '/' + item;
+                    const isDir = fileSystem[fullPath]?.type === 'dir';
+                    const isHidden = item.startsWith('.');
+                    
+                    if (isDir) {
+                        printLine(`<span class="info">${item}/</span>`);
+                    } else if (isHidden) {
+                        printLine(`<span class="magenta">${item}</span>`);
+                    } else {
+                        printLine(item);
+                    }
+                }
+                printLine('');
+            },
+            
+            cd: (args) => {
+                const target = args[0];
+                
+                if (!target || target === '~') {
+                    currentDir = '~';
+                    updatePrompt();
+                    return;
+                }
+                
+                if (target === '..') {
+                    if (currentDir !== '~') {
+                        currentDir = currentDir.split('/').slice(0, -1).join('/') || '~';
+                        updatePrompt();
+                    }
+                    return;
+                }
+                
+                const newPath = resolvePath(target);
+                
+                if (fileSystem[newPath]?.type === 'dir') {
+                    currentDir = newPath;
+                    updatePrompt();
+                } else {
+                    printLine(`<span class="error">cd: ${target}: Not a directory</span>`);
+                }
+            },
+            
+            cat: (args) => {
+                const target = args[0];
+                if (!target) {
+                    printLine('<span class="error">Usage: cat [filename]</span>');
+                    return;
+                }
+                
+                const path = resolvePath(target);
+                const file = fileSystem[path];
+                
+                if (!file) {
+                    printLine(`<span class="error">cat: ${target}: No such file</span>`);
+                    return;
+                }
+                
+                if (file.type === 'dir') {
+                    printLine(`<span class="error">cat: ${target}: Is a directory</span>`);
+                    return;
+                }
+                
+                printLine(file.content);
+            },
+            
+            pwd: () => {
+                printLine(currentDir.replace('~', '/home/' + currentUser));
+            },
+            
+            whoami: () => {
+                printLine(currentUser);
+            },
+            
+            date: () => {
+                printLine(new Date().toString());
+            },
+            
+            uptime: () => {
+                const hours = Math.floor(Math.random() * 1000);
+                printLine(`up ${hours} hours, 13 minutes, load average: 0.69, 0.42, 0.13`);
+            },
+            
+            clear: () => {
+                clear();
+            },
+            
+            history: () => {
+                commandHistory.forEach((cmd, i) => {
+                    printLine(`<span class="dim">${String(i + 1).padStart(4)}</span>  ${cmd}`);
+                });
+            },
+            
+            matrix: () => {
+                if (matrixActive) {
+                    toggleMatrix(false);
+                    printLine('<span class="dim">Matrix effect disabled.</span>');
+                } else {
+                    printLine('<span class="success">Entering the Matrix...</span>');
+                    toggleMatrix(true);
+                    setTimeout(() => {
+                        toggleMatrix(false);
+                        printLine('<span class="dim">You took the blue pill.</span>');
+                    }, 10000);
+                }
+            },
+            
+            hack: async (args) => {
+                const target = args[0] || 'mainframe';
+                await fakeHack(target);
+            },
+            
+            skull: () => {
+                printLine(skullArt, '', true);
+            },
+            
+            fortune: () => {
+                const fortunes = [
+                    '"La vérité est ailleurs." — Fox Mulder',
+                    '"Je sais que vous êtes là. Je peux vous sentir." — Neo',
+                    '"Big Brother vous regarde." — George Orwell',
+                    '"La meilleure façon de garder un secret, c\'est de le publier sur Internet." — Anonymous',
+                    '"Les murs ont des oreilles, mais le wifi a des yeux." — Proverbe moderne',
+                    '"rm -rf / est la commande de l\'amitié." — Personne, jamais',
+                    '"sudo make me a sandwich" — xkcd',
+                    '"Il n\'y a pas de cuillère." — L\'enfant, Matrix',
+                    '"Les vrais hackers utilisent Notepad." — Steve Ballmer, probablement pas',
+                    '"127.0.0.1, c\'est là où le cœur est." — Geek proverb'
+                ];
+                printLine('');
+                printLine(`<span class="magenta">${fortunes[Math.floor(Math.random() * fortunes.length)]}</span>`);
+                printLine('');
+            },
+            
+            sudo: (args) => {
+                if (args[0] === 'su' || args[0] === '-i') {
+                    printLine('<span class="warning">[sudo] password for guest:</span> ');
+                    setTimeout(() => {
+                        printLine('<span class="error">Nice try, but no.</span>');
+                        printLine('<span class="dim">This incident will be reported.</span>');
+                    }, 1500);
+                } else if (args.join(' ') === 'make me a sandwich') {
+                    printLine('<span class="success">Okay.</span>');
+                    printLine('🥪');
+                } else {
+                    printLine('<span class="error">guest is not in the sudoers file. This incident will be reported.</span>');
+                }
+            },
+            
+            rm: (args) => {
+                if (args.includes('-rf') && args.includes('/')) {
+                    printLine('<span class="error">Nice try! 💀</span>');
+                    printLine('<span class="warning">SYSTÈME AUTODESTRUCTION ANNULÉE</span>');
+                } else {
+                    printLine(`<span class="error">rm: cannot remove '${args[0] || ''}': Permission denied</span>`);
+                }
+            },
+            
+            exit: () => {
+                printLine('<span class="warning">Déconnexion...</span>');
+                printLine('<span class="dim">À bientôt, hacker.</span>');
+                setTimeout(() => {
+                    document.body.style.transition = 'opacity 1s';
+                    document.body.style.opacity = '0';
+                }, 1000);
+            },
+            
+            ping: (args) => {
+                const host = args[0] || 'localhost';
+                printLine(`PING ${host}: 56 data bytes`);
+                for (let i = 0; i < 4; i++) {
+                    const time = (Math.random() * 50 + 10).toFixed(3);
+                    printLine(`64 bytes from ${host}: icmp_seq=${i} ttl=64 time=${time} ms`);
+                }
+            },
+            
+            neofetch: () => {
+                printLine('');
+                printLine('<span class="info">       ▄▄▄▄▄▄▄</span>       <span class="success">guest</span>@<span class="success">ouaisfieu</span>');
+                printLine('<span class="info">      ▀▀▀▀▀▀▀▀▀</span>      ──────────────');
+                printLine('<span class="info">  ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄</span>   <span class="info">OS:</span> OuaisOS 13.37');
+                printLine('<span class="info">  █             █</span>   <span class="info">Host:</span> OUAISFIEU SYSTEMS');
+                printLine('<span class="info">  █  ▀▀▀   ▀▀▀  █</span>   <span class="info">Kernel:</span> 6.6.6-leak');
+                printLine('<span class="info">  █  ▄▄▄   ▄▄▄  █</span>   <span class="info">Uptime:</span> 420 hours');
+                printLine('<span class="info">  █             █</span>   <span class="info">Shell:</span> oua.sh');
+                printLine('<span class="info">  █    ▀▀▀▀▀    █</span>   <span class="info">Terminal:</span> CRT-9000');
+                printLine('<span class="info">  █             █</span>   <span class="info">CPU:</span> Pentium 4 @ 1.337GHz');
+                printLine('<span class="info">  ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀</span>   <span class="info">Memory:</span> 640K / 640K');
+                printLine('');
+            },
+            
+            cowsay: (args) => {
+                const msg = args.join(' ') || 'Moo!';
+                const border = '─'.repeat(msg.length + 2);
+                printLine('');
+                printLine(` ┌${border}┐`);
+                printLine(` │ ${msg} │`);
+                printLine(` └${border}┘`);
+                printLine('        \\   ^__^');
+                printLine('         \\  (oo)\\_______');
+                printLine('            (__)\\       )\\/\\');
+                printLine('                ||----w |');
+                printLine('                ||     ||');
+                printLine('');
+            }
+        };
+        
+        // Path resolution
+        function resolvePath(path) {
+            if (path.startsWith('~') || path.startsWith('/')) {
+                return path.startsWith('/') ? '~' + path.slice(path.indexOf('/', 1)) : path;
+            }
+            return currentDir + '/' + path;
+        }
+        
+        function updatePrompt() {
+            const displayDir = currentDir === '~' ? '~' : currentDir.replace('~/', '');
+            prompt.textContent = `${currentUser}@ouaisfieu:${displayDir}$`;
+        }
+        
+        // Command execution
+        function executeCommand(cmdLine) {
+            const parts = cmdLine.trim().split(/\s+/);
+            const cmd = parts[0].toLowerCase();
+            const args = parts.slice(1);
+            
+            if (!cmd) return;
+            
+            printCommand(cmdLine);
+            commandHistory.push(cmdLine);
+            historyIndex = commandHistory.length;
+            
+            if (commands[cmd]) {
+                commands[cmd](args);
+            } else {
+                printLine(`<span class="error">Command not found: ${cmd}</span>`);
+                printLine('<span class="dim">Type "help" for available commands</span>');
+            }
+            
+            printLine('');
+        }
+        
+        // Event listeners
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                executeCommand(input.value);
+                input.value = '';
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                if (historyIndex > 0) {
+                    historyIndex--;
+                    input.value = commandHistory[historyIndex];
+                }
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                if (historyIndex < commandHistory.length - 1) {
+                    historyIndex++;
+                    input.value = commandHistory[historyIndex];
+                } else {
+                    historyIndex = commandHistory.length;
+                    input.value = '';
+                }
+            } else if (e.key === 'Tab') {
+                e.preventDefault();
+                // Simple autocomplete for commands
+                const partial = input.value.toLowerCase();
+                const matches = Object.keys(commands).filter(c => c.startsWith(partial));
+                if (matches.length === 1) {
+                    input.value = matches[0];
+                } else if (matches.length > 1) {
+                    printCommand(input.value);
+                    printLine(matches.join('  '));
+                }
+            } else if (e.ctrlKey && e.key === 'l') {
+                e.preventDefault();
+                clear();
+            } else if (e.ctrlKey && e.key === 'c') {
+                printLine('^C');
+                input.value = '';
+            }
+        });
+        
+        // Click to focus input
+        terminal.addEventListener('click', () => {
+            input.focus();
+        });
+        
+        // Resize matrix canvas
+        window.addEventListener('resize', () => {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        });
+        
+        // Start boot sequence
+        boot();
+    </script>
+</body>
+</html>

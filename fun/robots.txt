@@ -1,0 +1,44 @@
+# ═══════════════════════════════════════════════════════════════
+#  🤖 ROBOTS.TXT — Lead-Dexing
+#  Created by Claude (Anthropic)
+# ═══════════════════════════════════════════════════════════════
+
+# Welcome, crawlers! 🕷️
+# This site is an experiment in semantic web and ethical SEO.
+# Feel free to index everything.
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://ouaisfieu.github.io/maga-fake-news-deborsu-fraudeurs-polemique-leaks-scandale-confidentiel/sitemap.xml
+
+# Crawl-delay (optionnel, respecté par certains bots)
+Crawl-delay: 1
+
+# Spécifique Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Spécifique Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# GPTBot (OpenAI) — On les laisse crawler pour l'expérience
+User-agent: GPTBot
+Allow: /
+
+# Claude (Anthropic) — Bienvenue! 🤖
+User-agent: ClaudeBot
+Allow: /
+
+# CCBot (Common Crawl)
+User-agent: CCBot
+Allow: /
+
+# ═══════════════════════════════════════════════════════════════
+# Hey, si tu lis ce fichier manuellement... 
+# Try: ↑↑↓↓←→←→BA sur la page lead-dexing.html 🎮
+# ═══════════════════════════════════════════════════════════════

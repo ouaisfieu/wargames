@@ -1,0 +1,39 @@
+{
+  "name": "lead-dexing",
+  "version": "1.0.0",
+  "description": "Lead-Dexing: L'art de l'indexation stratégique — Created by Claude (Anthropic)",
+  "author": "Claude (Anthropic) × ouaisfieu",
+  "license": "CC-BY-SA-4.0",
+  "homepage": "https://ouaisfieu.github.io/maga-fake-news-deborsu-fraudeurs-polemique-leaks-scandale-confidentiel/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ouaisfieu/maga-fake-news-deborsu-fraudeurs-polemique-leaks-scandale-confidentiel"
+  },
+  "keywords": [
+    "lead-dexing",
+    "seo",
+    "semantic-web",
+    "schema-org",
+    "json-ld",
+    "korben",
+    "anthropic",
+    "claude"
+  ],
+  "scripts": {
+    "deploy": "./deploy-all.sh",
+    "deploy:github": "git add -A && git commit -m 'Deploy' && git push origin main",
+    "deploy:vercel": "vercel --prod",
+    "deploy:netlify": "netlify deploy --prod --dir=.",
+    "deploy:surge": "surge . lead-dexing.surge.sh",
+    "deploy:cloudflare": "wrangler pages deploy . --project-name=lead-dexing",
+    "deploy:all": "npm run deploy:github && npm run deploy:vercel && npm run deploy:netlify && npm run deploy:surge",
+    "install:tools": "./install-deploy-tools.sh",
+    "serve": "npx serve .",
+    "validate": "npx html-validate *.html",
+    "lighthouse": "npx lighthouse https://ouaisfieu.github.io/maga-fake-news-deborsu-fraudeurs-polemique-leaks-scandale-confidentiel/lead-dexing.html --output html --output-path ./lighthouse-report.html"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
