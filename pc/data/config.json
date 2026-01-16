@@ -1,0 +1,312 @@
+{
+  "meta": {
+    "name": "PROTOCOLE USBA",
+    "version": "0.1.0-alpha",
+    "codename": "FRAGMENT_ZERO",
+    "description": "Unité de Suivi des Biens Activés — ARG de participation citoyenne",
+    "author": "Cellule Analyse",
+    "contact": "contact@votre-domaine.eu",
+    "license": "CC BY-NC-SA 4.0"
+  },
+  
+  "deployment": {
+    "baseUrl": "/",
+    "apiEndpoint": null,
+    "debug": true
+  },
+  
+  "economy": {
+    "fragmentSymbol": "◈",
+    "currencyName": "Fragment",
+    "currencyNamePlural": "Fragments",
+    
+    "units": [
+      { "name": "Fragment", "value": 1, "symbol": "◈" },
+      { "name": "Éclat", "value": 10, "symbol": "◈◈" },
+      { "name": "Cristal", "value": 100, "symbol": "◈◈◈" },
+      { "name": "Nexus", "value": 1000, "symbol": "◈◈◈◈" }
+    ],
+    
+    "rewards": {
+      "pageView": 1,
+      "dailyLogin": 10,
+      "timeBonus": 5,
+      "timeBonusInterval": 300,
+      "clickBonus": 5,
+      "clickBonusInterval": 100,
+      "secretFound": 50,
+      "missionComplete": 50,
+      "levelUpBonus": 50,
+      "referral": 100
+    }
+  },
+  
+  "levels": [
+    {
+      "id": 0,
+      "name": "Observateur",
+      "threshold": 0,
+      "color": "#4a4a5a",
+      "description": "Tu regardes",
+      "privileges": ["basic_access"]
+    },
+    {
+      "id": 1,
+      "name": "Sentinelle",
+      "threshold": 100,
+      "color": "#00ccff",
+      "description": "Tu signales",
+      "privileges": ["basic_access", "restricted_archives"]
+    },
+    {
+      "id": 2,
+      "name": "Analyste",
+      "threshold": 500,
+      "color": "#00ff88",
+      "description": "Tu décryptes",
+      "privileges": ["basic_access", "restricted_archives", "advanced_missions"]
+    },
+    {
+      "id": 3,
+      "name": "Architecte",
+      "threshold": 2000,
+      "color": "#ffaa00",
+      "description": "Tu construis",
+      "privileges": ["basic_access", "restricted_archives", "advanced_missions", "propose_missions"]
+    },
+    {
+      "id": 4,
+      "name": "Oracle",
+      "threshold": 10000,
+      "color": "#ff3366",
+      "description": "Tu prédis",
+      "privileges": ["full_access", "governance", "admin"]
+    }
+  ],
+  
+  "secrets": {
+    "USBA-001": {
+      "reward": 50,
+      "hint": "Le premier fragment se cache dans le vide...",
+      "location": "hero_section"
+    },
+    "USBA-002": {
+      "reward": 75,
+      "hint": "Konami savait.",
+      "location": "keyboard"
+    },
+    "USBA-003": {
+      "reward": 100,
+      "hint": "Les archives parlent à ceux qui écoutent.",
+      "location": "footer"
+    },
+    "USBA-004": {
+      "reward": 150,
+      "hint": "Le temps est une spirale.",
+      "location": "archives"
+    },
+    "USBA-005": {
+      "reward": 200,
+      "hint": "42.",
+      "location": "search"
+    }
+  },
+  
+  "missions": {
+    "categories": [
+      { "id": "onboarding", "name": "Démarrage", "color": "#00ccff" },
+      { "id": "exploration", "name": "Exploration", "color": "#00ff88" },
+      { "id": "discovery", "name": "Découverte", "color": "#aa88ff" },
+      { "id": "progression", "name": "Progression", "color": "#ffaa00" },
+      { "id": "engagement", "name": "Engagement", "color": "#ff3366" },
+      { "id": "community", "name": "Communauté", "color": "#ff8800" },
+      { "id": "easter_egg", "name": "Easter Egg", "color": "#ff00ff" }
+    ],
+    
+    "list": [
+      {
+        "id": "M001",
+        "title": "Première Connexion",
+        "description": "Activez votre profil d'Agent",
+        "reward": 10,
+        "category": "onboarding",
+        "hidden": false
+      },
+      {
+        "id": "M002",
+        "title": "Explorateur",
+        "description": "Visitez 5 pages différentes",
+        "reward": 25,
+        "category": "exploration",
+        "hidden": false
+      },
+      {
+        "id": "M003",
+        "title": "Archiviste",
+        "description": "Accédez à la section Archives",
+        "reward": 30,
+        "category": "exploration",
+        "hidden": false
+      },
+      {
+        "id": "M004",
+        "title": "Chercheur de Secrets",
+        "description": "Trouvez votre premier Fragment caché",
+        "reward": 50,
+        "category": "discovery",
+        "hidden": false
+      },
+      {
+        "id": "M005",
+        "title": "Sentinelle Active",
+        "description": "Atteignez le niveau Sentinelle",
+        "reward": 100,
+        "category": "progression",
+        "hidden": false
+      },
+      {
+        "id": "M006",
+        "title": "Collectionneur",
+        "description": "Trouvez 3 Fragments cachés",
+        "reward": 150,
+        "category": "discovery",
+        "hidden": false
+      },
+      {
+        "id": "M007",
+        "title": "Le Code Konami",
+        "description": "↑↑↓↓←→←→BA",
+        "reward": 100,
+        "category": "easter_egg",
+        "hidden": true
+      },
+      {
+        "id": "M008",
+        "title": "Analyste Confirmé",
+        "description": "Atteignez le niveau Analyste",
+        "reward": 200,
+        "category": "progression",
+        "hidden": false
+      },
+      {
+        "id": "M009",
+        "title": "Régulier",
+        "description": "Connectez-vous 7 jours consécutifs",
+        "reward": 250,
+        "category": "engagement",
+        "hidden": false
+      },
+      {
+        "id": "M010",
+        "title": "Maître des Archives",
+        "description": "Trouvez tous les Fragments cachés",
+        "reward": 500,
+        "category": "discovery",
+        "hidden": false
+      }
+    ]
+  },
+  
+  "content": {
+    "archives": [
+      {
+        "id": "A001",
+        "title": "La Genèse du Protocole",
+        "description": "Comment tout a commencé...",
+        "readTime": 12,
+        "reward": 15,
+        "requiredLevel": 0
+      },
+      {
+        "id": "A002",
+        "title": "L'Économie des Fragments",
+        "description": "Comprendre la valeur citoyenne...",
+        "readTime": 8,
+        "reward": 10,
+        "requiredLevel": 0
+      },
+      {
+        "id": "A003",
+        "title": "Le Réseau des Agents",
+        "description": "Structure organisationnelle...",
+        "readTime": 15,
+        "reward": 20,
+        "requiredLevel": 0
+      },
+      {
+        "id": "A004",
+        "title": "Veille Citoyenne : Méthodologie",
+        "description": "Les cinq étapes...",
+        "readTime": 20,
+        "reward": 25,
+        "requiredLevel": 0
+      },
+      {
+        "id": "A005",
+        "title": "[CLASSIFIÉ]",
+        "description": "Niveau Sentinelle requis",
+        "readTime": null,
+        "reward": 50,
+        "requiredLevel": 1
+      },
+      {
+        "id": "A006",
+        "title": "[ACCÈS REFUSÉ]",
+        "description": "Niveau Analyste requis",
+        "readTime": null,
+        "reward": 100,
+        "requiredLevel": 2
+      }
+    ]
+  },
+  
+  "ui": {
+    "theme": "dark",
+    "primaryColor": "#00ff88",
+    "accentColor": "#ff3366",
+    "fonts": {
+      "display": "Space Grotesk",
+      "mono": "JetBrains Mono",
+      "prose": "Crimson Pro"
+    },
+    "effects": {
+      "scanlines": true,
+      "noise": true,
+      "glitch": true
+    }
+  },
+  
+  "integrations": {
+    "analytics": null,
+    "websocket": null,
+    "externalLinks": {
+      "github": "https://github.com/protocole-usba",
+      "bluesky": "https://bsky.app/profile/votre-handle"
+    }
+  },
+  
+  "localEconomy": {
+    "enabled": false,
+    "exchangeRates": {
+      "coffee": 100,
+      "event": 500,
+      "coworking": 1000,
+      "workshop": 2500
+    },
+    "partners": []
+  },
+  
+  "narrative": {
+    "timeline": [
+      { "date": "2024-Q1", "event": "Conception initiale du Protocole" },
+      { "date": "2024-Q2", "event": "Premiers tests d'économie de Fragments" },
+      { "date": "2024-Q3", "event": "Recrutement des premiers Agents" },
+      { "date": "2024-Q4", "event": "Lancement de la phase Alpha" },
+      { "date": "2025-Q1", "event": "Découverte de la faille /usba/" },
+      { "date": "2025-Q2", "event": "Expansion du réseau" },
+      { "date": "2025-Q3", "event": "Intégration ARG" },
+      { "date": "2025-Q4", "event": "VOUS ÊTES ICI", "current": true },
+      { "date": "2026-Q1", "event": "Reconnaissance officielle", "future": true }
+    ]
+  }
+}

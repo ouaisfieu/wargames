@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fragments — PROTOCOLE USBA</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="../index.html" class="logo">
+          <span class="logo__symbol">◈</span>
+          <span>PROTOCOLE USBA</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="../index.html" class="nav__link">Accueil</a>
+          <a href="missions.html" class="nav__link">Missions</a>
+          <a href="archives.html" class="nav__link">Archives</a>
+          <a href="fragments.html" class="nav__link nav__link--active">Fragments</a>
+          <a href="about.html" class="nav__link">Protocole</a>
+        </nav>
+        
+        <div class="status-bar">
+          <div class="status-bar__item">
+            <span class="status-bar__dot"></span>
+            <span>EN LIGNE</span>
+          </div>
+          <div class="status-bar__item status-bar__fragments">
+            ◈ <span data-fragments>0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 120px;">
+    <!-- Hero -->
+    <section class="section">
+      <div class="container text-center">
+        <p class="section__pretitle">// SYSTÈME ÉCONOMIQUE</p>
+        <h1 style="font-size: 4rem; margin-bottom: 1rem;">
+          <span style="color: var(--fragment); text-shadow: var(--glow-fragment);">◈</span>
+          Fragments
+        </h1>
+        <p class="section__description" style="max-width: 600px; margin: 0 auto;">
+          La monnaie citoyenne du Protocole USBA. Chaque action compte. 
+          Chaque engagement génère de la valeur.
+        </p>
+      </div>
+    </section>
+
+    <!-- Your Balance -->
+    <section class="section">
+      <div class="container">
+        <div class="card" style="max-width: 500px; margin: 0 auto; text-align: center; border-color: var(--fragment);">
+          <p class="mono" style="font-size: 0.8rem; color: var(--fog); margin-bottom: 1rem;">VOTRE SOLDE</p>
+          <div class="fragment-display fragment-display--large" style="justify-content: center; margin-bottom: 1rem;">
+            <span class="fragment-display__icon">◈</span>
+            <span class="fragment-display__value" data-fragments>0</span>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <span class="level-badge" data-level-class style="font-size: 0.9rem;">
+              <span data-level>Observateur</span>
+            </span>
+          </div>
+          <div class="progress" style="margin-bottom: 0.5rem;">
+            <div class="progress__bar" data-level-progress style="width: 0%;"></div>
+          </div>
+          <p class="mono" style="font-size: 0.7rem; color: var(--fog);">
+            Progression vers le prochain niveau
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Economy Explanation -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// COMPRENDRE L'ÉCONOMIE</p>
+          <h2 class="section__title">Comment fonctionnent les Fragments ?</h2>
+        </div>
+
+        <div style="line-height: 1.8; color: var(--smoke);">
+          <p style="margin-bottom: 1.5rem;">
+            Les <strong style="color: var(--fragment);">Fragments (◈)</strong> représentent la valeur de votre 
+            engagement citoyen. Contrairement aux monnaies traditionnelles, ils ne s'achètent pas — 
+            ils se <em>méritent</em>.
+          </p>
+
+          <p style="margin-bottom: 1.5rem;">
+            Chaque action que vous effectuez dans le cadre du Protocole génère des Fragments. 
+            Lire un dossier, compléter une mission, découvrir un secret, participer à la 
+            veille citoyenne — tout compte.
+          </p>
+
+          <p style="margin-bottom: 1.5rem;">
+            Les Fragments ne sont pas qu'une métrique de gamification. Ils constituent le socle 
+            d'une économie de la participation où l'engagement réel a une valeur tangible.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Earning Methods -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__pretitle">// SOURCES DE REVENUS</p>
+          <h2 class="section__title">Comment gagner des Fragments</h2>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="card">
+            <h3 class="card__title" style="color: var(--data);">Exploration</h3>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1rem;">
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Visiter une nouvelle page</td>
+                <td style="text-align: right; color: var(--fragment);">+1 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Lire un dossier d'archives</td>
+                <td style="text-align: right; color: var(--fragment);">+10-25 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Découvrir un secret</td>
+                <td style="text-align: right; color: var(--fragment);">+25-200 ◈</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3 class="card__title" style="color: var(--warning);">Missions</h3>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1rem;">
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Mission d'onboarding</td>
+                <td style="text-align: right; color: var(--fragment);">+10 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Mission standard</td>
+                <td style="text-align: right; color: var(--fragment);">+25-100 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Mission communautaire</td>
+                <td style="text-align: right; color: var(--fragment);">+100-500 ◈</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3 class="card__title" style="color: var(--archive);">Engagement</h3>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1rem;">
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Connexion quotidienne</td>
+                <td style="text-align: right; color: var(--fragment);">+10 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">5 minutes sur le site</td>
+                <td style="text-align: right; color: var(--fragment);">+5 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">100 clics</td>
+                <td style="text-align: right; color: var(--fragment);">+5 ◈</td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <h3 class="card__title" style="color: var(--signal);">Progression</h3>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem; margin-top: 1rem;">
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Bonus de niveau</td>
+                <td style="text-align: right; color: var(--fragment);">+50 ◈/niveau</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Référer un Agent</td>
+                <td style="text-align: right; color: var(--fragment);">+100 ◈</td>
+              </tr>
+              <tr style="color: var(--fog);">
+                <td style="padding: 0.5rem 0;">Easter egg</td>
+                <td style="text-align: right; color: var(--fragment);">+??? ◈</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Levels -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__pretitle">// HIÉRARCHIE</p>
+          <h2 class="section__title">Niveaux d'Agent</h2>
+        </div>
+
+        <div class="grid grid--5" style="gap: 1rem;">
+          <div class="card text-center" style="border-top: 3px solid #4a4a5a;">
+            <h3 style="font-size: 1rem; color: #4a4a5a;">Observateur</h3>
+            <p class="mono" style="font-size: 2rem; color: #4a4a5a; margin: 1rem 0;">0 ◈</p>
+            <p style="font-size: 0.8rem; color: var(--fog);">Tu regardes</p>
+          </div>
+
+          <div class="card text-center" style="border-top: 3px solid var(--data);">
+            <h3 style="font-size: 1rem; color: var(--data);">Sentinelle</h3>
+            <p class="mono" style="font-size: 2rem; color: var(--data); margin: 1rem 0;">100 ◈</p>
+            <p style="font-size: 0.8rem; color: var(--fog);">Tu signales</p>
+          </div>
+
+          <div class="card text-center" style="border-top: 3px solid var(--fragment);">
+            <h3 style="font-size: 1rem; color: var(--fragment);">Analyste</h3>
+            <p class="mono" style="font-size: 2rem; color: var(--fragment); margin: 1rem 0;">500 ◈</p>
+            <p style="font-size: 0.8rem; color: var(--fog);">Tu décryptes</p>
+          </div>
+
+          <div class="card text-center" style="border-top: 3px solid var(--warning);">
+            <h3 style="font-size: 1rem; color: var(--warning);">Architecte</h3>
+            <p class="mono" style="font-size: 2rem; color: var(--warning); margin: 1rem 0;">2000 ◈</p>
+            <p style="font-size: 0.8rem; color: var(--fog);">Tu construis</p>
+          </div>
+
+          <div class="card text-center" style="border-top: 3px solid var(--signal);">
+            <h3 style="font-size: 1rem; color: var(--signal);">Oracle</h3>
+            <p class="mono" style="font-size: 2rem; color: var(--signal); margin: 1rem 0;">10000 ◈</p>
+            <p style="font-size: 0.8rem; color: var(--fog);">Tu prédis</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Uses -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// UTILISATION</p>
+          <h2 class="section__title">À quoi servent les Fragments ?</h2>
+        </div>
+
+        <div style="line-height: 1.8; color: var(--smoke);">
+          <p style="margin-bottom: 1.5rem;">
+            <strong style="color: var(--fragment);">Débloquer du contenu</strong> — 
+            Certains dossiers, certaines missions, et certaines fonctionnalités 
+            ne sont accessibles qu'à partir d'un certain niveau.
+          </p>
+
+          <p style="margin-bottom: 1.5rem;">
+            <strong style="color: var(--data);">Voter</strong> — 
+            Les décisions collectives du Protocole sont prises par vote pondéré. 
+            Plus vous avez de Fragments, plus votre voix compte.
+          </p>
+
+          <p style="margin-bottom: 1.5rem;">
+            <strong style="color: var(--warning);">Proposer</strong> — 
+            Soumettre une nouvelle mission ou un projet communautaire 
+            requiert un minimum de Fragments comme gage de sérieux.
+          </p>
+
+          <p style="margin-bottom: 1.5rem;">
+            <strong style="color: var(--signal);">Échanger</strong> — 
+            (Phase future) Les Fragments pourront être échangés contre 
+            des biens et services au sein de l'économie locale partenaire.
+          </p>
+        </div>
+
+        <div class="terminal mt-4">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">economy_preview</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--prompt">preview --phase=future</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--output">ÉCONOMIE LOCALE PRÉVUE :</div>
+            <div class="terminal__line terminal__line--output">  100 ◈  →  1 café local</div>
+            <div class="terminal__line terminal__line--output">  500 ◈  →  1 entrée événement culturel</div>
+            <div class="terminal__line terminal__line--output">  1000 ◈ →  1h de coworking</div>
+            <div class="terminal__line terminal__line--output">  2500 ◈ →  1 atelier formation</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--error">⚠ Ces taux sont indicatifs et sujets à gouvernance</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <p>◈ PROTOCOLE USBA — v0.1.0-alpha</p>
+        </div>
+        <div class="footer__right">
+          <a href="about.html" class="footer__link">Protocole</a>
+          <a href="rules.html" class="footer__link">Règles</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/engine.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Missions — PROTOCOLE USBA</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="../index.html" class="logo">
+          <span class="logo__symbol">◈</span>
+          <span>PROTOCOLE USBA</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="../index.html" class="nav__link">Accueil</a>
+          <a href="missions.html" class="nav__link nav__link--active">Missions</a>
+          <a href="archives.html" class="nav__link">Archives</a>
+          <a href="fragments.html" class="nav__link">Fragments</a>
+          <a href="about.html" class="nav__link">Protocole</a>
+        </nav>
+        
+        <div class="status-bar">
+          <div class="status-bar__item">
+            <span class="status-bar__dot"></span>
+            <span>EN LIGNE</span>
+          </div>
+          <div class="status-bar__item status-bar__fragments">
+            ◈ <span data-fragments>0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 120px;">
+    <!-- Page Header -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__pretitle">// CENTRE DE COMMANDEMENT</p>
+          <h1 class="section__title">Missions</h1>
+          <p class="section__description">
+            Complétez des objectifs pour gagner des Fragments et débloquer de nouvelles capacités.
+            Chaque mission accomplie vous rapproche de la vérité.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Categories -->
+    <section class="section">
+      <div class="container">
+        <div class="grid grid--4 mb-4">
+          <button class="btn" onclick="filterMissions('all')">Toutes</button>
+          <button class="btn" onclick="filterMissions('exploration')">Exploration</button>
+          <button class="btn" onclick="filterMissions('discovery')">Découverte</button>
+          <button class="btn" onclick="filterMissions('progression')">Progression</button>
+        </div>
+
+        <!-- Missions dynamiques -->
+        <div id="missions-container" data-missions>
+          <!-- Rempli par JS -->
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Missions Spéciales -->
+        <div class="section__header mt-4">
+          <p class="section__pretitle">// OPÉRATIONS SPÉCIALES</p>
+          <h2 class="section__title">Missions Communautaires</h2>
+        </div>
+
+        <div class="grid grid--2">
+          <div class="card card--mission">
+            <span class="card__tag">Mission Hebdomadaire</span>
+            <h3 class="card__title">Veille Citoyenne</h3>
+            <p>Partagez une analyse d'actualité locale avec la communauté. Votre contribution sera évaluée par vos pairs.</p>
+            <div class="card__meta">
+              <span>Expire dans 5j</span>
+              <span class="card__reward">+100 ◈</span>
+            </div>
+          </div>
+
+          <div class="card card--mission">
+            <span class="card__tag">Mission Mensuelle</span>
+            <h3 class="card__title">Projet Collectif</h3>
+            <p>Participez à la documentation d'un enjeu local. Coordination requise avec d'autres Agents.</p>
+            <div class="card__meta">
+              <span>Expire dans 23j</span>
+              <span class="card__reward">+500 ◈</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Leaderboard Preview -->
+        <div class="section__header mt-4">
+          <p class="section__pretitle">// CLASSEMENT</p>
+          <h2 class="section__title">Top Agents</h2>
+        </div>
+
+        <div class="terminal" style="max-width: 600px;">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">leaderboard_v1</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--prompt">top 10</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--output">#1  CipherWalker42    ◈ 2,450   Oracle</div>
+            <div class="terminal__line terminal__line--output">#2  ShadowSeeker17    ◈ 1,890   Architecte</div>
+            <div class="terminal__line terminal__line--output">#3  GhostReader99     ◈ 1,245   Architecte</div>
+            <div class="terminal__line terminal__line--output">#4  NexusHunter08     ◈ 987     Analyste</div>
+            <div class="terminal__line terminal__line--output">#5  EchoFinder31      ◈ 756     Analyste</div>
+            <div class="terminal__line terminal__line--output">...</div>
+            <div class="terminal__line terminal__line--success">→  Vous : <span data-codename>...</span>  ◈ <span data-fragments>0</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <p>◈ PROTOCOLE USBA — v0.1.0-alpha</p>
+        </div>
+        <div class="footer__right">
+          <a href="about.html" class="footer__link">Protocole</a>
+          <a href="rules.html" class="footer__link">Règles</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/engine.js"></script>
+  <script>
+    function filterMissions(type) {
+      // À implémenter : filtrage des missions par type
+      console.log('Filter:', type);
+    }
+  </script>
+</body>
+</html>

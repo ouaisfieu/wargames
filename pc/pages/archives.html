@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Archives — PROTOCOLE USBA</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="../index.html" class="logo">
+          <span class="logo__symbol">◈</span>
+          <span>PROTOCOLE USBA</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="../index.html" class="nav__link">Accueil</a>
+          <a href="missions.html" class="nav__link">Missions</a>
+          <a href="archives.html" class="nav__link nav__link--active">Archives</a>
+          <a href="fragments.html" class="nav__link">Fragments</a>
+          <a href="about.html" class="nav__link">Protocole</a>
+        </nav>
+        
+        <div class="status-bar">
+          <div class="status-bar__item">
+            <span class="status-bar__dot"></span>
+            <span>EN LIGNE</span>
+          </div>
+          <div class="status-bar__item status-bar__fragments">
+            ◈ <span data-fragments>0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 120px;">
+    <!-- Page Header -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__pretitle">// SECTION CLASSIFIÉE</p>
+          <h1 class="section__title">Archives</h1>
+          <p class="section__description">
+            Documents déclassifiés du Protocole USBA. Certains dossiers requièrent un niveau d'accréditation supérieur.
+          </p>
+        </div>
+
+        <!-- Search & Filter -->
+        <div class="terminal mb-4" style="max-width: 600px;">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">archive_search</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--prompt">
+              <input type="text" id="archive-search" placeholder="Rechercher dans les archives..." 
+                     style="background: transparent; border: none; color: var(--cloud); font-family: inherit; font-size: inherit; width: 100%; outline: none;">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Archives Grid -->
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <p class="section__pretitle">// DOSSIERS OUVERTS</p>
+          <h2 class="section__title">Accès Public</h2>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="card card--archive" onclick="openArchive('001')">
+            <span class="card__tag">Dossier #001</span>
+            <h3 class="card__title">La Genèse du Protocole</h3>
+            <p>
+              Document fondateur. Comment l'idée d'une économie citoyenne basée sur la participation 
+              a émergé des cendres du désenchantement démocratique.
+            </p>
+            <div class="card__meta">
+              <span>12 min de lecture</span>
+              <span class="card__reward">+15 ◈</span>
+            </div>
+          </article>
+
+          <article class="card card--archive" onclick="openArchive('002')">
+            <span class="card__tag">Dossier #002</span>
+            <h3 class="card__title">L'Économie des Fragments</h3>
+            <p>
+              Théorie et pratique de la monnaie citoyenne. Pourquoi chaque action génère de la valeur 
+              et comment cette valeur se traduit en impact réel.
+            </p>
+            <div class="card__meta">
+              <span>8 min de lecture</span>
+              <span class="card__reward">+10 ◈</span>
+            </div>
+          </article>
+
+          <article class="card card--archive" onclick="openArchive('003')">
+            <span class="card__tag">Dossier #003</span>
+            <h3 class="card__title">Le Réseau des Agents</h3>
+            <p>
+              Structure organisationnelle du Protocole. Les différents niveaux, leurs responsabilités, 
+              et les mécanismes de gouvernance distribuée.
+            </p>
+            <div class="card__meta">
+              <span>15 min de lecture</span>
+              <span class="card__reward">+20 ◈</span>
+            </div>
+          </article>
+
+          <article class="card card--archive" onclick="openArchive('004')">
+            <span class="card__tag">Dossier #004</span>
+            <h3 class="card__title">Veille Citoyenne : Méthodologie</h3>
+            <p>
+              Guide pratique pour la collecte et l'analyse d'informations d'intérêt public. 
+              Les cinq étapes de la veille efficace.
+            </p>
+            <div class="card__meta">
+              <span>20 min de lecture</span>
+              <span class="card__reward">+25 ◈</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Restricted Archives -->
+        <div class="section__header mt-4">
+          <p class="section__pretitle">// ACCÈS RESTREINT</p>
+          <h2 class="section__title">Niveau Sentinelle Requis</h2>
+        </div>
+
+        <div class="grid grid--2">
+          <article class="card card--archive card--locked">
+            <span class="card__tag">Dossier #005</span>
+            <h3 class="card__title">[DONNÉES CHIFFRÉES]</h3>
+            <p>
+              ████████ ██ ████████████ ██████ ███████ 
+              ████ ██████████ ███ ████████████.
+            </p>
+            <div class="card__meta">
+              <span>??? min</span>
+              <span class="card__reward">+??? ◈</span>
+            </div>
+          </article>
+
+          <article class="card card--archive card--locked">
+            <span class="card__tag">Dossier #006</span>
+            <h3 class="card__title">[ACCÈS REFUSÉ]</h3>
+            <p>
+              Ce document contient des informations sensibles sur ████████ 
+              et ne peut être consulté qu'avec l'autorisation appropriée.
+            </p>
+            <div class="card__meta">
+              <span>??? min</span>
+              <span class="card__reward">+??? ◈</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Top Secret -->
+        <div class="section__header mt-4">
+          <p class="section__pretitle">// NIVEAU ORACLE REQUIS</p>
+          <h2 class="section__title">Dossiers Noirs</h2>
+        </div>
+
+        <div class="grid grid--3">
+          <article class="card card--archive card--locked" style="border-left-color: var(--signal);">
+            <span class="card__tag" style="color: var(--signal);">Dossier Ω-001</span>
+            <h3 class="card__title">[EXPURGÉ]</h3>
+            <p>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</p>
+            <div class="card__meta">
+              <span style="color: var(--signal);">CLASSIFIÉ</span>
+            </div>
+          </article>
+
+          <article class="card card--archive card--locked" style="border-left-color: var(--signal);">
+            <span class="card__tag" style="color: var(--signal);">Dossier Ω-002</span>
+            <h3 class="card__title">[EXPURGÉ]</h3>
+            <p>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</p>
+            <div class="card__meta">
+              <span style="color: var(--signal);">CLASSIFIÉ</span>
+            </div>
+          </article>
+
+          <article class="card card--archive card--locked" style="border-left-color: var(--signal);" data-secret="USBA-004">
+            <span class="card__tag" style="color: var(--signal);">Dossier Ω-003</span>
+            <h3 class="card__title">[EXPURGÉ]</h3>
+            <p>▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓</p>
+            <div class="card__meta">
+              <span style="color: var(--signal);">CLASSIFIÉ</span>
+            </div>
+          </article>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Timeline -->
+        <div class="section__header mt-4">
+          <p class="section__pretitle">// CHRONOLOGIE</p>
+          <h2 class="section__title">Histoire du Protocole</h2>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">timeline_v1</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--prompt">display timeline --from=2024</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--output">2024-Q1  │  Conception initiale du Protocole</div>
+            <div class="terminal__line terminal__line--output">2024-Q2  │  Premiers tests d'économie de Fragments</div>
+            <div class="terminal__line terminal__line--output">2024-Q3  │  Recrutement des premiers Agents</div>
+            <div class="terminal__line terminal__line--output">2024-Q4  │  Lancement de la phase Alpha</div>
+            <div class="terminal__line terminal__line--output">2025-Q1  │  Découverte de la faille /usba/</div>
+            <div class="terminal__line terminal__line--output">2025-Q2  │  Expansion du réseau</div>
+            <div class="terminal__line terminal__line--output">2025-Q3  │  Intégration ARG</div>
+            <div class="terminal__line terminal__line--success">2025-Q4  │  ▶ VOUS ÊTES ICI</div>
+            <div class="terminal__line terminal__line--output">2026-Q1  │  [PRÉVU] Reconnaissance officielle</div>
+            <div class="terminal__line terminal__line--output">2026-??  │  [CLASSIFIÉ]</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <!-- Hidden secret element -->
+  <div style="position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); opacity: 0.01; font-size: 4px; pointer-events: none;">
+    USBA-005:42:FRAGMENT:HIDDEN:DOUGLAS:ADAMS
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <p>◈ PROTOCOLE USBA — v0.1.0-alpha</p>
+        </div>
+        <div class="footer__right">
+          <a href="about.html" class="footer__link">Protocole</a>
+          <a href="rules.html" class="footer__link">Règles</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/engine.js"></script>
+  <script>
+    function openArchive(id) {
+      // Reward for reading
+      if (window.ProtocoleUSBA) {
+        window.ProtocoleUSBA.Fragments.add(5, 'archive_view_' + id);
+      }
+      // TODO: Open archive modal or page
+      console.log('Opening archive:', id);
+    }
+
+    // Search functionality
+    document.getElementById('archive-search').addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase();
+      
+      // Easter egg: search "42"
+      if (query === '42') {
+        if (window.ProtocoleUSBA) {
+          window.ProtocoleUSBA.Secrets.unlockSecret('USBA-005');
+        }
+      }
+      
+      // Filter archives
+      document.querySelectorAll('.card--archive').forEach(card => {
+        const text = card.textContent.toLowerCase();
+        card.style.display = text.includes(query) ? 'block' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>

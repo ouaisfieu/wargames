@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Règles — PROTOCOLE USBA</title>
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◈</text></svg>">
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <a href="../index.html" class="logo">
+          <span class="logo__symbol">◈</span>
+          <span>PROTOCOLE USBA</span>
+        </a>
+        
+        <nav class="nav">
+          <a href="../index.html" class="nav__link">Accueil</a>
+          <a href="missions.html" class="nav__link">Missions</a>
+          <a href="archives.html" class="nav__link">Archives</a>
+          <a href="fragments.html" class="nav__link">Fragments</a>
+          <a href="about.html" class="nav__link">Protocole</a>
+        </nav>
+        
+        <div class="status-bar">
+          <div class="status-bar__item">
+            <span class="status-bar__dot"></span>
+            <span>EN LIGNE</span>
+          </div>
+          <div class="status-bar__item status-bar__fragments">
+            ◈ <span data-fragments>0</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main style="padding-top: 120px;">
+    <!-- Header -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// DOCUMENTATION</p>
+          <h1 class="section__title">Règles du Jeu</h1>
+          <p class="section__description">
+            Tout ce que vous devez savoir pour participer au Protocole USBA.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Start -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// DÉMARRAGE RAPIDE</p>
+          <h2 class="section__title">Comment jouer</h2>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">quickstart</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--prompt">init player</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--success">1. Vous êtes déjà inscrit (automatiquement)</div>
+            <div class="terminal__line terminal__line--success">2. Explorez le site → gagnez des Fragments</div>
+            <div class="terminal__line terminal__line--success">3. Complétez des missions → gagnez plus</div>
+            <div class="terminal__line terminal__line--success">4. Trouvez les secrets → débloquez du contenu</div>
+            <div class="terminal__line terminal__line--success">5. Montez en niveau → accédez à plus de pouvoirs</div>
+            <div class="terminal__line terminal__line--output"></div>
+            <div class="terminal__line terminal__line--prompt">start</div>
+            <div class="terminal__line terminal__line--success">▶ Protocole activé. Bonne chasse, Agent.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Detailed Rules -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// RÈGLES DÉTAILLÉES</p>
+          <h2 class="section__title">Le système en détail</h2>
+        </div>
+
+        <!-- Fragments -->
+        <div class="card mb-3">
+          <h3 class="card__title" style="color: var(--fragment);">◈ Les Fragments</h3>
+          <div style="line-height: 1.8; color: var(--smoke); margin-top: 1rem;">
+            <p style="margin-bottom: 1rem;">
+              Les Fragments sont l'unité de base de l'économie du Protocole. Ils représentent 
+              votre engagement et votre participation.
+            </p>
+            <p><strong style="color: var(--cloud);">Sources de Fragments :</strong></p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>Navigation sur le site (+1 ◈ par nouvelle page)</li>
+              <li>Connexion quotidienne (+10 ◈)</li>
+              <li>Temps passé (+5 ◈ toutes les 5 minutes)</li>
+              <li>Missions accomplies (+10 à +500 ◈)</li>
+              <li>Secrets découverts (+25 à +200 ◈)</li>
+              <li>Bonus de niveau (+50 ◈ par niveau)</li>
+            </ul>
+            <p><strong style="color: var(--cloud);">Stockage :</strong> Vos Fragments sont stockés localement 
+            dans votre navigateur. Vous pouvez les exporter/importer via la console (F12).</p>
+          </div>
+        </div>
+
+        <!-- Levels -->
+        <div class="card mb-3">
+          <h3 class="card__title" style="color: var(--data);">↑ Les Niveaux</h3>
+          <div style="line-height: 1.8; color: var(--smoke); margin-top: 1rem;">
+            <p style="margin-bottom: 1rem;">
+              Votre niveau détermine votre accès au contenu et vos privilèges dans le Protocole.
+            </p>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem;">
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <th style="text-align: left; padding: 0.75rem 0; color: var(--fog);">Niveau</th>
+                <th style="text-align: left; padding: 0.75rem 0; color: var(--fog);">Seuil</th>
+                <th style="text-align: left; padding: 0.75rem 0; color: var(--fog);">Privilèges</th>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: #4a4a5a;">Observateur</td>
+                <td style="padding: 0.75rem 0;">0 ◈</td>
+                <td style="padding: 0.75rem 0;">Accès basique</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--data);">Sentinelle</td>
+                <td style="padding: 0.75rem 0;">100 ◈</td>
+                <td style="padding: 0.75rem 0;">Dossiers restreints</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--fragment);">Analyste</td>
+                <td style="padding: 0.75rem 0;">500 ◈</td>
+                <td style="padding: 0.75rem 0;">Missions avancées</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--warning);">Architecte</td>
+                <td style="padding: 0.75rem 0;">2000 ◈</td>
+                <td style="padding: 0.75rem 0;">Proposer des missions</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem 0; color: var(--signal);">Oracle</td>
+                <td style="padding: 0.75rem 0;">10000 ◈</td>
+                <td style="padding: 0.75rem 0;">Accès total + Gouvernance</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- Missions -->
+        <div class="card mb-3">
+          <h3 class="card__title" style="color: var(--warning);">⬡ Les Missions</h3>
+          <div style="line-height: 1.8; color: var(--smoke); margin-top: 1rem;">
+            <p style="margin-bottom: 1rem;">
+              Les missions sont des objectifs à accomplir pour gagner des Fragments. 
+              Il existe plusieurs types :
+            </p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li><strong style="color: var(--cloud);">Onboarding</strong> — Missions de démarrage</li>
+              <li><strong style="color: var(--cloud);">Exploration</strong> — Visiter des pages spécifiques</li>
+              <li><strong style="color: var(--cloud);">Découverte</strong> — Trouver des secrets</li>
+              <li><strong style="color: var(--cloud);">Progression</strong> — Atteindre des paliers</li>
+              <li><strong style="color: var(--cloud);">Communautaire</strong> — Contributions collectives</li>
+              <li><strong style="color: var(--cloud);">Easter Eggs</strong> — Missions cachées</li>
+            </ul>
+            <p>Les missions se complètent automatiquement quand les conditions sont remplies.</p>
+          </div>
+        </div>
+
+        <!-- Secrets -->
+        <div class="card mb-3">
+          <h3 class="card__title" style="color: var(--archive);">🔓 Les Secrets</h3>
+          <div style="line-height: 1.8; color: var(--smoke); margin-top: 1rem;">
+            <p style="margin-bottom: 1rem;">
+              Des Fragments sont cachés un peu partout sur le site. Voici quelques indices :
+            </p>
+            <ul style="margin: 1rem 0; padding-left: 1.5rem;">
+              <li>Certains éléments réagissent au <strong style="color: var(--cloud);">clic</strong></li>
+              <li>D'autres au <strong style="color: var(--cloud);">double-clic</strong></li>
+              <li>Certains se révèlent après un <strong style="color: var(--cloud);">survol prolongé</strong></li>
+              <li>La <strong style="color: var(--cloud);">console développeur</strong> (F12) cache des surprises</li>
+              <li>Certaines séquences de touches sont... <em>classiques</em></li>
+              <li>Les chiffres ont parfois un sens caché</li>
+            </ul>
+            <p>Tapez <code class="code">USBA.hint()</code> dans la console pour un indice.</p>
+          </div>
+        </div>
+
+        <!-- Console -->
+        <div class="card">
+          <h3 class="card__title" style="color: var(--signal);">⌨ La Console</h3>
+          <div style="line-height: 1.8; color: var(--smoke); margin-top: 1rem;">
+            <p style="margin-bottom: 1rem;">
+              La console développeur (F12) donne accès à des commandes spéciales :
+            </p>
+            <table style="width: 100%; font-family: var(--font-mono); font-size: 0.85rem;">
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--fragment);">USBA.hint()</td>
+                <td style="padding: 0.75rem 0;">Obtenir un indice pour un secret</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--fragment);">USBA.status()</td>
+                <td style="padding: 0.75rem 0;">Voir votre statut complet</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--shadow);">
+                <td style="padding: 0.75rem 0; color: var(--fragment);">USBA.export()</td>
+                <td style="padding: 0.75rem 0;">Exporter vos données</td>
+              </tr>
+              <tr>
+                <td style="padding: 0.75rem 0; color: var(--fragment);">USBA.import(data)</td>
+                <td style="padding: 0.75rem 0;">Importer des données</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Fair Play -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// CODE DE CONDUITE</p>
+          <h2 class="section__title">Fair Play</h2>
+        </div>
+
+        <div style="line-height: 1.8; color: var(--smoke);">
+          <p style="margin-bottom: 1.5rem;">
+            Le Protocole USBA est un jeu coopératif. Voici les règles de bonne conduite :
+          </p>
+
+          <div class="card mb-2" style="border-left-color: var(--fragment);">
+            <p><strong style="color: var(--fragment);">✓ Encouragé</strong></p>
+            <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+              <li>Explorer, expérimenter, chercher</li>
+              <li>Partager des indices (pas les solutions directes)</li>
+              <li>Contribuer au développement</li>
+              <li>Signaler des bugs</li>
+              <li>Proposer des améliorations</li>
+            </ul>
+          </div>
+
+          <div class="card" style="border-left-color: var(--signal);">
+            <p><strong style="color: var(--signal);">✗ Découragé</strong></p>
+            <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+              <li>Modifier le code pour tricher</li>
+              <li>Publier des solutions complètes</li>
+              <li>Automatiser la collecte de Fragments</li>
+              <li>Usurper l'identité d'autres Agents</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- Keyboard Shortcuts -->
+    <section class="section">
+      <div class="container container--narrow">
+        <div class="section__header">
+          <p class="section__pretitle">// RACCOURCIS</p>
+          <h2 class="section__title">Raccourcis Clavier</h2>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal__header">
+            <span class="terminal__dot terminal__dot--red"></span>
+            <span class="terminal__dot terminal__dot--yellow"></span>
+            <span class="terminal__dot terminal__dot--green"></span>
+            <span class="terminal__title">keyboard_shortcuts</span>
+          </div>
+          <div class="terminal__body">
+            <div class="terminal__line terminal__line--output">F12           │  Ouvrir la console développeur</div>
+            <div class="terminal__line terminal__line--output">Ctrl+Shift+R  │  Réinitialiser toutes les données</div>
+            <div class="terminal__line terminal__line--output">???           │  Code secret classique...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__left">
+          <p>◈ PROTOCOLE USBA — v0.1.0-alpha</p>
+        </div>
+        <div class="footer__right">
+          <a href="about.html" class="footer__link">Protocole</a>
+          <a href="rules.html" class="footer__link">Règles</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/engine.js"></script>
+</body>
+</html>
